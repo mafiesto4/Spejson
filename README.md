@@ -1,2 +1,2 @@
 # Game1
-Simple gae made in Cocos2d
+Simple game made in Cocos2d
