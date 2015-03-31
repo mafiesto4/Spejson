@@ -1,5 +1,6 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
+#include "MainMenu\MainMenuScene.h"
 
 USING_NS_CC;
 
@@ -15,49 +16,50 @@ AppDelegate::~AppDelegate()
 //it will takes effect on all platforms
 void AppDelegate::initGLContextAttrs()
 {
-    //set OpenGL context attributions,now can only set six attributions:
-    //red,green,blue,alpha,depth,stencil
-    GLContextAttrs glContextAttrs = {8, 8, 8, 8, 24, 8};
+	//set OpenGL context attributions,now can only set six attributions:
+	//red,green,blue,alpha,depth,stencil
+	GLContextAttrs glContextAttrs = {8, 8, 8, 8, 24, 8};
 
-    GLView::setGLContextAttrs(glContextAttrs);
+	GLView::setGLContextAttrs(glContextAttrs);
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
-    // initialize director
-    auto director = Director::getInstance();
-    auto glview = director->getOpenGLView();
-    if(!glview) {
-        glview = GLViewImpl::create("My Game");
-        director->setOpenGLView(glview);
-    }
+	// initialize director
+	auto director = Director::getInstance();
+	auto glview = director->getOpenGLView();
+	if(!glview) {
+		glview = GLViewImpl::create("My Game");
+		glview->setFrameSize(1280, 720);
+		director->setOpenGLView(glview);
+	}
 
-    // turn on display FPS
-    director->setDisplayStats(true);
+	// turn on display FPS
+	director->setDisplayStats(true);
 
-    // set FPS. the default value is 1.0/60 if you don't call this
-    director->setAnimationInterval(1.0 / 60);
+	// set FPS. the default value is 1.0/60 if you don't call this
+	director->setAnimationInterval(1.0 / 60);
 
-    // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
+	// otworz menu
+	auto scene = MainMenuScene::create();
 
-    // run
-    director->runWithScene(scene);
+	// run
+	director->runWithScene(scene);
 
-    return true;
+	return true;
 }
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
 void AppDelegate::applicationDidEnterBackground() {
-    Director::getInstance()->stopAnimation();
+	Director::getInstance()->stopAnimation();
 
-    // if you use SimpleAudioEngine, it must be pause
-    // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+	// if you use SimpleAudioEngine, it must be pause
+	// SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
 }
 
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
-    Director::getInstance()->startAnimation();
+	Director::getInstance()->startAnimation();
 
-    // if you use SimpleAudioEngine, it must resume here
-    // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+	// if you use SimpleAudioEngine, it must resume here
+	// SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }
