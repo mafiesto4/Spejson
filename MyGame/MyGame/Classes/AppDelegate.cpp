@@ -23,11 +23,13 @@ void AppDelegate::initGLContextAttrs()
 	GLView::setGLContextAttrs(glContextAttrs);
 }
 
-bool AppDelegate::applicationDidFinishLaunching() {
+bool AppDelegate::applicationDidFinishLaunching()
+{
 	// initialize director
 	auto director = Director::getInstance();
 	auto glview = director->getOpenGLView();
-	if(!glview) {
+	if(!glview)
+	{
 		glview = GLViewImpl::create("My Game");
 		glview->setFrameSize(1280, 720);
 		director->setOpenGLView(glview);
@@ -49,7 +51,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 }
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
-void AppDelegate::applicationDidEnterBackground() {
+void AppDelegate::applicationDidEnterBackground()
+{
 	Director::getInstance()->stopAnimation();
 
 	// if you use SimpleAudioEngine, it must be pause

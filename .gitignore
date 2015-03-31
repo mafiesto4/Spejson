@@ -7,6 +7,12 @@
 # Ignore thumbnails created by windows
 Thumbs.db
 
+#[Dd]ebug.win32/
+*.tlog
+*.idb
+*.exp
+*.res
+
 # Ignore files build by Visual Studio
 *.obj
 *.exe
@@ -30,7 +36,6 @@ Thumbs.db
 *.log
 [Bb]in
 [Dd]ebug/
-[Dd]ebug.win32/
 *.sbr
 *.sdf
 obj/

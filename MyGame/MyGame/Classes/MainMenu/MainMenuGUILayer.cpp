@@ -29,7 +29,7 @@ bool MainMenuGUILayer::init()
 	auto play = MenuItemImage::create(
 		"Textures/menuPlay.png",
 		"Textures/menuPlay.png",
-		CC_CALLBACK_1(MainMenuGUILayer::menuCloseCallback, this));
+		CC_CALLBACK_1(MainMenuGUILayer::menuPlayCallback, this));
 
 	const int offset = 20;
 	int y = title->getPositionY() - title->getContentSize().height - offset - play->getContentSize().height / 2;
@@ -41,7 +41,7 @@ bool MainMenuGUILayer::init()
 	auto opcje = MenuItemImage::create(
 		"Textures/menuOptions.png",
 		"Textures/menuOptions.png",
-		CC_CALLBACK_1(MainMenuGUILayer::menuCloseCallback, this));
+		CC_CALLBACK_1(MainMenuGUILayer::menuOptionsCallback, this));
 	opcje->setPosition(Vec2(x, y));
 	y -= opcje->getContentSize().height + offset;
 
@@ -61,16 +61,17 @@ bool MainMenuGUILayer::init()
 	return true;
 }
 
+void MainMenuGUILayer::menuPlayCallback(Ref* pSender)
+{
+	MessageBox("Play!", "");
+}
+
+void MainMenuGUILayer::menuOptionsCallback(Ref* pSender)
+{
+	MessageBox("Opcje", "");
+}
+
 void MainMenuGUILayer::menuCloseCallback(Ref* pSender)
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.", "Alert");
-	return;
-#endif
-
 	Director::getInstance()->end();
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	exit(0);
-#endif
 }

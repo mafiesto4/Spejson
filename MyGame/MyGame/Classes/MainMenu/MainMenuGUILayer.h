@@ -13,6 +13,8 @@ public:
 	CREATE_FUNC(MainMenuGUILayer);
 
 	// eventy
+	void menuPlayCallback(Ref* pSender);
+	void menuOptionsCallback(Ref* pSender);
 	void menuCloseCallback(cocos2d::Ref* pSender);
 
 private:
