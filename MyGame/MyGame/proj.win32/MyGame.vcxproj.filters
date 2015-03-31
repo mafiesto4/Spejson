@@ -13,6 +13,12 @@
     <Filter Include="src\MainMenu">
       <UniqueIdentifier>{44d181db-5290-4e8f-a5d5-84773bb933c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\HUD">
+      <UniqueIdentifier>{443fabc5-ed83-4ffd-a01b-68ed1202bfed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Player">
+      <UniqueIdentifier>{0e5a4ffd-adb5-49e2-91b2-55ec1208ef83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -30,6 +36,9 @@
     <ClCompile Include="..\Classes\MainMenu\MainMenuScene.cpp">
       <Filter>src\MainMenu</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\HUD\GameHUD.cpp">
+      <Filter>src\HUD</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -46,6 +55,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\MainMenu\MainMenuScene.h">
       <Filter>src\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HUD\GameHUD.h">
+      <Filter>src\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Player\Player.h">
+      <Filter>src\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
