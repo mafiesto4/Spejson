@@ -1,6 +1,6 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
 #include "MainMenu\MainMenuScene.h"
+#include "Game.h"
 
 USING_NS_CC;
 
@@ -44,6 +44,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 	// otworz menu
 	auto scene = MainMenuScene::create();
 
+	// laduj defaultowy profile dla testow
+	Game::getSingleton().loadProfile("default");
+
 	// run
 	director->runWithScene(scene);
 
@@ -60,7 +63,8 @@ void AppDelegate::applicationDidEnterBackground()
 }
 
 // this function will be called when the app is active again
-void AppDelegate::applicationWillEnterForeground() {
+void AppDelegate::applicationWillEnterForeground()
+{
 	Director::getInstance()->startAnimation();
 
 	// if you use SimpleAudioEngine, it must resume here
