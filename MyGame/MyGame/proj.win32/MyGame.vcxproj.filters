@@ -19,6 +19,12 @@
     <Filter Include="src\Player">
       <UniqueIdentifier>{0e5a4ffd-adb5-49e2-91b2-55ec1208ef83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Levels">
+      <UniqueIdentifier>{ed0ac6a9-7420-4f8c-b581-5ea841484645}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Input">
+      <UniqueIdentifier>{29eaff6d-ba4d-48be-85de-5ea1768851f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,6 +48,12 @@
     <ClCompile Include="..\Classes\Game.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Levels\Level1.cpp">
+      <Filter>src\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Input\Input.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -64,6 +76,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Game.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Levels\Level1.h">
+      <Filter>src\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Input\Input.h">
+      <Filter>src\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@
 #include <cocos2d.h>
 #include <string.h>
 #include "Player\Player.h"
+#include "Levels\Level1.h"
 
 using namespace cocos2d;
 
@@ -13,14 +14,18 @@ private:
 
 	Player* _player;
 
-	Game();
+	Game(){};  // Private so that it can  not be called
+	Game(Game const&){};            // copy constructor is private
+	Game& operator=(Game const&){}; // assignment operator is private
+	static Game* _instance;
 
 public:
-	
-	static Game& getSingleton()
+
+	static Game* getInstance()
 	{
-		static Game singleton;
-		return singleton;
+		if (!_instance)
+			_instance = new Game;
+		return _instance;
 	}
 
 	Player* getPlayer()

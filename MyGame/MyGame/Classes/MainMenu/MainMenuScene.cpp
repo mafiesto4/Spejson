@@ -1,6 +1,7 @@
 
 #include "MainMenuScene.h"
 #include "..\Player\Player.h"
+#include "Game.h"
 
 USING_NS_CC;
 
@@ -16,9 +17,5 @@ bool MainMenuScene::init()
 	auto _gui = MainMenuGUILayer::create();
 	addChild(_gui);
 
-	auto Gracz = new Player("xd");
-	Gracz->add(this);
-
 	return true;
 }
-

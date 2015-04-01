@@ -2,13 +2,12 @@
 #include "Game.h"
 #include <iostream>
 #include <fstream>
+#include "Player\Player.h"
 
 using namespace std;
 
-Game::Game()
-{
-
-}
+// Global static pointer used to ensure a single instance of the class.
+Game* Game::_instance = NULL;
 
 //////////////////////////////////////
 // Profile file format:
@@ -29,18 +28,21 @@ void Game::loadProfile(string profileName)
 	// Ensure that profile directory exists
 	if (!fileUtils->isDirectoryExist(profileFolderName))
 	{
-		fileUtils->createDirectory(profileFolderName);
+	fileUtils->createDirectory(profileFolderName);
 	}
 
 	// Check if profile file exists
 	if (!fileUtils->isFileExist(profileFileName))
 	{
-		// create profile file for version no. 1
-		ofstream profileFile;
-		profileFile.open(profileFileName, ios::out);
-		profileFile << 1 << endl;
-		profileFile << profileName;
-		profileFile.close();
+	// create profile file for version no. 1
+	ofstream profileFile;
+	profileFile.open(profileFileName, ios::out);
+	profileFile << 1 << endl;
+	profileFile << profileName;
+	profileFile.close();
 	}
 	*/
+
+	// sworz gracza
+	_player = new Player("xd");
 }

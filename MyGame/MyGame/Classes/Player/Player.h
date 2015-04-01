@@ -1,20 +1,30 @@
+
 #pragma once
 
 #include <string> 
 #include "cocos2d.h"
+#include "Levels\Level1.h"
+
+using namespace cocos2d;
 
 class Player
 {
 	private:
 		int _hp;
 		std::string _name;
-		cocos2d::Vec2 _position;
-		cocos2d::Sprite* _image;
+		Vec2 _position;
+		Sprite* _image;
+		EventListenerKeyboard* _keyboard;
 
 	public:
 
 		Player(std::string name);
 		~Player();
 
-		void add(cocos2d::Node* parent);
+		void setupForLevel(Level1* level);
+
+private:
+
+	void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
+	void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
 };

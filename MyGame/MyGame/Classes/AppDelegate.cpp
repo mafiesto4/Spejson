@@ -41,11 +41,15 @@ bool AppDelegate::applicationDidFinishLaunching()
 	// set FPS. the default value is 1.0/60 if you don't call this
 	director->setAnimationInterval(1.0 / 60);
 
-	// otworz menu
-	auto scene = MainMenuScene::create();
+	// Pobierz instancje gry
+	auto game = Game::getInstance();
 
 	// laduj defaultowy profile dla testow
-	Game::getSingleton().loadProfile("default");
+	game->loadProfile("default");
+
+	// otworz menu
+	//auto scene = MainMenuScene::create();
+	auto scene = Level1::create();
 
 	// run
 	director->runWithScene(scene);
