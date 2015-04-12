@@ -8,6 +8,10 @@
 
 using namespace cocos2d;
 
+// Physi Bodies Tags
+#define PHYSICS_TAG_PLAYER 69
+#define PHYSICS_TAG_STATIC 70
+
 class Game
 {
 private:

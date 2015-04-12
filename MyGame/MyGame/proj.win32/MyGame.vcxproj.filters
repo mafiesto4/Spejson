@@ -25,6 +25,9 @@
     <Filter Include="src\Input">
       <UniqueIdentifier>{29eaff6d-ba4d-48be-85de-5ea1768851f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Objects">
+      <UniqueIdentifier>{36b3b820-4b75-4b09-b0c2-d881d8e958a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -54,6 +57,9 @@
     <ClCompile Include="..\Classes\Input\Input.cpp">
       <Filter>src\Input</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Objects\StaticBlock.cpp">
+      <Filter>src\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -82,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Input\Input.h">
       <Filter>src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Objects\StaticBlock.h">
+      <Filter>src\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

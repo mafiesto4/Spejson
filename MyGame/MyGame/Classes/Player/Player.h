@@ -12,9 +12,14 @@ class Player
 	private:
 		int _hp;
 		std::string _name;
-		Vec2 _position;
 		Sprite* _image;
+		PhysicsBody* _body;
 		EventListenerKeyboard* _keyboard;
+		
+		// Movement
+		bool _wantsJump;
+		bool _wantsMoveLeft;
+		bool _wantsMoveRight;
 
 	public:
 
@@ -22,6 +27,7 @@ class Player
 		~Player();
 
 		void setupForLevel(Level1* level);
+		void update(float dt);
 
 private:
 
