@@ -1,15 +1,24 @@
 ﻿
 #include "Level1.h"
 #include "..\Player\Player.h"
+#include "..\Player\Weapons\Pistol\Pistol.h"
+#include "..\Opponent\Alien1\Alien1.h"
 #include "HUD\GameHUD.h"
 #include "Game.h"
 
+
 using namespace cocos2d;
+
+//test
+Alien1 *przeciwnik;
+
+
 
 Level1::~Level1()
 {
 	//CC_SAFE_RELEASE_NULL(_physics);
 	//CC_SAFE_RELEASE_NULL(_hud);
+	delete przeciwnik;
 }
 
 Scene* Level1::createScene()
@@ -60,9 +69,7 @@ bool Level1::init()
 	auto player = game->getPlayer();
 	player->setupForLevel(this);
 
-
-
-
+	
 	
 	// new way to enable touch
 	auto touchListener = EventListenerTouchOneByOne::create();
@@ -70,7 +77,8 @@ bool Level1::init()
 	touchListener->onTouchEnded = CC_CALLBACK_2(Level1::onTouchEnded, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
-
+	//dodaj przeciwnika
+	przeciwnik = new Alien1("kutasiarz", *this);
 
 	// stworz Head Up Display
 	_hud = GameHUD::create();
@@ -93,6 +101,9 @@ void Level1::update(float dt)
 		{
 			player->update(dt);
 		}
+
+		if (przeciwnik)
+			przeciwnik->update(dt);
 	}
 }
 

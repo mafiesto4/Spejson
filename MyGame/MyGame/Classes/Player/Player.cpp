@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "Game.h"
 #include "Box2D\Box2D.h"
+#include "Player\Weapons\Pistol\Pistol.h"
+
 
 using namespace std;
 using namespace cocos2d;
@@ -76,6 +78,12 @@ void Player::setupForLevel(Level1* level)
 
 	// add node to the level
 	level->addChild(_image);
+
+
+
+	//setup weaopn, kontrolnie xd
+	auto bron = new Pistol();
+	bron->setupForPlayer(_image);
 }
 
 void Player::update(float dt)
