@@ -69,9 +69,6 @@
     <ClCompile Include="..\Classes\Input\Input.cpp">
       <Filter>src\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Objects\StaticBlock.cpp">
-      <Filter>src\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Player\Weapons\Pistol\Pistol.cpp">
       <Filter>src\Player\Weapons\Pistol</Filter>
     </ClCompile>
@@ -80,6 +77,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Opponent\Opponent.cpp">
       <Filter>src\Opponent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HUD\DebugGUI.cpp">
+      <Filter>src\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Objects\StaticBlock.cpp">
+      <Filter>src\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,9 +113,6 @@
     <ClInclude Include="..\Classes\Input\Input.h">
       <Filter>src\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Objects\StaticBlock.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Player\Weapons\Weapon.h">
       <Filter>src\Player\Weapons</Filter>
     </ClInclude>
@@ -124,6 +124,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Opponent\Alien1\Alien1.h">
       <Filter>src\Opponent\Alien1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HUD\DebugGUI.h">
+      <Filter>src\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Objects\StaticBlock.h">
+      <Filter>src\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

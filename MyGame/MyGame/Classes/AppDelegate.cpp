@@ -1,6 +1,7 @@
 #include "AppDelegate.h"
 #include "MainMenu\MainMenuScene.h"
 #include "Game.h"
+#include "HUD/DebugGUI.h"
 
 USING_NS_CC;
 
@@ -50,6 +51,10 @@ bool AppDelegate::applicationDidFinishLaunching()
 	// otworz menu
 	//auto scene = MainMenuScene::create();
 	auto scene = Level1::createScene();
+
+	// add debugging layer
+	auto debug = DebugGUI::create();
+	scene->addChild(debug);
 
 	// run
 	director->runWithScene(scene);

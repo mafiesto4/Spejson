@@ -18,7 +18,7 @@ Level1::~Level1()
 {
 	//CC_SAFE_RELEASE_NULL(_physics);
 	//CC_SAFE_RELEASE_NULL(_hud);
-	delete przeciwnik;
+	//delete przeciwnik;
 }
 
 Scene* Level1::createScene()
