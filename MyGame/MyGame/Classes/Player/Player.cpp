@@ -58,6 +58,7 @@ void Player::setupForLevel(Level1* level)
 		_image = Sprite::create("Textures/pawn1.png");
 		_image->setTag(PHYSICS_TAG_PLAYER);
 		_body = PhysicsBody::createBox(_image->getContentSize(), PhysicsMaterial(0.17, 0.06, 1.1));
+		//_body->setGravityEnable(false);
 		_image->setPhysicsBody(_body);
 		_image->setPosition(Vec2(100, 100));
 
@@ -78,8 +79,6 @@ void Player::setupForLevel(Level1* level)
 
 	// add node to the level
 	level->addChild(_image);
-
-
 
 	//setup weaopn, kontrolnie xd
 	auto bron = new Pistol();
