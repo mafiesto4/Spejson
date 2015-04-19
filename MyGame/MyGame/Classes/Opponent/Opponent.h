@@ -50,7 +50,16 @@ public:
 		_navPoints[1] = p2;
 	}
 
+	float getHP() const
+	{
+		return _hp;
+	}
+
 	virtual void update(float dt);
+	virtual void onDamage(float damage)
+	{
+		_hp -= damage;
+	}
 
 	// Get opponent movement speed
 	virtual float getSpeed() const

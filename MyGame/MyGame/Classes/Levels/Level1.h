@@ -1,17 +1,22 @@
 
 #pragma once
 
+#include <vector>
 #include <cocos2d.h>
 #include <string.h>
 #include "HUD\GameHUD.h"
 #include "physics\CCPhysicsWorld.h"
+#include "Bullet.h"
 
 using namespace cocos2d;
+using namespace std;
 
 class Level1 : public LayerColor
 {
 private:
 
+	vector<Bullet> _bullets;
+	//vector<Opponent*> _opponents;
 	PhysicsWorld* m_world;
 	bool onContactBegin(EventCustom* event, const PhysicsContact& contact);
 
@@ -26,6 +31,7 @@ public:
 
 	virtual bool init();
 	virtual void update(float dt);
+	virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 
 	// a selector callback
 	void menuCloseCallback(Object* pSender);
@@ -41,4 +47,5 @@ public:
 	void addNewSpriteAtPosition(Point p);
 
 	void addBrick1(Point p);
+	void shoot(Bullet& bullet);
 };

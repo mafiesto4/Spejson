@@ -7,6 +7,7 @@
 #include "Levels\Level1.h"
 
 using namespace cocos2d;
+using namespace std;
 
 // Physi Bodies Tags
 #define PHYSICS_TAG_PLAYER 69
@@ -18,7 +19,7 @@ private:
 
 	Player* _player;
 
-	Game(){};  // Private so that it can  not be called
+	Game();
 	Game(Game const&){};            // copy constructor is private
 	Game& operator=(Game const&){}; // assignment operator is private
 	static Game* _instance;
@@ -28,7 +29,7 @@ public:
 	static Game* getInstance()
 	{
 		if (!_instance)
-			_instance = new Game;
+			_instance = new Game();
 		return _instance;
 	}
 

@@ -3,7 +3,7 @@
 using namespace cocos2d;
 using namespace std;
 
-#define VALUES_CNT 2
+#define VALUES_CNT 3
 string names[VALUES_CNT];
 string values[VALUES_CNT];
 
@@ -36,6 +36,27 @@ void DebugGUI::update(float dt)
 		text += names[i] + " = " + values[i] + '\n';
 	}
 	_label->setString(text);
+}
+
+void DebugGUI::setVal(int index, std::string name, const unsigned int value)
+{
+	std::ostringstream ss;
+	ss << value;
+	setVal(index, name, ss.str());
+}
+
+void DebugGUI::setVal(int index, std::string name, const int value)
+{
+	std::ostringstream ss;
+	ss << value;
+	setVal(index, name, ss.str());
+}
+
+void DebugGUI::setVal(int index, std::string name, const float value)
+{
+	std::ostringstream ss;
+	ss << value;
+	setVal(index, name, ss.str());
 }
 
 void DebugGUI::setVal(int index, std::string name, const cocos2d::Vec2& value)

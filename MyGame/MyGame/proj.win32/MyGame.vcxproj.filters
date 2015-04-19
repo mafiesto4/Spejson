@@ -131,6 +131,9 @@
     <ClInclude Include="..\Classes\Objects\StaticBlock.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Bullet.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

@@ -5,7 +5,7 @@
 #include "..\Opponent\Alien1\Alien1.h"
 #include "HUD\GameHUD.h"
 #include "Game.h"
-
+#include "HUD\DebugGUI.h"
 
 using namespace cocos2d;
 
@@ -62,6 +62,7 @@ bool Level1::init()
 		return false;
 	}
 
+	// uruchom funckje update(...)
 	this->scheduleUpdate();
 
 	// setup player
@@ -105,6 +106,52 @@ void Level1::update(float dt)
 		if (przeciwnik)
 			przeciwnik->update(dt);
 	}
+
+	// Update bullets
+	int i;
+	for (i = 0; i < _bullets.size(); i++)
+	{
+		Bullet b = _bullets[i];
+		
+		// Update position
+		float distanceToMove = b.Speed * (dt * 1000.0f);
+		b.DistanceLeft -= distanceToMove;
+		b.Position += b.Direction * distanceToMove;
+
+		// Check damage
+
+
+		_bullets[i] = b;
+	}
+
+	// Remove old bullets
+	i = 0;
+	while (i < _bullets.size() && _bullets.size() > 0)
+	{
+		if (_bullets[i].DistanceLeft <= 0)
+		{
+			_bullets.erase(_bullets.begin() + i);
+			i--;
+		}
+		i++;
+	}
+
+	DebugGUI::setVal(2, "Bullets count", _bullets.size());
+}
+
+void Level1::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
+{
+	//LayerColor::draw(renderer, transform, flags);
+
+	DrawPrimitives::drawSolidRect(Vec2::ZERO, getContentSize(), Color4F(getColor()));
+
+
+	// Draw bullets
+	DrawPrimitives::setPointSize(30.0f);
+	for (std::vector<Bullet>::iterator it = _bullets.begin(); it != _bullets.end(); ++it)
+	{
+		DrawPrimitives::drawPoint(it->Position);
+	}
 }
 
 bool Level1::onTouchBegan(Touch *touch, Event *unused_event)
@@ -115,8 +162,22 @@ bool Level1::onTouchBegan(Touch *touch, Event *unused_event)
 void Level1::onTouchEnded(Touch *touch, Event *unused_event)
 {
 	auto location = touch->getLocation();
-	//addNewSpriteAtPosition(location);
-	addBrick1(location);
+
+
+	//addBrick1(location);
+
+	auto player = Game::getInstance()->getPlayer();
+	auto playerPos = player->getPosition();
+	
+	Bullet bullet;
+	bullet.Damage = 10;
+	bullet.Direction = location - playerPos;
+	bullet.Position = playerPos;
+	bullet.DistanceLeft = 10000;
+	bullet.ShotByPlayer = true;
+	bullet.Speed = 1;
+
+	shoot(bullet);
 }
 
 void Level1::addBrick1(Point p)
@@ -128,6 +189,12 @@ void Level1::addBrick1(Point p)
 	sprite->setPhysicsBody(body);
 	sprite->setPosition(p);
 	this->addChild(sprite);
+}
+
+void Level1::shoot(Bullet& bullet)
+{
+	bullet.Direction.normalize();
+	_bullets.push_back(bullet);
 }
 
 void Level1::addNewSpriteAtPosition(Point p)

@@ -29,6 +29,11 @@ class Player
 		void setupForLevel(Level1* level);
 		void update(float dt);
 
+		Vec2 getPosition() const
+		{
+			return _image ? _image->getPosition() : Vec2::ZERO;
+		}
+
 private:
 
 	void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
