@@ -52,10 +52,6 @@ bool AppDelegate::applicationDidFinishLaunching()
 	//auto scene = MainMenuScene::create();
 	auto scene = Level1::createScene();
 
-	// add debugging layer
-	auto debug = DebugGUI::create();
-	scene->addChild(debug);
-
 	// run
 	director->runWithScene(scene);
 

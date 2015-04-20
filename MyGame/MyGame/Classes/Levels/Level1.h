@@ -31,8 +31,6 @@ private:
 
 public:
 
-	GameHUD* _hud;
-
 	~Level1();
 
 	// there's no 'id' in cpp, so we recommend returning the class instance pointer

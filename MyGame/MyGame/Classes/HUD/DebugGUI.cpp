@@ -21,9 +21,9 @@ bool DebugGUI::init()
 	_label = Label::createWithTTF("", "Fonts/arial.ttf", 24);
 	_label->setAnchorPoint(Vec2(1, 1));
 	_label->setPosition(Vec2(origin.x + visibleSize.width - 10, origin.y + visibleSize.height - 10));
-	this->addChild(_label, 1);
-
-	this->scheduleUpdate();
+	addChild(_label);
+	
+	scheduleUpdate();
 
 	return true;
 }
@@ -38,51 +38,52 @@ void DebugGUI::update(float dt)
 	_label->setString(text);
 }
 
-void DebugGUI::setVal(int index, std::string name, const unsigned int value)
+void DebugGUI::setVal(int index, const std::string name, const unsigned int value)
 {
 	std::ostringstream ss;
 	ss << value;
 	setVal(index, name, ss.str());
 }
 
-void DebugGUI::setVal(int index, std::string name, bool value)
+void DebugGUI::setVal(int index, const std::string name, const bool value)
 {
 	std::ostringstream ss;
 	if (value)
-	{
 		ss << "true";
-		setVal(index, name, ss.str());
-	}
 	else
-	{
 		ss << "false";
-		setVal(index, name, ss.str());
-	}
-
+	setVal(index, name, ss.str());
 }
 
-void DebugGUI::setVal(int index, std::string name, const int value)
+void DebugGUI::setVal(int index, const std::string name, const int value)
 {
 	std::ostringstream ss;
 	ss << value;
 	setVal(index, name, ss.str());
 }
 
-void DebugGUI::setVal(int index, std::string name, const float value)
+void DebugGUI::setVal(int index, const string name, const float value)
 {
 	std::ostringstream ss;
 	ss << value;
 	setVal(index, name, ss.str());
 }
 
-void DebugGUI::setVal(int index, std::string name, const cocos2d::Vec2& value)
+void DebugGUI::setVal(int index, const string name, const cocos2d::Vec2& value)
 {
 	std::ostringstream ss;
 	ss << '(' << (int)value.x << ", " << (int)value.y << ')';
 	setVal(index, name, ss.str());
 }
 
-void DebugGUI::setVal(int index, string name, string value)
+void DebugGUI::setVal(int index, const string name, const char* value)
+{
+	assert(index >= 0 & index < VALUES_CNT);
+	names[index] = name;
+	values[index] = value;
+}
+
+void DebugGUI::setVal(int index, const string name, const string value)
 {
 	assert(index >= 0 & index < VALUES_CNT);
 	names[index] = name;

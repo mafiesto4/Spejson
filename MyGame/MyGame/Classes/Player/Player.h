@@ -15,7 +15,8 @@ class Player
 		Sprite* _image;
 		PhysicsBody* _body;
 		EventListenerKeyboard* _keyboard;
-		
+		Label* label;
+
 		// Movement
 		bool _wantsJump;
 		bool _wantsMoveLeft;

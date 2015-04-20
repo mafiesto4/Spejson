@@ -1,5 +1,6 @@
 
 #include "GameHUD.h"
+#include "DebugGUI.h"
 using namespace cocos2d;
 
 bool GameHUD::init()
@@ -18,7 +19,11 @@ bool GameHUD::init()
 	auto playerNameSize = playerName->getContentSize();
 	playerName->setAnchorPoint(Vec2::ZERO);
 	playerName->setPosition(Vec2(origin.x + 10, origin.y + visibleSize.height - 10 - playerNameSize.height));
-	this->addChild(playerName, 1);
+	addChild(playerName);
+
+	// add debugging layer
+	auto debug = DebugGUI::create();
+	addChild(debug);
 
 	return true;
 }

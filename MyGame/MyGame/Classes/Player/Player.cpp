@@ -75,6 +75,13 @@ void Player::setupForLevel(Level1* level)
 		contactListener->onContactBegin = CC_CALLBACK_1(Player::onContactBegin, this);
 		contactListener->onContactSeperate = CC_CALLBACK_1(Player::onContactSeperate, this);
 		eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, level);
+
+
+
+		label = Label::createWithTTF("", "Fonts/arial.ttf", 24);
+		label->setAnchorPoint(Vec2(1, 1));
+		label->setPosition(Vec2::ZERO);
+		_image->addChild(label);
 	}
 
 	// Clear state
@@ -91,7 +98,7 @@ void Player::setupForLevel(Level1* level)
 void Player::update(float dt)
 {
 	// Check if player wants to move
-	if (_wantsJump || _wantsMoveLeft || _wantsMoveRight)
+	if (true && (_wantsJump || _wantsMoveLeft || _wantsMoveRight))
 	{
 		auto currentVelocity = _body->getVelocity();
 		Vec2 impulse(0.0f, 0.0f);
@@ -100,10 +107,9 @@ void Player::update(float dt)
 		const float jumpSpeed = 1600 * PLAYER_MOVEMENT_COEFF;
 		const float moveSpeed = 10 * PLAYER_MOVEMENT_COEFF;
 		bool canMoveRL = true;// fabs(currentVelocity.x) < 2 * PLAYER_MOVEMENT_COEFF;
-		if (_wantsJump && _grounded)
+		if (_wantsJump && true)//_grounded)
 		{
 			impulse.y = jumpSpeed;
-			_wantsJump = false;
 		}
 		if (_wantsMoveLeft && canMoveRL)
 		{
@@ -120,7 +126,13 @@ void Player::update(float dt)
 		//_body->setVelocity(Vec2(0, 0));
 	}
 
-	
+	_wantsJump = false;
+
+
+	stringstream text;
+	auto pos = _image->getPosition();
+	text << "Pos: " << (int)pos.x << ", " << (int)pos.y;
+	label->setString(text.str());
 }
 
 
@@ -137,8 +149,6 @@ void Player::onContactSeperate(PhysicsContact& contact)
 	_grounded = false;
 	DebugGUI::setVal(4, "Grounded", _grounded);
 }
-
-
 
 void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {

@@ -28,7 +28,6 @@ Scene* Level1::createScene()
 	physicsWorld->setGravity(Vec2(0, -150.0f));
 	physicsWorld->setSpeed(2.0f);
 
-
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	/*
 	auto body = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
@@ -47,7 +46,7 @@ Scene* Level1::createScene()
 	// return the scene
 	return scene;
 }
-
+GameHUD* hud;
 // on "init" you need to initialize your instance
 bool Level1::init()
 {
@@ -59,13 +58,17 @@ bool Level1::init()
 	}
 
 	// uruchom funckje update(...)
-	this->scheduleUpdateWithPriority(1410);
+	scheduleUpdateWithPriority(1410);
 
 	// spawn simple floor
 	for (int i = -10; i < 20; i++)
 	{
 		addBrick1(Point(i * 64, -20));
 	}
+
+	// Create camera
+	_camera = Camera::create();
+	addChild(_camera);
 
 	// setup player
 	auto game = Game::getInstance();
@@ -82,21 +85,10 @@ bool Level1::init()
 	_opponents.push_back(new Alien1("kutasiarz", *this));
 
 	// stworz Head Up Display
-	_hud = GameHUD::create();
-	addChild(_hud);
-
-	// player follow
-	Point origin = Director::sharedDirector()->getVisibleOrigin();
-	Size size = Director::sharedDirector()->getVisibleSize();  //default screen size (or design resolution size, if you are using design resolution)
-	Point center = Point(size.width / 2 + origin.x, size.height / 2 + origin.y);
-	float playfield_width = size.width * 2.0; // make the x-boundry 2 times the screen width
-	float playfield_height = size.height * 2.0; // make the y-boundry 2 times the screen height
-	//_hud->runAction(Follow::create(player->getNode(), Rect(center.x - playfield_width / 2, center.y - playfield_height / 2, playfield_width, playfield_height)));
-	//this->runAction(Follow::create(player->getNode()));
-
-	// Create camera
-	_camera = Camera::create();
-	addChild(_camera);
+	hud = GameHUD::create();
+	this->addChild(hud, 1000);
+	
+	//hud->setPosition(100, 100);
 
 	return true;
 }
@@ -199,7 +191,7 @@ void Level1::update(float dt)
 		// move camera and HUD
 		Vec2 newPos = prevCamPos + _camVelocity * dt;
 		_camera->setPosition(newPos);
-		_hud->setPosition(Vec2::ZERO);
+		hud->setPosition(newPos - visibleSize * 0.5f);
 
 		// dump velocity to create smooth effect
 		_camVelocity *= powf(CAM_VELOCITY_DUMP, dt);
@@ -234,15 +226,16 @@ void Level1::onTouchEnded(Touch *touch, Event *unused_event)
 {
 	auto location = touch->getLocation();
 
-
 	//addBrick1(location);
 
+	Size visibleSize = Director::getInstance()->getVisibleSize();
 	auto player = Game::getInstance()->getPlayer();
 	auto playerPos = player->getPosition();
-	
+	auto camPos = _camera->getPosition();
+
 	Bullet bullet;
 	bullet.Damage = 10;
-	bullet.Direction = location - playerPos;
+	bullet.Direction = location - (playerPos - camPos + visibleSize * 0.5);
 	bullet.Position = playerPos;
 	bullet.DistanceLeft = 10000;
 	bullet.ShotByPlayer = true;
