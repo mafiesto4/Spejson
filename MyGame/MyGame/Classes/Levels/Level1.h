@@ -8,8 +8,6 @@
 #include "physics\CCPhysicsWorld.h"
 #include "Bullet.h"
 
-class Opponent;
-
 using namespace cocos2d;
 using namespace std;
 
@@ -18,16 +16,9 @@ class Level1 : public LayerColor
 private:
 
 	vector<Bullet> _bullets;
-	vector<Opponent*> _opponents;
+	//vector<Opponent*> _opponents;
 	PhysicsWorld* m_world;
 	bool onContactBegin(EventCustom* event, const PhysicsContact& contact);
-
-	// Camera movement
-	#define CAM_MAX_VELOCITY 1000.0f
-	#define CAM_VELOCITY_DUMP 0.0001f
-	#define CAM_ACCEL 1.0f
-	Camera* _camera;
-	Vec2 _camVelocity;
 
 public:
 

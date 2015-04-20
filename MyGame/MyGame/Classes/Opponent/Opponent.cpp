@@ -20,13 +20,7 @@ Opponent::Opponent(string name)
 
 Opponent::~Opponent()
 {
-	if (_node)
-	{
-		_node->removeFromPhysicsWorld();
-		_node->removeAllChildren();
-		_node->removeFromParentAndCleanup(true);
-		_node = nullptr;
-	}
+	//CC_SAFE_RELEASE_NULL(_node);
 }
 
 void Opponent::update(float dt)

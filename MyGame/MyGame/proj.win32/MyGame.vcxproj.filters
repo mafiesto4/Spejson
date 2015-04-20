@@ -134,10 +134,6 @@
     <ClInclude Include="..\Classes\Bullet.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Utilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

@@ -29,29 +29,9 @@ class Player
 		void setupForLevel(Level1* level);
 		void update(float dt);
 
-		Node* getNode() const
-		{
-			return _image;
-		}
-
 		Vec2 getPosition() const
 		{
 			return _image ? _image->getPosition() : Vec2::ZERO;
-		}
-
-		Rect getBox() const
-		{
-			return _image ? _image->getBoundingBox() : Rect();
-		}
-
-		void applyDamage(float damage)
-		{
-			_hp -= damage;
-			if (_hp <= 0)
-			{
-				_hp = 0;
-				MessageBox("Player zostal zabity!", "SMIERC");
-			}
 		}
 
 private:

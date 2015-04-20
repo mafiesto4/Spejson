@@ -4,7 +4,6 @@
 #include "Opponent\Alien1\Alien1.h"
 #include "Game.h"
 #include "Box2D\Box2D.h"
-#include "../../HUD/DebugGUI.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -13,7 +12,7 @@ bool onContactBegin(PhysicsContact&);
 
 Alien1::Alien1(string name, Node& parent) :Opponent(name)
 {
-	_hp = 100;
+	_hp = 10;
 	_body = nullptr;
 
 
@@ -39,7 +38,7 @@ void Alien1::update(float dt)
 
 
 	
-	DebugGUI::setVal(3, "Alien HP", _hp);
+
 }
 
 Alien1::~Alien1()
