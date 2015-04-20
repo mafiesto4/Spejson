@@ -55,6 +55,11 @@ public:
 		return _hp;
 	}
 
+	Rect getBox() const
+	{
+		return _node ? _node->getBoundingBox() : Rect();
+	}
+
 	virtual void update(float dt);
 	virtual void onDamage(float damage)
 	{
