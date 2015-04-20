@@ -20,6 +20,7 @@ class Player
 		bool _wantsJump;
 		bool _wantsMoveLeft;
 		bool _wantsMoveRight;
+		bool _grounded;
 
 	public:
 
@@ -28,6 +29,8 @@ class Player
 
 		void setupForLevel(Level1* level);
 		void update(float dt);
+		bool onContactBegin(PhysicsContact& contact);
+		void onContactSeperate(PhysicsContact& contact);
 
 		Node* getNode() const
 		{

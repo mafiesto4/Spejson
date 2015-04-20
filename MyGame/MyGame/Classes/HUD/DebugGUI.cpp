@@ -3,7 +3,7 @@
 using namespace cocos2d;
 using namespace std;
 
-#define VALUES_CNT 4
+#define VALUES_CNT 5
 string names[VALUES_CNT];
 string values[VALUES_CNT];
 
@@ -43,6 +43,22 @@ void DebugGUI::setVal(int index, std::string name, const unsigned int value)
 	std::ostringstream ss;
 	ss << value;
 	setVal(index, name, ss.str());
+}
+
+void DebugGUI::setVal(int index, std::string name, bool value)
+{
+	std::ostringstream ss;
+	if (value)
+	{
+		ss << "true";
+		setVal(index, name, ss.str());
+	}
+	else
+	{
+		ss << "false";
+		setVal(index, name, ss.str());
+	}
+
 }
 
 void DebugGUI::setVal(int index, std::string name, const int value)

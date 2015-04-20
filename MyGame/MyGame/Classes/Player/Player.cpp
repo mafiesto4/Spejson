@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Box2D\Box2D.h"
 #include "Player\Weapons\Pistol\Pistol.h"
+#include "../HUD/DebugGUI.h"
 
 
 using namespace std;
@@ -60,6 +61,7 @@ void Player::setupForLevel(Level1* level)
 		_body = PhysicsBody::createBox(_image->getContentSize(), PhysicsMaterial(0.17, 0.06, 1.1));
 		//_body->setGravityEnable(false);
 		_image->setPhysicsBody(_body);
+		_image->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
 		_image->setPosition(Vec2(100, 100));
 
 		// Disable player rotation
@@ -67,11 +69,12 @@ void Player::setupForLevel(Level1* level)
 		_body->setRotationEnable(false);
 		_body->setAngularVelocity(0);
 		_body->setVelocityLimit(2 * PLAYER_MOVEMENT_COEFF);
-		/*
-		// add contact event listener
+		
+		// listener dla groundchecka
 		auto contactListener = EventListenerPhysicsContact::create();
-		contactListener->onContactBegin = CC_CALLBACK_1(onContactBegin, _image);
-		eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, _image);*/
+		contactListener->onContactBegin = CC_CALLBACK_1(Player::onContactBegin, this);
+		contactListener->onContactSeperate = CC_CALLBACK_1(Player::onContactSeperate, this);
+		eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, level);
 	}
 
 	// Clear state
@@ -94,10 +97,10 @@ void Player::update(float dt)
 		Vec2 impulse(0.0f, 0.0f);
 
 		// Create impulse direction
-		const float jumpSpeed = 400 * PLAYER_MOVEMENT_COEFF;
+		const float jumpSpeed = 1600 * PLAYER_MOVEMENT_COEFF;
 		const float moveSpeed = 10 * PLAYER_MOVEMENT_COEFF;
 		bool canMoveRL = true;// fabs(currentVelocity.x) < 2 * PLAYER_MOVEMENT_COEFF;
-		if (_wantsJump)
+		if (_wantsJump && _grounded)
 		{
 			impulse.y = jumpSpeed;
 			_wantsJump = false;
@@ -116,28 +119,26 @@ void Player::update(float dt)
 	{
 		//_body->setVelocity(Vec2(0, 0));
 	}
+
+	
 }
 
-bool onContactBegin(PhysicsContact& contact)
+
+bool Player::onContactBegin(PhysicsContact& contact)
 {
-	auto nodeA = contact.getShapeA()->getBody()->getNode();
-	auto nodeB = contact.getShapeB()->getBody()->getNode();
-	/*
-	if (nodeA && nodeB)
-	{
-		if (nodeA->getTag() == PHYSICS_TAG_PLAYER)
-		{
-			nodeB->removeFromParentAndCleanup(true);
-		}
-		else if (nodeB->getTag() == PHYSICS_TAG_PLAYER)
-		{
-			nodeA->removeFromParentAndCleanup(true);
-		}
-	}
-	*/
-	// bodies can collide
+	_grounded = true;
+	DebugGUI::setVal(4, "Grounded", _grounded);
 	return true;
+	//trzeba jeszce pododawaæ tagi w sensie jest grounded jak koliduje z pod³o¿em tylko
 }
+
+void Player::onContactSeperate(PhysicsContact& contact)
+{
+	_grounded = false;
+	DebugGUI::setVal(4, "Grounded", _grounded);
+}
+
+
 
 void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
@@ -155,6 +156,8 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		default:
 			break;
 	}
+
+	
 }
 
 void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)

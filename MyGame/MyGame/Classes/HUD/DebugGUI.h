@@ -20,6 +20,7 @@ public:
 
 
 	static void setVal(int index, std::string name, const unsigned int value);
+	static void setVal(int index, std::string name, bool value);
 	static void setVal(int index, std::string name, const int value);
 	static void setVal(int index, std::string name, const float value);
 	static void setVal(int index, std::string name, const cocos2d::Vec2& value);

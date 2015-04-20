@@ -254,11 +254,12 @@ void Level1::onTouchEnded(Touch *touch, Event *unused_event)
 void Level1::addBrick1(Point p)
 {
 	auto sprite = Sprite::create("Textures/brick1.png");
-	sprite->setTag(1);
+	sprite->setTag(PHYSICS_TAG_GROUND);
 	auto body = PhysicsBody::createBox(sprite->getContentSize());
 	body->setDynamic(false);
 	sprite->setPhysicsBody(body);
 	sprite->setPosition(p);
+	sprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
 	this->addChild(sprite);
 }
 
