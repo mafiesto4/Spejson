@@ -50,7 +50,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 
 	// otworz menu
 	//auto scene = MainMenuScene::create();
-	auto scene = Level1::createScene();
+	auto scene = Level::createScene();
 
 	// run
 	director->runWithScene(scene);

@@ -3,7 +3,6 @@
 #include <string> 
 #include "cocos2d.h"
 #include "Opponent\Opponent.h"
-#include "Levels\Level1.h"
 
 using namespace cocos2d;
 

@@ -1,5 +1,5 @@
 ﻿
-#include "Level1.h"
+#include "Level.h"
 #include "..\Player\Player.h"
 #include "..\Player\Weapons\Pistol\Pistol.h"
 #include "..\Opponent\Alien1\Alien1.h"
@@ -10,19 +10,17 @@
 
 using namespace cocos2d;
 
-Level1::~Level1()
+Level::~Level()
 {
-	//CC_SAFE_RELEASE_NULL(_physics);
-	//CC_SAFE_RELEASE_NULL(_hud);
-	//delete przeciwnik;
+
 }
 
-Scene* Level1::createScene()
+Scene* Level::createScene()
 {
-	// 'scene' is an autorelease object
-	//add physicals
+	// Create scene
 	auto scene = Scene::createWithPhysics();
 
+	// Setup physics simulation
 	auto physicsWorld = scene->getPhysicsWorld();
 	physicsWorld->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	physicsWorld->setGravity(Vec2(0.0f, -300.0f));
@@ -30,27 +28,16 @@ Scene* Level1::createScene()
 	physicsWorld->setUpdateRate(1.0f);
 	physicsWorld->setSubsteps(4);
 
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	/*
-	auto body = PhysicsBody::createEdgeBox(visibleSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
-	auto edgeNode = Node::create();
-	edgeNode->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2));
-	edgeNode->setPhysicsBody(body);
-	scene->addChild(edgeNode);
-	*/
-	// 'layer' is an autorelease object
-	auto layer = Level1::create();
-	layer->setPhyWorld(scene->getPhysicsWorld());
+	// Create level layer
+	auto level = Level::create();
+	level->m_world = physicsWorld;
+	scene->addChild(level);
 
-	// add layer as a child to scene
-	scene->addChild(layer);
-
-	// return the scene
 	return scene;
 }
-GameHUD* hud;
+
 // on "init" you need to initialize your instance
-bool Level1::init()
+bool Level::init()
 {
 	//////////////////////////////
 	// 1. super init first
@@ -82,23 +69,23 @@ bool Level1::init()
 
 	// new way to enable touch
 	auto touchListener = EventListenerTouchOneByOne::create();
-	touchListener->onTouchBegan = CC_CALLBACK_2(Level1::onTouchBegan, this);
-	touchListener->onTouchEnded = CC_CALLBACK_2(Level1::onTouchEnded, this);
+	touchListener->onTouchBegan = CC_CALLBACK_2(Level::onTouchBegan, this);
+	touchListener->onTouchEnded = CC_CALLBACK_2(Level::onTouchEnded, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
 	//dodaj przeciwnika
-	_opponents.push_back(new Alien1("kutasiarz", *this));
+	_opponents.push_back(new Alien1("gruby janek", *this));
 
 	// stworz Head Up Display
-	hud = GameHUD::create();
-	this->addChild(hud, 1000);
+	_hud = GameHUD::create();
+	this->addChild(_hud, 1939);
 	
 	//hud->setPosition(100, 100);
 
 	return true;
 }
 
-void Level1::update(float dt)
+void Level::update(float dt)
 {
 	auto game = Game::getInstance();
 	if (!game)
@@ -194,10 +181,9 @@ void Level1::update(float dt)
 		}
 
 		// move camera and HUD
-		//Vec2 newPos = prevCamPos + _camVelocity * dt;
-		Vec2 newPos = targetPos;
-			_camera->setPosition(newPos);
-		hud->setPosition(newPos - visibleSize * 0.5f);
+		Vec2 newPos = prevCamPos + _camVelocity * dt;
+		_camera->setPosition(newPos);
+		_hud->setPosition(newPos - visibleSize * 0.5f);
 
 		// dump velocity to create smooth effect
 		_camVelocity *= powf(CAM_VELOCITY_DUMP, dt);
@@ -208,7 +194,7 @@ void Level1::update(float dt)
 	DebugGUI::setVal(2, "Bullets count", _bullets.size());
 }
 
-void Level1::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
+void Level::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 {
 	//LayerColor::draw(renderer, transform, flags);
 
@@ -223,12 +209,12 @@ void Level1::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 	}
 }
 
-bool Level1::onTouchBegan(Touch *touch, Event *unused_event)
+bool Level::onTouchBegan(Touch *touch, Event *unused_event)
 {
 	return true;
 }
 
-void Level1::onTouchEnded(Touch *touch, Event *unused_event)
+void Level::onTouchEnded(Touch *touch, Event *unused_event)
 {
 	auto location = touch->getLocation();
 
@@ -250,7 +236,7 @@ void Level1::onTouchEnded(Touch *touch, Event *unused_event)
 	shoot(bullet);
 }
 
-void Level1::addBrick1(Point p)
+void Level::addBrick1(Point p)
 {
 	auto sprite = Sprite::create("Textures/brick1.png");
 	sprite->setTag(PHYSICS_TAG_GROUND);
@@ -266,14 +252,14 @@ void Level1::addBrick1(Point p)
 	this->addChild(sprite);
 }
 
-void Level1::shoot(Bullet& bullet)
+void Level::shoot(Bullet& bullet)
 {
 	bullet.Direction.normalize();
 	_bullets.push_back(bullet);
 }
 
 
-void Level1::menuCloseCallback(Object* pSender)
+void Level::menuCloseCallback(Object* pSender)
 {
 	if (m_world->getDebugDrawMask() != PhysicsWorld::DEBUGDRAW_NONE)
 	{

@@ -32,7 +32,7 @@ Player::~Player()
 	CC_SAFE_RELEASE_NULL(_keyboard);
 }
 
-void Player::setupForLevel(Level1* level)
+void Player::setupForLevel(Level* level)
 {
 	// Cache data
 	auto director = Director::getInstance();

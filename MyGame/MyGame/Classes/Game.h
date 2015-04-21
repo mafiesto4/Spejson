@@ -4,7 +4,7 @@
 #include <cocos2d.h>
 #include <string.h>
 #include "Player\Player.h"
-#include "Levels\Level1.h"
+#include "Levels\Level.h"
 
 using namespace cocos2d;
 using namespace std;

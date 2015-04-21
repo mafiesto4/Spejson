@@ -3,7 +3,7 @@
 
 #include <string> 
 #include "cocos2d.h"
-#include "Levels\Level1.h"
+#include "Levels\Level.h"
 
 using namespace cocos2d;
 
@@ -28,7 +28,7 @@ class Player
 		Player(std::string name);
 		~Player();
 
-		void setupForLevel(Level1* level);
+		void setupForLevel(Level* level);
 		void update(float dt);
 		bool onContactBegin(PhysicsContact& contact);
 		void onContactSeperate(PhysicsContact& contact);

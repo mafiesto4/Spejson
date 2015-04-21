@@ -7,19 +7,24 @@
 #include "HUD\GameHUD.h"
 #include "physics\CCPhysicsWorld.h"
 #include "Bullet.h"
+#include "Levels\Chunk.h"
 
 class Opponent;
 
 using namespace cocos2d;
 using namespace std;
 
-class Level1 : public LayerColor
+class Level : public LayerColor
 {
+	friend Level;
+
 private:
 
 	vector<Bullet> _bullets;
 	vector<Opponent*> _opponents;
+	vector<Chunk*> _chunks;
 	PhysicsWorld* m_world;
+	GameHUD* _hud;
 	bool onContactBegin(EventCustom* event, const PhysicsContact& contact);
 
 	// Camera movement
@@ -31,9 +36,8 @@ private:
 
 public:
 
-	~Level1();
+	~Level();
 
-	// there's no 'id' in cpp, so we recommend returning the class instance pointer
 	static Scene* createScene();
 
 	virtual bool init();
@@ -43,10 +47,7 @@ public:
 	// a selector callback
 	void menuCloseCallback(Object* pSender);
 
-	// implement the "static create()" method manually
-	CREATE_FUNC(Level1);
-
-	void setPhyWorld(PhysicsWorld* world){ m_world = world; }
+	CREATE_FUNC(Level);
 
 	virtual bool onTouchBegan(Touch *touch, Event *unused_event);
 	virtual void onTouchEnded(Touch *touch, Event *unused_event);
