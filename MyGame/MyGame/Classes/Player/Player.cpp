@@ -58,17 +58,21 @@ void Player::setupForLevel(Level1* level)
 		// Create player sprtie with physics body
 		_image = Sprite::create("Textures/pawn1.png");
 		_image->setTag(PHYSICS_TAG_PLAYER);
-		_body = PhysicsBody::createBox(_image->getContentSize(), PhysicsMaterial(0.17, 0.06, 1.1));
+		_body = PhysicsBody::createBox(_image->getContentSize(), PhysicsMaterial(1.0f, 0.0f, 0.52f));// PhysicsMaterial(1.0f, 1.0f, 0.8f));
+		_body->setMass(1000);
+		//_body->setLinearDamping(0);
+
 		//_body->setGravityEnable(false);
 		_image->setPhysicsBody(_body);
 		_image->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
-		_image->setPosition(Vec2(100, 100));
+		_image->setPosition(Vec2(100, 300));
 
 		// Disable player rotation
 		_body->setRotationOffset(0);
 		_body->setRotationEnable(false);
-		_body->setAngularVelocity(0);
-		_body->setVelocityLimit(2 * PLAYER_MOVEMENT_COEFF);
+		//_body->setAngularVelocity(0);
+		//_body->setVelocityLimit(2 * PLAYER_MOVEMENT_COEFF);
+		_body->setGravityEnable(true);
 		
 		// listener dla groundchecka
 		auto contactListener = EventListenerPhysicsContact::create();
@@ -104,8 +108,8 @@ void Player::update(float dt)
 		Vec2 impulse(0.0f, 0.0f);
 
 		// Create impulse direction
-		const float jumpSpeed = 1600 * PLAYER_MOVEMENT_COEFF;
-		const float moveSpeed = 10 * PLAYER_MOVEMENT_COEFF;
+		const float jumpSpeed = 4000 * PLAYER_MOVEMENT_COEFF;
+		const float moveSpeed = 50 * PLAYER_MOVEMENT_COEFF;
 		bool canMoveRL = true;// fabs(currentVelocity.x) < 2 * PLAYER_MOVEMENT_COEFF;
 		if (_wantsJump && true)//_grounded)
 		{
@@ -113,13 +117,14 @@ void Player::update(float dt)
 		}
 		if (_wantsMoveLeft && canMoveRL)
 		{
-			impulse.x = -jumpSpeed;
+			impulse.x = -moveSpeed;
 		}
 		if (_wantsMoveRight && canMoveRL)
 		{
-			impulse.x = jumpSpeed;
+			impulse.x = moveSpeed;
 		}
 		_body->applyImpulse(impulse, _body->getFirstShape()->getCenter());
+		
 	}
 	else
 	{
@@ -127,7 +132,6 @@ void Player::update(float dt)
 	}
 
 	_wantsJump = false;
-
 
 	stringstream text;
 	auto pos = _image->getPosition();

@@ -25,8 +25,10 @@ Scene* Level1::createScene()
 
 	auto physicsWorld = scene->getPhysicsWorld();
 	physicsWorld->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-	physicsWorld->setGravity(Vec2(0, -150.0f));
+	physicsWorld->setGravity(Vec2(0.0f, -300.0f));
 	physicsWorld->setSpeed(2.0f);
+	physicsWorld->setUpdateRate(1.0f);
+	physicsWorld->setSubsteps(4);
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	/*
@@ -61,10 +63,13 @@ bool Level1::init()
 	scheduleUpdateWithPriority(1410);
 
 	// spawn simple floor
-	for (int i = -10; i < 20; i++)
+	/*for (int i = -10; i < 20; i++)
 	{
 		addBrick1(Point(i * 64, -20));
-	}
+	}*/
+
+	//długa podłoga z jednego kloca(fizyka się nie krztusi) m8
+	addBrick1(Point(0, 0));
 
 	// Create camera
 	_camera = Camera::create();
@@ -189,8 +194,9 @@ void Level1::update(float dt)
 		}
 
 		// move camera and HUD
-		Vec2 newPos = prevCamPos + _camVelocity * dt;
-		_camera->setPosition(newPos);
+		//Vec2 newPos = prevCamPos + _camVelocity * dt;
+		Vec2 newPos = targetPos;
+			_camera->setPosition(newPos);
 		hud->setPosition(newPos - visibleSize * 0.5f);
 
 		// dump velocity to create smooth effect
@@ -248,9 +254,13 @@ void Level1::addBrick1(Point p)
 {
 	auto sprite = Sprite::create("Textures/brick1.png");
 	sprite->setTag(PHYSICS_TAG_GROUND);
-	auto body = PhysicsBody::createBox(sprite->getContentSize());
+	auto body = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.52f));// PhysicsMaterial(3.0f, 1.0f, 0.6f));
+	
+	//body->setLinearDamping(0);
+
 	body->setDynamic(false);
 	sprite->setPhysicsBody(body);
+	sprite->setScaleX(100.0);
 	sprite->setPosition(p);
 	sprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
 	this->addChild(sprite);
