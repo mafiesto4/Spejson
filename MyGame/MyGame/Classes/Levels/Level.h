@@ -7,8 +7,10 @@
 #include "HUD\GameHUD.h"
 #include "physics\CCPhysicsWorld.h"
 #include "Bullet.h"
-#include "Levels\Chunk.h"
+#include "Levels/Lava.h"
 
+// Forward declarations
+class Chunk;
 class Opponent;
 
 using namespace cocos2d;
@@ -23,8 +25,11 @@ private:
 	vector<Bullet> _bullets;
 	vector<Opponent*> _opponents;
 	vector<Chunk*> _chunks;
+	Chunk* _rootChunk;
+	Chunk* _closestPToPlayerChunk;
 	PhysicsWorld* m_world;
 	GameHUD* _hud;
+	Lava* _lava;
 	bool onContactBegin(EventCustom* event, const PhysicsContact& contact);
 
 	// Camera movement
@@ -56,4 +61,21 @@ public:
 
 	void addBrick1(Point p);
 	void shoot(Bullet& bullet);
+
+	////////////////////////////////////////////////////
+	// Chunks stuff
+
+	// cleans all chunks data (use with caution)
+	void cleanAllChunks();
+
+	// creates initial world state (generates all chunks and moves player to the start)
+	void setupInitialMap();
+
+	// updates all chnuks state (removes old ones and generates new ones)
+	void flushChunks();
+
+	// add single chunk to the game
+	void addChunk(Chunk* chunk);
+
+	////////////////////////////////////////////////////
 };

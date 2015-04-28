@@ -15,7 +15,7 @@ class Player
 		Sprite* _image;
 		PhysicsBody* _body;
 		EventListenerKeyboard* _keyboard;
-		Label* label;
+		Label* playerPosLabel;
 
 		// Movement
 		bool _wantsJump;
@@ -28,7 +28,7 @@ class Player
 		Player(std::string name);
 		~Player();
 
-		void setupForLevel(Level* level);
+		void setupForLevel(Level* level, Vec2 spawnPoint);
 		void update(float dt);
 		bool onContactBegin(PhysicsContact& contact);
 		void onContactSeperate(PhysicsContact& contact);

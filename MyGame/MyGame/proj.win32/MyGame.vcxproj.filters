@@ -87,6 +87,24 @@
     <ClCompile Include="..\Classes\Levels\Level.cpp">
       <Filter>src\Levels</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Levels\Chunk.cpp">
+      <Filter>src\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Levels\LevelChunks.cpp">
+      <Filter>src\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBasic.cpp">
+      <Filter>src\Levels\ChunkTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.cpp">
+      <Filter>src\Levels\ChunkTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Levels\ChunkTemplate.cpp">
+      <Filter>src\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Levels\Lava.cpp">
+      <Filter>src\Levels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -146,6 +164,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBasic.h">
       <Filter>src\Levels\ChunkTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.h">
+      <Filter>src\Levels\ChunkTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Levels\ChunkTemplate.h">
+      <Filter>src\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Levels\Lava.h">
+      <Filter>src\Levels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

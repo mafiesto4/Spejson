@@ -33,7 +33,7 @@
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0'">v110</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '11.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v110_xp</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0'">v120</PlatformToolset>
-    <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v120_xp</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -52,7 +52,7 @@
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration).win32\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration).win32\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Intermediate\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration).win32\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration).win32\</IntDir>
@@ -142,7 +142,13 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\HUD\DebugGUI.cpp" />
     <ClCompile Include="..\Classes\HUD\GameHUD.cpp" />
     <ClCompile Include="..\Classes\Input\Input.cpp" />
+    <ClCompile Include="..\Classes\Levels\Chunk.cpp" />
+    <ClCompile Include="..\Classes\Levels\ChunkTemplate.cpp" />
+    <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.cpp" />
+    <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBasic.cpp" />
+    <ClCompile Include="..\Classes\Levels\Lava.cpp" />
     <ClCompile Include="..\Classes\Levels\Level.cpp" />
+    <ClCompile Include="..\Classes\Levels\LevelChunks.cpp" />
     <ClCompile Include="..\Classes\MainMenu\MainMenuGUILayer.cpp" />
     <ClCompile Include="..\Classes\MainMenu\MainMenuScene.cpp" />
     <ClCompile Include="..\Classes\Objects\StaticBlock.cpp" />
@@ -160,7 +166,10 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\HUD\GameHUD.h" />
     <ClInclude Include="..\Classes\Input\Input.h" />
     <ClInclude Include="..\Classes\Levels\Chunk.h" />
+    <ClInclude Include="..\Classes\Levels\ChunkTemplate.h" />
+    <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.h" />
     <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBasic.h" />
+    <ClInclude Include="..\Classes\Levels\Lava.h" />
     <ClInclude Include="..\Classes\Levels\Level.h" />
     <ClInclude Include="..\Classes\MainMenu\MainMenuGUILayer.h" />
     <ClInclude Include="..\Classes\MainMenu\MainMenuScene.h" />

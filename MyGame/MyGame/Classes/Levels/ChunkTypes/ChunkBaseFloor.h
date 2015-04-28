@@ -6,20 +6,19 @@
 #include <string.h>
 #include "../Chunk.h"
 
-class ChunkBasic : public Chunk
+class ChunkBaseFloor : public Chunk
 {
 public:
 
-	~ChunkBasic()
-	{
-	}
+	~ChunkBaseFloor()
+	{ }
 
 	bool init() override;
-	CHUNKS_CREATE(ChunkBasic);
+	CHUNKS_CREATE(ChunkBaseFloor);
 
 	inline Type getType() override
 	{
-		return Type::Basic;
+		return Type::BaseFloor;
 	}
 
 	void Generate() override;

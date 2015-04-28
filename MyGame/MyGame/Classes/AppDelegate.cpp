@@ -2,6 +2,7 @@
 #include "MainMenu\MainMenuScene.h"
 #include "Game.h"
 #include "HUD/DebugGUI.h"
+#include "Levels/ChunkTemplate.h"
 
 USING_NS_CC;
 
@@ -44,6 +45,14 @@ bool AppDelegate::applicationDidFinishLaunching()
 
 	// Pobierz instancje gry
 	auto game = Game::getInstance();
+
+	// Load chunk templates
+	if (ChunkTemplate::LoadTemplates())
+	{
+		// Error
+		MessageBox("Cannot load chunk templates.", "Error");
+		return false;
+	}
 
 	// laduj defaultowy profile dla testow
 	game->loadProfile("default");

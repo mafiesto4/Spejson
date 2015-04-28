@@ -12,7 +12,8 @@ using namespace cocos2d;
 
 Level::~Level()
 {
-
+	// Clean chunks
+	cleanAllChunks();
 }
 
 Scene* Level::createScene()
@@ -39,6 +40,9 @@ Scene* Level::createScene()
 // on "init" you need to initialize your instance
 bool Level::init()
 {
+	// init randy srandy dupy blade
+	srand(time(NULL));
+
 	//////////////////////////////
 	// 1. super init first
 	if (!LayerColor::initWithColor(Color4B(20, 20, 250, 255)))
@@ -55,8 +59,11 @@ bool Level::init()
 		addBrick1(Point(i * 64, -20));
 	}*/
 
+	// Setup chunks
+	setupInitialMap();
+
 	//długa podłoga z jednego kloca(fizyka się nie krztusi) m8
-	addBrick1(Point(0, 0));
+	//addBrick1(Point(0, 0));
 
 	// Create camera
 	_camera = Camera::create();
@@ -65,7 +72,7 @@ bool Level::init()
 	// setup player
 	auto game = Game::getInstance();
 	auto player = game->getPlayer();
-	player->setupForLevel(this);
+	player->setupForLevel(this, Vec2(200, 54));
 
 	// new way to enable touch
 	auto touchListener = EventListenerTouchOneByOne::create();
@@ -74,13 +81,15 @@ bool Level::init()
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
 	//dodaj przeciwnika
-	_opponents.push_back(new Alien1("gruby janek", *this));
+	_opponents.push_back(new Alien1("janek", *this));
 
 	// stworz Head Up Display
 	_hud = GameHUD::create();
 	this->addChild(_hud, 1939);
-	
-	//hud->setPosition(100, 100);
+
+	// Create lava
+	_lava = Lava::create();
+	addChild(_lava);
 
 	return true;
 }
@@ -189,7 +198,8 @@ void Level::update(float dt)
 		_camVelocity *= powf(CAM_VELOCITY_DUMP, dt);
 	}
 
-
+	// Update chunks
+	flushChunks();
 
 	DebugGUI::setVal(2, "Bullets count", _bullets.size());
 }
@@ -198,8 +208,7 @@ void Level::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 {
 	//LayerColor::draw(renderer, transform, flags);
 
-	DrawPrimitives::drawSolidRect(Vec2::ZERO, getContentSize(), Color4F(getColor()));
-
+	//DrawPrimitives::drawSolidRect(Vec2::ZERO, getContentSize(), Color4F(getColor()));
 
 	// Draw bullets
 	DrawPrimitives::setPointSize(30.0f);

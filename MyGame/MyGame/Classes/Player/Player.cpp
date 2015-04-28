@@ -32,7 +32,7 @@ Player::~Player()
 	CC_SAFE_RELEASE_NULL(_keyboard);
 }
 
-void Player::setupForLevel(Level* level)
+void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 {
 	// Cache data
 	auto director = Director::getInstance();
@@ -52,26 +52,26 @@ void Player::setupForLevel(Level* level)
 	if (_image)
 	{
 		_image->removeFromParent();
+		_image->setPosition(spawnPoint);
 	}
 	else
 	{
 		// Create player sprtie with physics body
 		_image = Sprite::create("Textures/pawn1.png");
 		_image->setTag(PHYSICS_TAG_PLAYER);
-		_body = PhysicsBody::createBox(_image->getContentSize(), PhysicsMaterial(1.0f, 0.0f, 0.52f));// PhysicsMaterial(1.0f, 1.0f, 0.8f));
+		_body = PhysicsBody::createBox(_image->getContentSize(), PhysicsMaterial(1.0f, 0.0f, 0.62f));
 		_body->setMass(1000);
 		//_body->setLinearDamping(0);
 
 		//_body->setGravityEnable(false);
 		_image->setPhysicsBody(_body);
 		_image->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
-		_image->setPosition(Vec2(100, 300));
+		_image->setPosition(spawnPoint);
 
 		// Disable player rotation
 		_body->setRotationOffset(0);
 		_body->setRotationEnable(false);
-		//_body->setAngularVelocity(0);
-		//_body->setVelocityLimit(2 * PLAYER_MOVEMENT_COEFF);
+		_body->setVelocityLimit(8 * PLAYER_MOVEMENT_COEFF);
 		_body->setGravityEnable(true);
 		
 		// listener dla groundchecka
@@ -81,11 +81,11 @@ void Player::setupForLevel(Level* level)
 		eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, level);
 
 
-
-		label = Label::createWithTTF("", "Fonts/arial.ttf", 24);
-		label->setAnchorPoint(Vec2(1, 1));
-		label->setPosition(Vec2::ZERO);
-		_image->addChild(label);
+		// debug player pos
+		playerPosLabel = Label::createWithTTF("", "Fonts/arial.ttf", 24);
+		playerPosLabel->setAnchorPoint(Vec2(1, 1));
+		playerPosLabel->setPosition(Vec2::ZERO);
+		_image->addChild(playerPosLabel);
 	}
 
 	// Clear state
@@ -102,7 +102,7 @@ void Player::setupForLevel(Level* level)
 void Player::update(float dt)
 {
 	// Check if player wants to move
-	if (true && (_wantsJump || _wantsMoveLeft || _wantsMoveRight))
+	if ((_wantsJump || _wantsMoveLeft || _wantsMoveRight))
 	{
 		auto currentVelocity = _body->getVelocity();
 		Vec2 impulse(0.0f, 0.0f);
@@ -110,21 +110,19 @@ void Player::update(float dt)
 		// Create impulse direction
 		const float jumpSpeed = 4000 * PLAYER_MOVEMENT_COEFF;
 		const float moveSpeed = 50 * PLAYER_MOVEMENT_COEFF;
-		bool canMoveRL = true;// fabs(currentVelocity.x) < 2 * PLAYER_MOVEMENT_COEFF;
-		if (_wantsJump && true)//_grounded)
+		if (_wantsJump)// && _grounded)
 		{
 			impulse.y = jumpSpeed;
 		}
-		if (_wantsMoveLeft && canMoveRL)
+		if (_wantsMoveLeft)
 		{
 			impulse.x = -moveSpeed;
 		}
-		if (_wantsMoveRight && canMoveRL)
+		if (_wantsMoveRight)
 		{
 			impulse.x = moveSpeed;
 		}
 		_body->applyImpulse(impulse, _body->getFirstShape()->getCenter());
-		
 	}
 	else
 	{
@@ -133,10 +131,12 @@ void Player::update(float dt)
 
 	_wantsJump = false;
 
+
+	// update player pos debug text
 	stringstream text;
 	auto pos = _image->getPosition();
 	text << "Pos: " << (int)pos.x << ", " << (int)pos.y;
-	label->setString(text.str());
+	playerPosLabel->setString(text.str());
 }
 
 
