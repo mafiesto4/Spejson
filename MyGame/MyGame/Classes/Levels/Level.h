@@ -8,6 +8,7 @@
 #include "physics\CCPhysicsWorld.h"
 #include "Bullet.h"
 #include "Levels\Chunk.h"
+#include "Objects\Coin.h"
 
 class Opponent;
 
@@ -22,6 +23,7 @@ private:
 
 	vector<Bullet> _bullets;
 	vector<Opponent*> _opponents;
+	vector <Coin*> _coins;
 	vector<Chunk*> _chunks;
 	PhysicsWorld* m_world;
 	GameHUD* _hud;
@@ -56,4 +58,7 @@ public:
 
 	void addBrick1(Point p);
 	void shoot(Bullet& bullet);
+
+	virtual bool onContactBegin(PhysicsContact& contact);
+	virtual void onContactSeparate(PhysicsContact& contact);
 };

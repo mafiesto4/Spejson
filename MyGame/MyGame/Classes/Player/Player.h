@@ -22,6 +22,11 @@ class Player
 		bool _wantsMoveLeft;
 		bool _wantsMoveRight;
 		bool _grounded;
+		
+		//points and money $.$ xd
+
+		int _score;
+		int _cash;
 
 	public:
 
@@ -32,6 +37,7 @@ class Player
 		void update(float dt);
 		bool onContactBegin(PhysicsContact& contact);
 		void onContactSeperate(PhysicsContact& contact);
+		void onDamage(float _damage);
 
 		Node* getNode() const
 		{
@@ -56,6 +62,11 @@ class Player
 				_hp = 0;
 				MessageBox("Player zostal zabity!", "SMIERC");
 			}
+		}
+
+		void addCash(int _value)
+		{
+			_cash += _value;
 		}
 
 private:

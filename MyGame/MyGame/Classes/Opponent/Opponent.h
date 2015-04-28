@@ -33,6 +33,11 @@ public:
 	Opponent(std::string name);
 	~Opponent();
 
+	Node* getSprite()
+	{
+		return _node;
+	}
+
 	State GetState() const
 	{
 		return _state;

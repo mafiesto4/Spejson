@@ -4,6 +4,7 @@
 #include "..\Player\Weapons\Pistol\Pistol.h"
 #include "..\Opponent\Alien1\Alien1.h"
 #include "HUD\GameHUD.h"
+#include "Objects\Coin.h"
 #include "Game.h"
 #include "HUD\DebugGUI.h"
 #include "Utilities.h"
@@ -67,6 +68,12 @@ bool Level::init()
 	auto player = game->getPlayer();
 	player->setupForLevel(this);
 
+	// listener dla groundcheckacoś nie trybi ://
+	/*auto contactListener = EventListenerPhysicsContact::create();
+	contactListener->onContactBegin = CC_CALLBACK_2(Level::onContactBegin, this);
+	contactListener->onContactSeperate = CC_CALLBACK_2(Level::onContactSeparate, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);*/
+
 	// new way to enable touch
 	auto touchListener = EventListenerTouchOneByOne::create();
 	touchListener->onTouchBegan = CC_CALLBACK_2(Level::onTouchBegan, this);
@@ -75,12 +82,20 @@ bool Level::init()
 
 	//dodaj przeciwnika
 	_opponents.push_back(new Alien1("gruby janek", *this));
+	_coins.push_back(new Coin(*this, Vec2(300,300)));
 
 	// stworz Head Up Display
 	_hud = GameHUD::create();
 	this->addChild(_hud, 1939);
 	
 	//hud->setPosition(100, 100);
+
+
+	//nie trybi callback
+
+	//add coin 
+	/*auto _coin= new Coin();
+	_coin->setupForLevel(this);*/
 
 	return true;
 }
@@ -98,11 +113,13 @@ void Level::update(float dt)
 	// Update player
 	player->update(dt);
 
+
 	// update przeciwnikow
 	for (int i = 0; i < _opponents.size(); i++)
 	{
 		_opponents[i]->update(dt);
 	}
+
 
 	// Update bullets
 	Rect playerBox = player->getBox();
@@ -140,6 +157,8 @@ void Level::update(float dt)
 		_bullets[i] = b;
 	}
 
+	
+
 	// Remove old bullets
 	i = 0;
 	while (i < _bullets.size() && _bullets.size() > 0)
@@ -152,18 +171,40 @@ void Level::update(float dt)
 		i++;
 	}
 
+	//Update coin
+	for (i = 0; i < _coins.size(); i++)
+	{
+		auto b = _coins[i];
+		Vec2 coinPos = b->getSprite()->getPosition();
+
+		if (playerBox.containsPoint(coinPos))
+		{
+			DebugGUI::setVal(4, "coin", "xdd");
+			player->addCash(b->getValue());
+			//_coins[i]->getSprite()->removeFromParentAndCleanup(true);
+			delete _coins[i];
+			_coins.erase(_coins.begin() + i);
+			i--;
+		}
+	}
+
 	// Remove killed opponents
 	i = 0;
 	while (i < _opponents.size() && _opponents.size() > 0)
 	{
 		if (_opponents[i]->getHP() <= 0)
 		{
+			_coins.push_back(new Coin(*this, _opponents[i]->getSprite()->getPosition()));
 			delete _opponents[i];
 			_opponents.erase(_opponents.begin() + i);
 			i--;
+			
 		}
 		i++;
 	}
+
+	//update dla coinów
+	
 
 	// Update camera
 	{
@@ -269,4 +310,15 @@ void Level::menuCloseCallback(Object* pSender)
 	{
 		m_world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	}
+}
+
+bool Level::onContactBegin(PhysicsContact& contact)
+{
+
+	return true;
+}
+
+void Level::onContactSeparate(PhysicsContact& contact)
+{
+
 }

@@ -13,6 +13,7 @@ using namespace std;
 #define PHYSICS_TAG_GROUND 40
 #define PHYSICS_TAG_PLAYER 69
 #define PHYSICS_TAG_STATIC 70
+#define PHYSICS_TAG_OPPONENT 71
 
 class Game
 {

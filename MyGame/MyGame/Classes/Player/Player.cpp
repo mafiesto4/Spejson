@@ -65,7 +65,7 @@ void Player::setupForLevel(Level* level)
 		//_body->setGravityEnable(false);
 		_image->setPhysicsBody(_body);
 		_image->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
-		_image->setPosition(Vec2(100, 300));
+		_image->setPosition(Vec2(-200, 300));
 
 		// Disable player rotation
 		_body->setRotationOffset(0);
@@ -74,12 +74,6 @@ void Player::setupForLevel(Level* level)
 		//_body->setVelocityLimit(2 * PLAYER_MOVEMENT_COEFF);
 		_body->setGravityEnable(true);
 		
-		// listener dla groundchecka
-		auto contactListener = EventListenerPhysicsContact::create();
-		contactListener->onContactBegin = CC_CALLBACK_1(Player::onContactBegin, this);
-		contactListener->onContactSeperate = CC_CALLBACK_1(Player::onContactSeperate, this);
-		eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, level);
-
 
 
 		label = Label::createWithTTF("", "Fonts/arial.ttf", 24);
@@ -90,6 +84,8 @@ void Player::setupForLevel(Level* level)
 
 	// Clear state
 	_wantsJump = _wantsMoveLeft = _wantsMoveRight = false;
+	_score = 0;
+	_cash = 0;
 
 	// add node to the level
 	level->addChild(_image);
@@ -118,10 +114,12 @@ void Player::update(float dt)
 		if (_wantsMoveLeft && canMoveRL)
 		{
 			impulse.x = -moveSpeed;
+			_image->setScaleX(-1);
 		}
 		if (_wantsMoveRight && canMoveRL)
 		{
 			impulse.x = moveSpeed;
+			_image->setScaleX(1);
 		}
 		_body->applyImpulse(impulse, _body->getFirstShape()->getCenter());
 		
@@ -137,13 +135,16 @@ void Player::update(float dt)
 	auto pos = _image->getPosition();
 	text << "Pos: " << (int)pos.x << ", " << (int)pos.y;
 	label->setString(text.str());
+	DebugGUI::setVal(5, "cash", _cash);
+
 }
 
 
-bool Player::onContactBegin(PhysicsContact& contact)
+/*bool Player::onContactBegin(PhysicsContact& contact)
 {
-	_grounded = true;
-	DebugGUI::setVal(4, "Grounded", _grounded);
+	//_grounded = true;
+	//DebugGUI::setVal(4, "Grounded", _grounded);
+	
 	return true;
 	//trzeba jeszce pododawaæ tagi w sensie jest grounded jak koliduje z pod³o¿em tylko
 }
@@ -151,8 +152,10 @@ bool Player::onContactBegin(PhysicsContact& contact)
 void Player::onContactSeperate(PhysicsContact& contact)
 {
 	_grounded = false;
+	_enemyt = false;
 	DebugGUI::setVal(4, "Grounded", _grounded);
-}
+	//DebugGUI::setVal(5, "Enemy", _enemyt);
+}*/
 
 void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {

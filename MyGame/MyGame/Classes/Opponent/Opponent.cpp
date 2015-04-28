@@ -101,4 +101,6 @@ void Opponent::update(float dt)
 
 	// debug
 	DebugGUI::setVal(1, "Alien pos", _node->getPosition());
+
+
 }

@@ -87,6 +87,9 @@
     <ClCompile Include="..\Classes\Levels\Level.cpp">
       <Filter>src\Levels</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Objects\Coin.cpp">
+      <Filter>src\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -146,6 +149,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBasic.h">
       <Filter>src\Levels\ChunkTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Objects\Coin.h">
+      <Filter>src\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

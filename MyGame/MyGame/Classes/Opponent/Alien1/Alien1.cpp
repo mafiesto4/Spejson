@@ -19,9 +19,9 @@ Alien1::Alien1(string name, Node& parent) :Opponent(name)
 
 	// Create player sprtie with physics body
 	_node = Sprite::create("Textures/twitter.png");
-	//_node->setTag(PHYSICS_TAG_PLAYER);
-	//_body = PhysicsBody::createBox(_node->getContentSize(), PhysicsMaterial(0.17, 0.06, 1.1));
-	//_node->setPhysicsBody(_body);
+	_node->setTag(PHYSICS_TAG_OPPONENT);
+	_body = PhysicsBody::createBox(_node->getContentSize(), PhysicsMaterial(0.17, 0.06, 1.1));
+	_node->setPhysicsBody(_body);
 	_node->setPosition(Vec2(200, 100));
 
 	// Disable player rotation
