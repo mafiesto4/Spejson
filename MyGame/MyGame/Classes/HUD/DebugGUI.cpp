@@ -3,7 +3,7 @@
 using namespace cocos2d;
 using namespace std;
 
-#define VALUES_CNT 6
+#define VALUES_CNT 7
 string names[VALUES_CNT];
 string values[VALUES_CNT];
 
@@ -76,16 +76,18 @@ void DebugGUI::setVal(int index, const string name, const cocos2d::Vec2& value)
 	setVal(index, name, ss.str());
 }
 
+
+
 void DebugGUI::setVal(int index, const string name, const char* value)
 {
-	assert(index >= 0 & index < VALUES_CNT);
+	assert(index >= 0 && index < VALUES_CNT);
 	names[index] = name;
 	values[index] = value;
 }
 
 void DebugGUI::setVal(int index, const string name, const string value)
 {
-	assert(index >= 0 & index < VALUES_CNT);
+	assert(index >= 0 && index < VALUES_CNT);
 	names[index] = name;
 	values[index] = value;
 }

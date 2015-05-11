@@ -9,6 +9,11 @@
 #include "Bullet.h"
 #include "Levels\Chunk.h"
 #include "Objects\Coin.h"
+#include "Player\Weapons\Weapon.h"
+#include "Player\Weapons\MachineGun\Machinegun.h"
+#include "Player\Weapons\Pistol\Pistol.h"
+
+using namespace cocos2d;
 
 class Opponent;
 
@@ -27,7 +32,11 @@ private:
 	vector<Chunk*> _chunks;
 	PhysicsWorld* m_world;
 	GameHUD* _hud;
+	MachineGun* mGun;
+	Pistol* pistol;
+	Touch *touch;
 	bool onContactBegin(EventCustom* event, const PhysicsContact& contact);
+	bool ifAuto = true;
 
 	// Camera movement
 	#define CAM_MAX_VELOCITY 1000.0f
@@ -57,8 +66,10 @@ public:
 	void addNewSpriteAtPosition(Point p);
 
 	void addBrick1(Point p);
-	void shoot(Bullet& bullet);
+	void addBullet(Bullet& bullet);
 
 	virtual bool onContactBegin(PhysicsContact& contact);
 	virtual void onContactSeparate(PhysicsContact& contact);
+
+	Camera* getCamera()const{ return _camera; }
 };

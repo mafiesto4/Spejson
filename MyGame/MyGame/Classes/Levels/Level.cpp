@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "HUD\DebugGUI.h"
 #include "Utilities.h"
+#include "..\Player\Weapons\MachineGun\MachineGun.h"
 
 using namespace cocos2d;
 
@@ -68,11 +69,6 @@ bool Level::init()
 	auto player = game->getPlayer();
 	player->setupForLevel(this);
 
-	// listener dla groundcheckacoś nie trybi ://
-	/*auto contactListener = EventListenerPhysicsContact::create();
-	contactListener->onContactBegin = CC_CALLBACK_2(Level::onContactBegin, this);
-	contactListener->onContactSeperate = CC_CALLBACK_2(Level::onContactSeparate, this);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);*/
 
 	// new way to enable touch
 	auto touchListener = EventListenerTouchOneByOne::create();
@@ -90,12 +86,12 @@ bool Level::init()
 	
 	//hud->setPosition(100, 100);
 
-
 	//nie trybi callback
 
-	//add coin 
-	/*auto _coin= new Coin();
-	_coin->setupForLevel(this);*/
+	//broń do zebrania
+	auto _mGun = new MachineGun(this);
+	_mGun->setupForNode(this);
+	mGun = _mGun;
 
 	return true;
 }
@@ -113,6 +109,7 @@ void Level::update(float dt)
 	// Update player
 	player->update(dt);
 
+	
 
 	// update przeciwnikow
 	for (int i = 0; i < _opponents.size(); i++)
@@ -181,7 +178,6 @@ void Level::update(float dt)
 		{
 			DebugGUI::setVal(4, "coin", "xdd");
 			player->addCash(b->getValue());
-			//_coins[i]->getSprite()->removeFromParentAndCleanup(true);
 			delete _coins[i];
 			_coins.erase(_coins.begin() + i);
 			i--;
@@ -203,7 +199,26 @@ void Level::update(float dt)
 		i++;
 	}
 
-	//update dla coinów
+	//weapon pickup
+	if (mGun->getSprite()!=nullptr)
+	{
+		Vec2 weaPos = mGun->getSprite()->getPosition();
+		if (playerBox.containsPoint(weaPos))
+		{
+			DebugGUI::setVal(4, "coin", "bron");
+			this->mGun->getSprite()->retain();
+			mGun->getSprite()->removeFromParent();
+			player->getNode()->addChild(mGun->getSprite());
+			player->_bron = mGun;
+			mGun->getSprite()->release();
+			//player->getNode()->removeChildByTag(555);
+		}
+	}
+	
+		
+		
+	//strzelanie
+
 	
 
 	// Update camera
@@ -232,6 +247,8 @@ void Level::update(float dt)
 
 
 
+
+
 	DebugGUI::setVal(2, "Bullets count", _bullets.size());
 }
 
@@ -252,29 +269,27 @@ void Level::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 
 bool Level::onTouchBegan(Touch *touch, Event *unused_event)
 {
+	auto player = Game::getInstance()->getPlayer();
+	auto location = touch->getLocation();
+
+	if (player->_bron)
+	{
+		player->_bron->onMouseDown(location,this);
+	}
+
 	return true;
 }
 
 void Level::onTouchEnded(Touch *touch, Event *unused_event)
 {
+	auto player = Game::getInstance()->getPlayer();
 	auto location = touch->getLocation();
 
-	//addBrick1(location);
+	if (player->_bron)
+	{
+		player->_bron->onMouseUp(location,this);
+	}
 
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	auto player = Game::getInstance()->getPlayer();
-	auto playerPos = player->getPosition();
-	auto camPos = _camera->getPosition();
-
-	Bullet bullet;
-	bullet.Damage = 10;
-	bullet.Direction = location - (playerPos - camPos + visibleSize * 0.5);
-	bullet.Position = playerPos;
-	bullet.DistanceLeft = 10000;
-	bullet.ShotByPlayer = true;
-	bullet.Speed = 1;
-
-	shoot(bullet);
 }
 
 void Level::addBrick1(Point p)
@@ -293,7 +308,7 @@ void Level::addBrick1(Point p)
 	this->addChild(sprite);
 }
 
-void Level::shoot(Bullet& bullet)
+void Level::addBullet(Bullet& bullet)
 {
 	bullet.Direction.normalize();
 	_bullets.push_back(bullet);
@@ -320,5 +335,5 @@ bool Level::onContactBegin(PhysicsContact& contact)
 
 void Level::onContactSeparate(PhysicsContact& contact)
 {
-
+	
 }

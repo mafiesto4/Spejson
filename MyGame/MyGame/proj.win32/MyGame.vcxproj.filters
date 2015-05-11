@@ -43,6 +43,12 @@
     <Filter Include="src\Levels\ChunkTypes">
       <UniqueIdentifier>{00f3ba69-c04f-4172-84b8-fdae570baa27}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Player\Weapons\MachineGun">
+      <UniqueIdentifier>{89945e69-edcc-4924-af5d-3f486b73fab3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Player\Perks">
+      <UniqueIdentifier>{b0c7e894-f1da-455a-bc92-d4d7b3a43229}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -89,6 +95,15 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Objects\Coin.cpp">
       <Filter>src\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Player\Weapons\MachineGun\MachineGun.cpp">
+      <Filter>src\Player\Weapons\MachineGun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Player\Weapons\Weapon.cpp">
+      <Filter>src\Player\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Player\Perks\Perks.cpp">
+      <Filter>src\Player\Perks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +167,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Objects\Coin.h">
       <Filter>src\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Player\Weapons\MachineGun\MachineGun.h">
+      <Filter>src\Player\Weapons\MachineGun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Player\Perks\Perks.h">
+      <Filter>src\Player\Perks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

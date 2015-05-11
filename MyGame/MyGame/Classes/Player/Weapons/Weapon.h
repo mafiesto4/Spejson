@@ -2,8 +2,11 @@
 
 #include <string> 
 #include "cocos2d.h"
+//#include "Levels\Level.h"
 
 using namespace cocos2d;
+class Level;
+
 
 class Weapon {
 	protected:
@@ -14,8 +17,25 @@ class Weapon {
 
 
 	public:
-		void shoot();
+		//Weapon();
+		//virtual ~Weapon();
+
+
+		virtual void update(float dt) = 0;
+		
 		void weaponSetup();
 
-		Weapon() :_weaponImage(nullptr){}
+		void setupForNode(Node* level);
+		Node* getSprite();
+		virtual void onMouseDown(Vec2 pos, Level* level)
+		{
+
+
+		}
+		virtual void onMouseUp(Vec2 pos, Level* level) 
+		{
+
+		}
+		
+
 };

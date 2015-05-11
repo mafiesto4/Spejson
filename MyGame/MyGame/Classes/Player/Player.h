@@ -16,12 +16,14 @@ class Player
 		PhysicsBody* _body;
 		EventListenerKeyboard* _keyboard;
 		Label* label;
+	
 
 		// Movement
 		bool _wantsJump;
 		bool _wantsMoveLeft;
 		bool _wantsMoveRight;
 		bool _grounded;
+		bool _rightDirection=true;
 		
 		//points and money $.$ xd
 
@@ -30,13 +32,23 @@ class Player
 
 	public:
 
+		Weapon* _bron;
+		float fireRate=1;
+
 		Player(std::string name);
 		~Player();
+
+
+		bool ifMovingRight()
+		{
+			if (_rightDirection) return true;
+			return false;
+		}
 
 		void setupForLevel(Level* level);
 		void update(float dt);
 		bool onContactBegin(PhysicsContact& contact);
-		void onContactSeperate(PhysicsContact& contact);
+		void onContactSeparate(PhysicsContact& contact);
 		void onDamage(float _damage);
 
 		Node* getNode() const

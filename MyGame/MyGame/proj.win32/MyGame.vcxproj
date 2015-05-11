@@ -149,8 +149,11 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Objects\StaticBlock.cpp" />
     <ClCompile Include="..\Classes\Opponent\Alien1\Alien1.cpp" />
     <ClCompile Include="..\Classes\Opponent\Opponent.cpp" />
+    <ClCompile Include="..\Classes\Player\Perks\Perks.cpp" />
     <ClCompile Include="..\Classes\Player\Player.cpp" />
+    <ClCompile Include="..\Classes\Player\Weapons\MachineGun\MachineGun.cpp" />
     <ClCompile Include="..\Classes\Player\Weapons\Pistol\Pistol.cpp" />
+    <ClCompile Include="..\Classes\Player\Weapons\Weapon.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -169,7 +172,9 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Objects\StaticBlock.h" />
     <ClInclude Include="..\Classes\Opponent\Alien1\Alien1.h" />
     <ClInclude Include="..\Classes\Opponent\Opponent.h" />
+    <ClInclude Include="..\Classes\Player\Perks\Perks.h" />
     <ClInclude Include="..\Classes\Player\Player.h" />
+    <ClInclude Include="..\Classes\Player\Weapons\MachineGun\MachineGun.h" />
     <ClInclude Include="..\Classes\Player\Weapons\Pistol\Pistol.h" />
     <ClInclude Include="..\Classes\Player\Weapons\Weapon.h" />
     <ClInclude Include="..\Classes\Utilities.h" />

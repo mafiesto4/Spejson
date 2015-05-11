@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Box2D\Box2D.h"
 #include "Player\Weapons\Pistol\Pistol.h"
+#include "Player\Weapons\Weapon.h"
 #include "../HUD/DebugGUI.h"
 
 
@@ -47,6 +48,13 @@ void Player::setupForLevel(Level* level)
 		keyboard->onKeyReleased = CC_CALLBACK_2(Player::onKeyReleased, this);
 		eventDispatcher->addEventListenerWithSceneGraphPriority(keyboard, level);
 	}
+
+	// listener dla groundcheckacoœ nie trybi ://
+	auto contactListener = EventListenerPhysicsContact::create();
+	contactListener->onContactBegin = CC_CALLBACK_2(Player::onContactBegin, this);
+	contactListener->onContactSeperate = CC_CALLBACK_2(Player::onContactSeparate, this);
+	eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, level);
+
 
 	// Check if created
 	if (_image)
@@ -91,8 +99,9 @@ void Player::setupForLevel(Level* level)
 	level->addChild(_image);
 
 	//setup weaopn, kontrolnie xd
-	auto bron = new Pistol();
-	bron->setupForPlayer(_image);
+	_bron = new Pistol();
+	_bron->setupForNode(_image);
+	
 }
 
 void Player::update(float dt)
@@ -129,6 +138,13 @@ void Player::update(float dt)
 		//_body->setVelocity(Vec2(0, 0));
 	}
 
+
+
+	if (_bron)
+	{
+		_bron->update(dt);
+	}
+
 	_wantsJump = false;
 
 	stringstream text;
@@ -140,22 +156,21 @@ void Player::update(float dt)
 }
 
 
-/*bool Player::onContactBegin(PhysicsContact& contact)
+bool Player::onContactBegin(PhysicsContact& contact)
 {
-	//_grounded = true;
+	_grounded = true;
 	//DebugGUI::setVal(4, "Grounded", _grounded);
 	
 	return true;
 	//trzeba jeszce pododawaæ tagi w sensie jest grounded jak koliduje z pod³o¿em tylko
 }
 
-void Player::onContactSeperate(PhysicsContact& contact)
+void Player::onContactSeparate(PhysicsContact& contact)
 {
 	_grounded = false;
-	_enemyt = false;
 	DebugGUI::setVal(4, "Grounded", _grounded);
 	//DebugGUI::setVal(5, "Enemy", _enemyt);
-}*/
+}
 
 void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
@@ -168,8 +183,13 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
 		case EventKeyboard::KeyCode::KEY_W: _wantsJump = true; break;
-		case EventKeyboard::KeyCode::KEY_A: _wantsMoveLeft = true; break;
-		case EventKeyboard::KeyCode::KEY_D: _wantsMoveRight = true; break;
+		case EventKeyboard::KeyCode::KEY_A: 
+			_rightDirection = false;
+			_wantsMoveLeft = true; 
+			break; 
+		
+		case EventKeyboard::KeyCode::KEY_D: _rightDirection = true; _wantsMoveRight = true;  break;
+		case EventKeyboard::KeyCode::KEY_H: fireRate = 2;  break;
 		default:
 			break;
 	}
