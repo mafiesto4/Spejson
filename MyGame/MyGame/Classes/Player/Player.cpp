@@ -23,7 +23,13 @@ Player::Player(string name)
 	_image(nullptr),
 	_body(nullptr)
 {
-
+#if USE_FREE_CAM
+	_wantsDown = false;
+	_useBoost = false;
+#endif
+	_wantsJump = false;
+	_wantsMoveLeft = false;
+	_wantsMoveRight = false;
 }
 
 Player::~Player()
@@ -59,6 +65,8 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 		// Create player sprtie with physics body
 		_image = Sprite::create("Textures/pawn1.png");
 		_image->setTag(PHYSICS_TAG_PLAYER);
+
+#if !USE_FREE_CAM
 		_body = PhysicsBody::createBox(_image->getContentSize(), PhysicsMaterial(1.0f, 0.0f, 0.62f));
 		_body->setMass(1000);
 		//_body->setLinearDamping(0);
@@ -79,7 +87,7 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 		contactListener->onContactBegin = CC_CALLBACK_1(Player::onContactBegin, this);
 		contactListener->onContactSeperate = CC_CALLBACK_1(Player::onContactSeperate, this);
 		eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, level);
-
+#endif
 
 		// debug player pos
 		playerPosLabel = Label::createWithTTF("", "Fonts/arial.ttf", 24);
@@ -101,6 +109,19 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 
 void Player::update(float dt)
 {
+#if USE_FREE_CAM
+	Vec2 move = Vec2::ZERO;
+	if (_wantsJump)
+		move += Vec2(0, 1);
+	if (_wantsDown)
+		move += Vec2(0, -1);
+	if (_wantsMoveLeft)
+		move += Vec2(-1, 0);
+	if (_wantsMoveRight)
+		move += Vec2(1, 0);
+	move *= _useBoost ? 30 : 10;
+	_image->setPosition(_image->getPosition() + move);
+#else
 	// Check if player wants to move
 	if ((_wantsJump || _wantsMoveLeft || _wantsMoveRight))
 	{
@@ -124,13 +145,8 @@ void Player::update(float dt)
 		}
 		_body->applyImpulse(impulse, _body->getFirstShape()->getCenter());
 	}
-	else
-	{
-		//_body->setVelocity(Vec2(0, 0));
-	}
-
 	_wantsJump = false;
-
+#endif
 
 	// update player pos debug text
 	stringstream text;
@@ -167,6 +183,10 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		case EventKeyboard::KeyCode::KEY_W: _wantsJump = true; break;
 		case EventKeyboard::KeyCode::KEY_A: _wantsMoveLeft = true; break;
 		case EventKeyboard::KeyCode::KEY_D: _wantsMoveRight = true; break;
+#if USE_FREE_CAM
+		case EventKeyboard::KeyCode::KEY_S: _wantsDown = true; break;
+		case EventKeyboard::KeyCode::KEY_SHIFT: _useBoost = true; break;
+#endif
 		default:
 			break;
 	}
@@ -180,6 +200,12 @@ void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 	{
 		case EventKeyboard::KeyCode::KEY_A: _wantsMoveLeft = false; break;
 		case EventKeyboard::KeyCode::KEY_D: _wantsMoveRight = false; break;
+#if USE_FREE_CAM
+		case EventKeyboard::KeyCode::KEY_SPACE:
+		case EventKeyboard::KeyCode::KEY_W: _wantsJump = false; break;
+		case EventKeyboard::KeyCode::KEY_S: _wantsDown = false; break;
+		case EventKeyboard::KeyCode::KEY_SHIFT: _useBoost = false; break;
+#endif
 		default:
 			break;
 	}

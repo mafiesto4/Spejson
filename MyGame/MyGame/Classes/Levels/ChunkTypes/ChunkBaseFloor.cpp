@@ -1,39 +1,64 @@
 
 #include <cocos2d.h>
 #include "ChunkBaseFloor.h"
+#include "../../Game.h"
 
 using namespace cocos2d;
 
-bool ChunkBaseFloor::init()
+Size ChunkBaseFloor::getDesireSize()
 {
-	// Base
-	if (!Chunk::init())
-	{
-		return false;
-	}
-
-	// Resize
-	setContentSize(Size(CHUNKS_WIDTH, CHUNKS_JUMP_HEIGHT));
-
-	return true;
+	return Size(CHUNKS_WIDTH, CHUNKS_JUMP_HEIGHT);
 }
 
-void ChunkBaseFloor::Generate()
+void ChunkBaseFloor::generate()
 {
 	// Cache size
-	Vec2 size = getContentSize();
-	Vec2 size2 = size * 0.5f;
-
-	// Add floor
-	addPlatform(Vec2(size2.x, CHUNKS_BLOCK_SIZE / -2), size.x - CHUNKS_BLOCK_SIZE);
+	auto size = getContentSize();
+	auto size2 = size * 0.5f;
 
 	// Add walls
-	addWall(Vec2(0, size2.y), size.y);
-	addWall(Vec2(size.x, size2.y), size.y);
+	addWall('a');
+	addWall('d');
+	addWall('_');
 
-	auto playerName = Label::createWithTTF("ssdscsc", "Fonts/Marker Felt.ttf", 20);
-	auto playerNameSize = playerName->getContentSize();
-	playerName->setAnchorPoint(Vec2::ZERO);
-	playerName->setPosition(Vec2::ZERO);
-	addChild(playerName);
+	// Convert path points to the node space
+	Vec2 pos = getPosition();
+	Vec2 startNS = Vec2(-pos.x, CHUNKS_BLOCK_SIZE_HALF);
+	Vec2 middleNS = _pathPoint - pos + Vec2(0, CHUNKS_BLOCK_SIZE_HALF);
+	Vec2 endNS = Vec2(_pathPoint.x - pos.x, size.height - CHUNKS_BLOCK_SIZE_HALF);
+
+#if CHUNKS_DEBUG_PATH
+	while (startNS != middleNS)
+	{
+		addPlatform(startNS, CHUNKS_BLOCK_SIZE);
+
+		if (startNS.x < middleNS.x)
+			startNS.x += CHUNKS_BLOCK_SIZE;
+		else if (startNS.x > middleNS.x)
+			startNS.x -= CHUNKS_BLOCK_SIZE;
+		else if (startNS.y < middleNS.y)
+			startNS.y += CHUNKS_BLOCK_SIZE;
+		else if (startNS.y > middleNS.y)
+			startNS.y -= CHUNKS_BLOCK_SIZE;
+	}
+	while (startNS != endNS)
+	{
+		addPlatform(startNS, CHUNKS_BLOCK_SIZE);
+
+		if (startNS.x < endNS.x)
+			startNS.x += CHUNKS_BLOCK_SIZE;
+		else if (startNS.x > endNS.x)
+			startNS.x -= CHUNKS_BLOCK_SIZE;
+		else if (startNS.y < endNS.y)
+			startNS.y += CHUNKS_BLOCK_SIZE;
+		else if (startNS.y > endNS.y)
+			startNS.y -= CHUNKS_BLOCK_SIZE;
+	}
+	addPlatform(startNS, CHUNKS_BLOCK_SIZE);
+#else
+
+	// Generate ladder
+	addLadder(Vec2(endNS.x, 0), size.height);
+
+#endif
 }

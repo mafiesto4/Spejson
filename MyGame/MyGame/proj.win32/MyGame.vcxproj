@@ -143,7 +143,6 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\HUD\GameHUD.cpp" />
     <ClCompile Include="..\Classes\Input\Input.cpp" />
     <ClCompile Include="..\Classes\Levels\Chunk.cpp" />
-    <ClCompile Include="..\Classes\Levels\ChunkTemplate.cpp" />
     <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.cpp" />
     <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBasic.cpp" />
     <ClCompile Include="..\Classes\Levels\Lava.cpp" />
@@ -151,6 +150,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Levels\LevelChunks.cpp" />
     <ClCompile Include="..\Classes\MainMenu\MainMenuGUILayer.cpp" />
     <ClCompile Include="..\Classes\MainMenu\MainMenuScene.cpp" />
+    <ClCompile Include="..\Classes\Objects\Ladder.cpp" />
     <ClCompile Include="..\Classes\Objects\StaticBlock.cpp" />
     <ClCompile Include="..\Classes\Opponent\Alien1\Alien1.cpp" />
     <ClCompile Include="..\Classes\Opponent\Opponent.cpp" />
@@ -166,13 +166,13 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\HUD\GameHUD.h" />
     <ClInclude Include="..\Classes\Input\Input.h" />
     <ClInclude Include="..\Classes\Levels\Chunk.h" />
-    <ClInclude Include="..\Classes\Levels\ChunkTemplate.h" />
     <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.h" />
     <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBasic.h" />
     <ClInclude Include="..\Classes\Levels\Lava.h" />
     <ClInclude Include="..\Classes\Levels\Level.h" />
     <ClInclude Include="..\Classes\MainMenu\MainMenuGUILayer.h" />
     <ClInclude Include="..\Classes\MainMenu\MainMenuScene.h" />
+    <ClInclude Include="..\Classes\Objects\Ladder.h" />
     <ClInclude Include="..\Classes\Objects\StaticBlock.h" />
     <ClInclude Include="..\Classes\Opponent\Alien1\Alien1.h" />
     <ClInclude Include="..\Classes\Opponent\Opponent.h" />

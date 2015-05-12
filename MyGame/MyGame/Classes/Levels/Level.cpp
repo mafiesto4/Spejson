@@ -37,7 +37,6 @@ Scene* Level::createScene()
 	return scene;
 }
 
-// on "init" you need to initialize your instance
 bool Level::init()
 {
 	// init randy srandy dupy blade
@@ -59,6 +58,11 @@ bool Level::init()
 		addBrick1(Point(i * 64, -20));
 	}*/
 
+	// setup player
+	auto game = Game::getInstance();
+	auto player = game->getPlayer();
+	player->setupForLevel(this, Vec2(200, 54));
+
 	// Setup chunks
 	setupInitialMap();
 
@@ -68,11 +72,6 @@ bool Level::init()
 	// Create camera
 	_camera = Camera::create();
 	addChild(_camera);
-
-	// setup player
-	auto game = Game::getInstance();
-	auto player = game->getPlayer();
-	player->setupForLevel(this, Vec2(200, 54));
 
 	// new way to enable touch
 	auto touchListener = EventListenerTouchOneByOne::create();
@@ -175,6 +174,15 @@ void Level::update(float dt)
 	}
 
 	// Update camera
+#if USE_FREE_CAM
+	{
+		// move camera and HUD
+		Size visibleSize = Director::getInstance()->getVisibleSize();
+		Vec2 newPos =  player->getPosition();
+		_camera->setPosition(newPos);
+		_hud->setPosition(newPos - visibleSize * 0.5f);
+	}
+#else
 	{
 		Size visibleSize = Director::getInstance()->getVisibleSize();
 		Vec2 targetPos = player->getPosition();// +Vec2(visibleSize.width * 0.3f, visibleSize.height * 0.1f);
@@ -197,6 +205,7 @@ void Level::update(float dt)
 		// dump velocity to create smooth effect
 		_camVelocity *= powf(CAM_VELOCITY_DUMP, dt);
 	}
+#endif
 
 	// Update chunks
 	flushChunks();

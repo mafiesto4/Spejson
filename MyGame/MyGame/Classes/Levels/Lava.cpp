@@ -1,5 +1,6 @@
 
 #include "Lava.h"
+#include "../Game.h"
 
 using namespace cocos2d;
 
@@ -18,7 +19,6 @@ bool Lava::init()
 	// uruchom funckje update(...)
 	scheduleUpdateWithPriority(1410);
 
-	
 	return true;
 }
 
@@ -30,5 +30,14 @@ float Lava::getLevel()
 void Lava::update(float dt)
 {
 	// move lava
-	setPositionY(getPositionY() + 1.3f);
+	float lavaLevel = getPositionY();// +0.8f;
+	setPositionY(lavaLevel);
+
+	// Apply damage to the player
+	auto player = Game::getInstance()->getPlayer();
+	if (player && player->getPosition().y < lavaLevel)
+	{
+		MessageBox("Player has been killed by lava!", "Death");
+		Director::getInstance()->end();
+	}
 }

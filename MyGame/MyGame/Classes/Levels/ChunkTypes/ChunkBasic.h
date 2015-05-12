@@ -10,11 +10,14 @@ class ChunkBasic : public Chunk
 {
 public:
 
-	~ChunkBasic()
+	ChunkBasic(Chunk* prevChunk)
+		:Chunk(prevChunk)
 	{
 	}
 
-	bool init() override;
+	~ChunkBasic()
+	{ }
+
 	CHUNKS_CREATE(ChunkBasic);
 
 	inline Type getType() override
@@ -22,5 +25,8 @@ public:
 		return Type::Basic;
 	}
 
-	void Generate() override;
+private:
+
+	cocos2d::Size getDesireSize() override;
+	void generate() override;
 };

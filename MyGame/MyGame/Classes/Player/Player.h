@@ -7,6 +7,8 @@
 
 using namespace cocos2d;
 
+#define USE_FREE_CAM 1
+
 class Player
 {
 	private:
@@ -22,6 +24,11 @@ class Player
 		bool _wantsMoveLeft;
 		bool _wantsMoveRight;
 		bool _grounded;
+
+#if USE_FREE_CAM
+		bool _wantsDown;
+		bool _useBoost;
+#endif
 
 	public:
 
@@ -55,6 +62,7 @@ class Player
 			{
 				_hp = 0;
 				MessageBox("Player zostal zabity!", "SMIERC");
+				Director::getInstance()->end();
 			}
 		}
 

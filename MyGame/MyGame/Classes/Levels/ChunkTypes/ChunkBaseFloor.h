@@ -10,10 +10,13 @@ class ChunkBaseFloor : public Chunk
 {
 public:
 
+	ChunkBaseFloor(Chunk* prevChunk)
+		:Chunk(prevChunk)
+	{ }
+
 	~ChunkBaseFloor()
 	{ }
 
-	bool init() override;
 	CHUNKS_CREATE(ChunkBaseFloor);
 
 	inline Type getType() override
@@ -21,5 +24,8 @@ public:
 		return Type::BaseFloor;
 	}
 
-	void Generate() override;
+private:
+
+	cocos2d::Size getDesireSize() override;
+	void generate() override;
 };

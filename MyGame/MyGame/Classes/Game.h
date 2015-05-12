@@ -14,6 +14,8 @@ using namespace std;
 #define PHYSICS_TAG_PLAYER 69
 #define PHYSICS_TAG_STATIC 70
 
+typedef unsigned char byte;
+
 class Game
 {
 private:

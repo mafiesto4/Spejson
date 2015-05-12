@@ -31,8 +31,7 @@ void Level::setupInitialMap()
 	cleanAllChunks();
 
 	// Spawn root chunk and spread it to generate enough chunks
-	ChunkBaseFloor* floor = ChunkBaseFloor::create();
-	addChunk(floor);
+	ChunkBaseFloor* floor = ChunkBaseFloor::create(this, nullptr, Vec2::ZERO);
 	for (int i = 0; i < CHUNKS_INITIAL_TREE_SIZE; i++)
 	{
 		floor->Spread(this);
@@ -62,7 +61,7 @@ void Level::flushChunks()
 	if (_rootChunk->getPositionY() + _rootChunk->getContentSize().height < toDeleteLevel)
 	{
 		// Spread chunk to prevent errors if need to
-		while (_chunks.size() < 3)
+		while (_chunks.size() < 8)
 			_rootChunk->Spread(this);
 
 		// Mark chunk to delete and get next root
@@ -82,21 +81,21 @@ void Level::flushChunks()
 	}
 
 	// Find chunk that is near player
-	float minDist = 999999999;
+	float minDist2 = 999999999;
 	_closestPToPlayerChunk = _rootChunk;
 	for (vector<Chunk*>::reverse_iterator i = _chunks.rbegin(); i != _chunks.rend(); i++)
 	{
-		float dist = (*i)->getPosition().distance(playerPos);
-		if (dist < minDist)
+		float dist2 = (*i)->getPosition().distanceSquared(playerPos);
+		if (dist2 < minDist2)
 		{
-			minDist = dist;
+			minDist2 = dist2;
 			_closestPToPlayerChunk = *i;
 		}
 	}
 
 	// Check if need to generate new chunks
 	Vec2 top = _closestPToPlayerChunk->getTreeTop();
-	if (top.distance(playerPos) < 2000)
+	if (top.y  - playerPos.y < 2000)
 	{
 		_closestPToPlayerChunk->Spread(this);
 	}
