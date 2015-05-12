@@ -8,6 +8,7 @@
 #include "physics\CCPhysicsWorld.h"
 #include "Bullet.h"
 #include "Levels/Lava.h"
+#include "Objects/Coin.h"
 
 // Forward declarations
 class Chunk;
@@ -24,6 +25,7 @@ private:
 
 	vector<Bullet> _bullets;
 	vector<Opponent*> _opponents;
+	vector <Coin*> _coins;
 	vector<Chunk*> _chunks;
 	Chunk* _rootChunk;
 	Chunk* _closestPToPlayerChunk;
@@ -59,8 +61,8 @@ public:
 
 	void addNewSpriteAtPosition(Point p);
 
-	void addBrick1(Point p);
-	void shoot(Bullet& bullet);
+	// add bullet to the list
+	void addBuulet(Bullet& bullet);
 
 	////////////////////////////////////////////////////
 	// Chunks stuff

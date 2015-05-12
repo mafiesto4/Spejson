@@ -150,8 +150,8 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Levels\LevelChunks.cpp" />
     <ClCompile Include="..\Classes\MainMenu\MainMenuGUILayer.cpp" />
     <ClCompile Include="..\Classes\MainMenu\MainMenuScene.cpp" />
+    <ClCompile Include="..\Classes\Objects\Coin.cpp" />
     <ClCompile Include="..\Classes\Objects\Ladder.cpp" />
-    <ClCompile Include="..\Classes\Objects\StaticBlock.cpp" />
     <ClCompile Include="..\Classes\Opponent\Alien1\Alien1.cpp" />
     <ClCompile Include="..\Classes\Opponent\Opponent.cpp" />
     <ClCompile Include="..\Classes\Player\Player.cpp" />
@@ -172,8 +172,8 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Levels\Level.h" />
     <ClInclude Include="..\Classes\MainMenu\MainMenuGUILayer.h" />
     <ClInclude Include="..\Classes\MainMenu\MainMenuScene.h" />
+    <ClInclude Include="..\Classes\Objects\Coin.h" />
     <ClInclude Include="..\Classes\Objects\Ladder.h" />
-    <ClInclude Include="..\Classes\Objects\StaticBlock.h" />
     <ClInclude Include="..\Classes\Opponent\Alien1\Alien1.h" />
     <ClInclude Include="..\Classes\Opponent\Opponent.h" />
     <ClInclude Include="..\Classes\Player\Player.h" />

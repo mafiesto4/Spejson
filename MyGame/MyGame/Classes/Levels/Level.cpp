@@ -52,12 +52,6 @@ bool Level::init()
 	// uruchom funckje update(...)
 	scheduleUpdateWithPriority(1410);
 
-	// spawn simple floor
-	/*for (int i = -10; i < 20; i++)
-	{
-		addBrick1(Point(i * 64, -20));
-	}*/
-
 	// setup player
 	auto game = Game::getInstance();
 	auto player = game->getPlayer();
@@ -81,6 +75,7 @@ bool Level::init()
 
 	//dodaj przeciwnika
 	_opponents.push_back(new Alien1("janek", *this));
+	_coins.push_back(new Coin(*this, Vec2(300, 300)));
 
 	// stworz Head Up Display
 	_hud = GameHUD::create();
@@ -173,6 +168,23 @@ void Level::update(float dt)
 		i++;
 	}
 
+	// Update coins
+	for (i = 0; i < _coins.size(); i++)
+	{
+		auto b = _coins[i];
+		Vec2 coinPos = b->getSprite()->getPosition();
+
+		if (playerBox.containsPoint(coinPos))
+		{
+			DebugGUI::setVal(4, "coin", "xdd");
+			player->addCash(b->getValue());
+			//_coins[i]->getSprite()->removeFromParentAndCleanup(true);
+			delete _coins[i];
+			_coins.erase(_coins.begin() + i);
+			i--;
+		}
+	}
+
 	// Update camera
 #if USE_FREE_CAM
 	{
@@ -251,26 +263,10 @@ void Level::onTouchEnded(Touch *touch, Event *unused_event)
 	bullet.ShotByPlayer = true;
 	bullet.Speed = 1;
 
-	shoot(bullet);
+	addBuulet(bullet);
 }
 
-void Level::addBrick1(Point p)
-{
-	auto sprite = Sprite::create("Textures/brick1.png");
-	sprite->setTag(PHYSICS_TAG_GROUND);
-	auto body = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.52f));// PhysicsMaterial(3.0f, 1.0f, 0.6f));
-	
-	//body->setLinearDamping(0);
-
-	body->setDynamic(false);
-	sprite->setPhysicsBody(body);
-	sprite->setScaleX(100.0);
-	sprite->setPosition(p);
-	sprite->getPhysicsBody()->setContactTestBitmask(0xFFFFFFFF);
-	this->addChild(sprite);
-}
-
-void Level::shoot(Bullet& bullet)
+void Level::addBuulet(Bullet& bullet)
 {
 	bullet.Direction.normalize();
 	_bullets.push_back(bullet);

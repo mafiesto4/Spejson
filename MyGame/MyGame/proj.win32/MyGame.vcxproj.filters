@@ -81,9 +81,6 @@
     <ClCompile Include="..\Classes\HUD\DebugGUI.cpp">
       <Filter>src\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Objects\StaticBlock.cpp">
-      <Filter>src\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Levels\Level.cpp">
       <Filter>src\Levels</Filter>
     </ClCompile>
@@ -103,6 +100,9 @@
       <Filter>src\Levels</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Objects\Ladder.cpp">
+      <Filter>src\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Objects\Coin.cpp">
       <Filter>src\Objects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -146,9 +146,6 @@
     <ClInclude Include="..\Classes\HUD\DebugGUI.h">
       <Filter>src\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Objects\StaticBlock.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Bullet.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -172,6 +169,9 @@
       <Filter>src\Levels</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Objects\Ladder.h">
+      <Filter>src\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Objects\Coin.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
   </ItemGroup>

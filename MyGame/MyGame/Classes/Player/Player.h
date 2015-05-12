@@ -30,6 +30,10 @@ class Player
 		bool _useBoost;
 #endif
 
+		//points and money $.$ xd
+		int _score;
+		int _cash;
+
 	public:
 
 		Player(std::string name);
@@ -64,6 +68,11 @@ class Player
 				MessageBox("Player zostal zabity!", "SMIERC");
 				Director::getInstance()->end();
 			}
+		}
+
+		void addCash(int _value)
+		{
+			_cash += _value;
 		}
 
 private:
