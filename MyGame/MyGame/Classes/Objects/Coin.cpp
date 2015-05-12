@@ -8,12 +8,12 @@ using namespace cocos2d;
 Coin::Coin(Node& level, Vec2 _pos)
 {
 
-		_value = 1;
-		_image = Sprite::create("Textures/super_mario_coin.png");
-		_image->setPosition(_pos);
-		_image->setAnchorPoint(Vec2(0.5, 0.5));
-		level.addChild(_image);
-	
+	_value = 1;
+	_image = Sprite::create("Textures/super_mario_coin.png");
+	_image->setPosition(_pos);
+	_image->setAnchorPoint(Vec2(0.5, 0.5));
+	level.addChild(_image);
+
 }
 
 Coin::~Coin()
@@ -30,9 +30,9 @@ Coin::~Coin()
 
 void Coin::setupForLevel()
 {
-	
 
-	
+
+
 
 }
 

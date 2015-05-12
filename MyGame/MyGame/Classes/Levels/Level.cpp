@@ -85,6 +85,18 @@ bool Level::init()
 	_lava = Lava::create();
 	addChild(_lava);
 
+
+
+
+
+
+	//broń do zebrania
+	auto _mGun = new MachineGun(this);
+	_mGun->setupForNode(this);
+	mGun = _mGun;
+
+
+
 	return true;
 }
 
@@ -161,6 +173,8 @@ void Level::update(float dt)
 	{
 		if (_opponents[i]->getHP() <= 0)
 		{
+			_coins.push_back(new Coin(*this, _opponents[i]->getSprite()->getPosition()));
+
 			delete _opponents[i];
 			_opponents.erase(_opponents.begin() + i);
 			i--;
@@ -182,6 +196,22 @@ void Level::update(float dt)
 			delete _coins[i];
 			_coins.erase(_coins.begin() + i);
 			i--;
+		}
+	}
+
+	// Weapon pickup truck
+	if (mGun->getSprite() != nullptr)
+	{
+		Vec2 weaPos = mGun->getSprite()->getPosition();
+		if (playerBox.containsPoint(weaPos))
+		{
+			DebugGUI::setVal(4, "coin", "bron");
+			this->mGun->getSprite()->retain();
+			mGun->getSprite()->removeFromParent();
+			player->getNode()->addChild(mGun->getSprite());
+			player->_bron = mGun;
+			mGun->getSprite()->release();
+			//player->getNode()->removeChildByTag(555);
 		}
 	}
 
@@ -241,32 +271,29 @@ void Level::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 
 bool Level::onTouchBegan(Touch *touch, Event *unused_event)
 {
+	auto player = Game::getInstance()->getPlayer();
+	auto location = touch->getLocation();
+
+	if (player->_bron)
+	{
+		player->_bron->onMouseDown(location, this);
+	}
+
 	return true;
 }
 
 void Level::onTouchEnded(Touch *touch, Event *unused_event)
 {
+	auto player = Game::getInstance()->getPlayer();
 	auto location = touch->getLocation();
 
-	//addBrick1(location);
-
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	auto player = Game::getInstance()->getPlayer();
-	auto playerPos = player->getPosition();
-	auto camPos = _camera->getPosition();
-
-	Bullet bullet;
-	bullet.Damage = 10;
-	bullet.Direction = location - (playerPos - camPos + visibleSize * 0.5);
-	bullet.Position = playerPos;
-	bullet.DistanceLeft = 10000;
-	bullet.ShotByPlayer = true;
-	bullet.Speed = 1;
-
-	addBuulet(bullet);
+	if (player->_bron)
+	{
+		player->_bron->onMouseUp(location, this);
+	}
 }
 
-void Level::addBuulet(Bullet& bullet)
+void Level::addBullet(Bullet& bullet)
 {
 	bullet.Direction.normalize();
 	_bullets.push_back(bullet);

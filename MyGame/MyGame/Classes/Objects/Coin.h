@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 using namespace cocos2d;
 
-class Coin 
+class Coin
 {
 private:
 	int _value;
@@ -15,8 +15,9 @@ public:
 	~Coin();
 	void setupForLevel();
 	Node* getSprite();
-	
-	int getValue(){
+
+	int getValue()
+	{
 		return _value;
 	}
 };

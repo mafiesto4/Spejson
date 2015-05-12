@@ -24,7 +24,7 @@ class Player
 		bool _wantsMoveLeft;
 		bool _wantsMoveRight;
 		bool _grounded;
-
+		bool _rightDirection = true;
 #if USE_FREE_CAM
 		bool _wantsDown;
 		bool _useBoost;
@@ -36,8 +36,17 @@ class Player
 
 	public:
 
+		Weapon* _bron;
+		float fireRate = 1;
+
 		Player(std::string name);
 		~Player();
+
+		bool ifMovingRight() const
+		{
+			if (_rightDirection) return true;
+			return false;
+		}
 
 		void setupForLevel(Level* level, Vec2 spawnPoint);
 		void update(float dt);

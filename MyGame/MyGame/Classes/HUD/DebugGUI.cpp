@@ -3,7 +3,7 @@
 using namespace cocos2d;
 using namespace std;
 
-#define VALUES_CNT 6
+#define VALUES_CNT 7
 string names[VALUES_CNT];
 string values[VALUES_CNT];
 

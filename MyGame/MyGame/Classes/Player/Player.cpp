@@ -21,7 +21,8 @@ Player::Player(string name)
 	_name(name),
 	_keyboard(nullptr),
 	_image(nullptr),
-	_body(nullptr)
+	_body(nullptr),
+	_bron(nullptr)
 {
 #if USE_FREE_CAM
 	_wantsDown = false;
@@ -98,13 +99,15 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 
 	// Clear state
 	_wantsJump = _wantsMoveLeft = _wantsMoveRight = false;
+	_score = 0;
+	_cash = 0;
 
 	// add node to the level
 	level->addChild(_image);
 
-	//setup weaopn, kontrolnie xd
-	auto bron = new Pistol();
-	bron->setupForPlayer(_image);
+	//setup weaopn, kontrolnie xdd
+	_bron = new Pistol();
+	_bron->setupForNode(_image);
 }
 
 void Player::update(float dt)
@@ -116,9 +119,15 @@ void Player::update(float dt)
 	if (_wantsDown)
 		move += Vec2(0, -1);
 	if (_wantsMoveLeft)
+	{
+		_image->setScaleX(-1);
 		move += Vec2(-1, 0);
+	}
 	if (_wantsMoveRight)
+	{
+		_image->setScaleX(1);
 		move += Vec2(1, 0);
+	}
 	move *= _useBoost ? 30 : 10;
 	_image->setPosition(_image->getPosition() + move);
 #else
@@ -138,21 +147,32 @@ void Player::update(float dt)
 		if (_wantsMoveLeft)
 		{
 			impulse.x = -moveSpeed;
+			_image->setScaleX(-1);
 		}
 		if (_wantsMoveRight)
 		{
 			impulse.x = moveSpeed;
+			_image->setScaleX(1);
 		}
 		_body->applyImpulse(impulse, _body->getFirstShape()->getCenter());
 	}
 	_wantsJump = false;
 #endif
 
+	if (_bron)
+	{
+		_bron->update(dt);
+	}
+
 	// update player pos debug text
 	stringstream text;
 	auto pos = _image->getPosition();
 	text << "Pos: " << (int)pos.x << ", " << (int)pos.y;
 	playerPosLabel->setString(text.str());
+
+
+
+	DebugGUI::setVal(5, "cash", _cash);
 }
 
 
@@ -181,8 +201,8 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
 		case EventKeyboard::KeyCode::KEY_W: _wantsJump = true; break;
-		case EventKeyboard::KeyCode::KEY_A: _wantsMoveLeft = true; break;
-		case EventKeyboard::KeyCode::KEY_D: _wantsMoveRight = true; break;
+		case EventKeyboard::KeyCode::KEY_A: _rightDirection = false; _wantsMoveLeft = true; break;
+		case EventKeyboard::KeyCode::KEY_D:_rightDirection = true; _wantsMoveRight = true; break;
 #if USE_FREE_CAM
 		case EventKeyboard::KeyCode::KEY_S: _wantsDown = true; break;
 		case EventKeyboard::KeyCode::KEY_SHIFT: _useBoost = true; break;

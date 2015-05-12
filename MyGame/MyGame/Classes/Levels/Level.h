@@ -9,6 +9,9 @@
 #include "Bullet.h"
 #include "Levels/Lava.h"
 #include "Objects/Coin.h"
+#include "Player\Weapons\Weapon.h"
+#include "Player\Weapons\MachineGun\MachineGun.h"
+#include "Player\Weapons\Pistol\Pistol.h"
 
 // Forward declarations
 class Chunk;
@@ -31,6 +34,8 @@ private:
 	Chunk* _closestPToPlayerChunk;
 	PhysicsWorld* m_world;
 	GameHUD* _hud;
+	MachineGun* mGun;
+	Pistol* pistol;
 	Lava* _lava;
 	bool onContactBegin(EventCustom* event, const PhysicsContact& contact);
 
@@ -59,10 +64,10 @@ public:
 	virtual bool onTouchBegan(Touch *touch, Event *unused_event);
 	virtual void onTouchEnded(Touch *touch, Event *unused_event);
 
-	void addNewSpriteAtPosition(Point p);
-
 	// add bullet to the list
-	void addBuulet(Bullet& bullet);
+	void addBullet(Bullet& bullet);
+
+	Camera* getCamera()const { return _camera; }
 
 	////////////////////////////////////////////////////
 	// Chunks stuff
