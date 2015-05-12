@@ -25,6 +25,27 @@
     <Filter Include="src\Input">
       <UniqueIdentifier>{29eaff6d-ba4d-48be-85de-5ea1768851f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Objects">
+      <UniqueIdentifier>{36b3b820-4b75-4b09-b0c2-d881d8e958a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Player\Weapons">
+      <UniqueIdentifier>{b6a212f5-3f01-4a30-9850-545d55944f4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Player\Weapons\Pistol">
+      <UniqueIdentifier>{0498ef4b-4d0e-4909-b8b2-4dbcbe98b412}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Opponent">
+      <UniqueIdentifier>{0d01e17d-4bd7-4866-9488-032cb09be4fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Opponent\Alien1">
+      <UniqueIdentifier>{f6fbe600-4600-4499-be04-05944baaff2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Levels\ChunkTypes">
+      <UniqueIdentifier>{00f3ba69-c04f-4172-84b8-fdae570baa27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Player\Weapons\MachineGun">
+      <UniqueIdentifier>{a8c30141-4beb-4abd-a356-a9060b1f3ca9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -48,11 +69,50 @@
     <ClCompile Include="..\Classes\Game.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Levels\Level1.cpp">
-      <Filter>src\Levels</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Input\Input.cpp">
       <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Player\Weapons\Pistol\Pistol.cpp">
+      <Filter>src\Player\Weapons\Pistol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Opponent\Alien1\Alien1.cpp">
+      <Filter>src\Opponent\Alien1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Opponent\Opponent.cpp">
+      <Filter>src\Opponent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HUD\DebugGUI.cpp">
+      <Filter>src\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Levels\Level.cpp">
+      <Filter>src\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Levels\Chunk.cpp">
+      <Filter>src\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Levels\LevelChunks.cpp">
+      <Filter>src\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBasic.cpp">
+      <Filter>src\Levels\ChunkTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.cpp">
+      <Filter>src\Levels\ChunkTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Levels\Lava.cpp">
+      <Filter>src\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Objects\Ladder.cpp">
+      <Filter>src\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Objects\Coin.cpp">
+      <Filter>src\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Player\Weapons\MachineGun\MachineGun.cpp">
+      <Filter>src\Player\Weapons\MachineGun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Player\Weapons\Weapon.cpp">
+      <Filter>src\Player\Weapons</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,11 +137,54 @@
     <ClInclude Include="..\Classes\Game.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Levels\Level1.h">
-      <Filter>src\Levels</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Input\Input.h">
       <Filter>src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Player\Weapons\Weapon.h">
+      <Filter>src\Player\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Player\Weapons\Pistol\Pistol.h">
+      <Filter>src\Player\Weapons\Pistol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Opponent\Opponent.h">
+      <Filter>src\Opponent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Opponent\Alien1\Alien1.h">
+      <Filter>src\Opponent\Alien1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HUD\DebugGUI.h">
+      <Filter>src\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Bullet.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Utilities.h" />
+    <ClInclude Include="..\Classes\Levels\Chunk.h">
+      <Filter>src\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Levels\Level.h">
+      <Filter>src\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBasic.h">
+      <Filter>src\Levels\ChunkTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.h">
+      <Filter>src\Levels\ChunkTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Levels\Lava.h">
+      <Filter>src\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Objects\Ladder.h">
+      <Filter>src\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Objects\Coin.h">
+      <Filter>src\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Player\Weapons\MachineGun\MachineGun.h">
+      <Filter>src\Player\Weapons\MachineGun</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
