@@ -14,7 +14,8 @@ using namespace cocos2d;
 
 Chunk::~Chunk()
 {
-
+	_entities.clear();
+	_platforms.clear();
 }
 
 bool Chunk::init()
@@ -99,6 +100,7 @@ Sprite* Chunk::addPlatform(Vec2 location, float width)
 
 	// Add and back to the future
 	addChild(sprite);
+	_platforms.push_back(sprite);
 	return sprite;
 }
 
@@ -170,4 +172,28 @@ void Chunk::addWall(char dir)
 
 	// Add and back to the future
 	addChild(sprite);
+}
+
+Sprite* Chunk::platformAtPoint(const Vec2& point) const
+{
+	// Transform info local world
+	Vec2 localPos = point - getPosition();
+
+	// Check all platforms
+	for (int i = 0; i < _platforms.size(); i++)
+	{
+		auto node = _platforms[i];
+
+		auto size = node->getContentSize();
+		auto ladderOrgin = node->getPosition() - Vec2(size.width / 2 , 0);
+		Rect ladderRect = Rect(ladderOrgin.x, ladderOrgin.y, size.width, size.height);
+
+		if (ladderRect.containsPoint(localPos))
+		{
+			_platforms[i]->setColor(Color3B(220, 22, 22));
+			return _platforms[i];
+		}
+	}
+
+	return nullptr;
 }

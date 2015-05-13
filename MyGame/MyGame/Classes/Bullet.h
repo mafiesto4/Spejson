@@ -5,9 +5,9 @@
 struct Bullet
 {
 	bool ShotByPlayer;
-	cocos2d::Vec2 Position;
 	cocos2d::Vec2 Direction;
 	float Damage;
 	float Speed;
 	float DistanceLeft;
+	cocos2d::Sprite* Node;
 };

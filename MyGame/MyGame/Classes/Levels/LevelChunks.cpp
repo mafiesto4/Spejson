@@ -119,3 +119,15 @@ void Level::addChunk(Chunk* chunk)
 	if (_rootChunk == nullptr)
 		_rootChunk = chunk;
 }
+
+Chunk* Level::chunkAtPoint(const Vec2& point)
+{
+	for (vector<Chunk*>::reverse_iterator i = _chunks.rbegin(); i != _chunks.rend(); i++)
+	{
+		if ((*i)->getBoundingBox().containsPoint(point))
+		{
+			return *i;
+		}
+	}
+	return nullptr;
+}

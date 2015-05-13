@@ -7,7 +7,7 @@
 
 using namespace cocos2d;
 
-#define USE_FREE_CAM 0
+#define USE_FREE_CAM 1
 
 class Player
 {

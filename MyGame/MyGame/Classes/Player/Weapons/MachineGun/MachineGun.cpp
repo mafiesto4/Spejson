@@ -56,10 +56,11 @@ void MachineGun::update(float dt)
 			bullet.Direction = Vec2(-1, 0);
 		}
 
-		bullet.Position = playerPos;
 		bullet.DistanceLeft = 10000;
 		bullet.ShotByPlayer = true;
 		bullet.Speed = 1;
+		bullet.Node = Sprite::create("Textures/bullet1.png");
+		bullet.Node->setPosition(playerPos);
 
 		level->addBullet(bullet);
 	}

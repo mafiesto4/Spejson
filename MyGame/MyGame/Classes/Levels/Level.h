@@ -20,7 +20,7 @@ class Opponent;
 using namespace cocos2d;
 using namespace std;
 
-class Level : public LayerColor
+class Level : public Layer
 {
 	friend Level;
 
@@ -54,7 +54,6 @@ public:
 
 	bool init() override;
 	void update(float dt) override;
-	void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 
 	// a selector callback
 	void menuCloseCallback(Object* pSender);
@@ -83,6 +82,9 @@ public:
 
 	// add single chunk to the game
 	void addChunk(Chunk* chunk);
+
+	// Get chunk at point (may by null if nothing found)
+	Chunk* chunkAtPoint(const Vec2& point);
 
 	////////////////////////////////////////////////////
 };

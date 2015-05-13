@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "HUD\DebugGUI.h"
 #include "Utilities.h"
+#include "Chunk.h"
 
 using namespace cocos2d;
 
@@ -44,7 +45,7 @@ bool Level::init()
 
 	//////////////////////////////
 	// 1. super init first
-	if (!LayerColor::initWithColor(Color4B(20, 20, 250, 255)))
+	if (!Layer::init())
 	{
 		return false;
 	}
@@ -79,7 +80,11 @@ bool Level::init()
 
 	// stworz Head Up Display
 	_hud = GameHUD::create();
-	this->addChild(_hud, 1939);
+	addChild(_hud, 1939);
+
+	// Create bullets proxy
+	//_bulletsLayer = BulletsLayer::create(this);
+	//addChild(_bulletsLayer, 1800);
 
 	// Create lava
 	_lava = Lava::create();
@@ -129,7 +134,7 @@ void Level::update(float dt)
 		// Update position
 		float distanceToMove = b.Speed * (dt * 1000.0f);
 		b.DistanceLeft -= distanceToMove;
-		b.Position += b.Direction * distanceToMove;
+		Vec2 pos = b.Node->getPosition() + b.Direction * distanceToMove;
 
 		// Check damage
 		if (b.ShotByPlayer)
@@ -137,20 +142,37 @@ void Level::update(float dt)
 			for (int i = 0; i < _opponents.size(); i++)
 			{
 				auto o = _opponents[i];
-				if (o->getBox().containsPoint(b.Position))
+				if (o->getBox().containsPoint(pos))
 				{
 					o->onDamage(b.Damage); // apply damage to the opponent
 					b.DistanceLeft = 0; // mark bullet to delete
+					break;
+				}
+			}
+
+			// Chunk at point
+			Chunk* chunk = chunkAtPoint(pos);
+			if (chunk)
+			{
+				// Platform at point
+				Sprite* platform = chunk->platformAtPoint(pos);
+				if (platform)
+				{
+					// Mark bullet to delete
+					b.DistanceLeft = 0;
 				}
 			}
 		}
 		// Collision vs player
-		else if (!b.ShotByPlayer && playerBox.containsPoint(b.Position))
+		else if (!b.ShotByPlayer && playerBox.containsPoint(pos))
 		{
 			// Applu damage to the player
 			player->applyDamage(b.Damage);
 			b.DistanceLeft = 0; // mark bullet to delete
 		}
+
+		// Change position
+		b.Node->setPosition(pos);
 
 		_bullets[i] = b;
 	}
@@ -161,6 +183,10 @@ void Level::update(float dt)
 	{
 		if (_bullets[i].DistanceLeft <= 0)
 		{
+			auto node = _bullets[i].Node;
+
+			node->removeFromParent();
+
 			_bullets.erase(_bullets.begin() + i);
 			i--;
 		}
@@ -206,7 +232,7 @@ void Level::update(float dt)
 		if (playerBox.containsPoint(weaPos))
 		{
 			DebugGUI::setVal(4, "coin", "bron");
-			this->mGun->getSprite()->retain();
+			mGun->getSprite()->retain();
 			mGun->getSprite()->removeFromParent();
 			player->getNode()->addChild(mGun->getSprite());
 			player->_bron = mGun;
@@ -255,20 +281,6 @@ void Level::update(float dt)
 	DebugGUI::setVal(2, "Bullets count", _bullets.size());
 }
 
-void Level::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
-{
-	//LayerColor::draw(renderer, transform, flags);
-
-	//DrawPrimitives::drawSolidRect(Vec2::ZERO, getContentSize(), Color4F(getColor()));
-
-	// Draw bullets
-	DrawPrimitives::setPointSize(30.0f);
-	for (std::vector<Bullet>::iterator it = _bullets.begin(); it != _bullets.end(); ++it)
-	{
-		DrawPrimitives::drawPoint(it->Position);
-	}
-}
-
 bool Level::onTouchBegan(Touch *touch, Event *unused_event)
 {
 	auto player = Game::getInstance()->getPlayer();
@@ -297,6 +309,7 @@ void Level::addBullet(Bullet& bullet)
 {
 	bullet.Direction.normalize();
 	_bullets.push_back(bullet);
+	addChild(bullet.Node);
 }
 
 

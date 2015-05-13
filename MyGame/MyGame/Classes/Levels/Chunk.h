@@ -58,6 +58,7 @@ protected:
 	Chunk* _nextChunk, *_previousChunk;
 	cocos2d::Vec2 _pathPoint;
 	std::vector<Entity*> _entities;
+	std::vector<cocos2d::Sprite*> _platforms;
 
 public:
 
@@ -101,6 +102,9 @@ public:
 			return _nextChunk->getTreeTop();
 		return getPosition() + Vec2(0, getContentSize().height);
 	}
+
+	// Find platform at given location given in the world space
+	Sprite* platformAtPoint(const Vec2& point) const;
 
 public:
 
