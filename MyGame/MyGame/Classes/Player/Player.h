@@ -7,7 +7,7 @@
 
 using namespace cocos2d;
 
-#define USE_FREE_CAM 1
+#define USE_FREE_CAM 0
 
 class Player
 {
@@ -25,8 +25,9 @@ class Player
 		bool _wantsMoveRight;
 		bool _grounded;
 		bool _rightDirection = true;
-#if USE_FREE_CAM
+		bool _isUsingLadder = false;
 		bool _wantsDown;
+#if USE_FREE_CAM
 		bool _useBoost;
 #endif
 
@@ -79,6 +80,8 @@ class Player
 			}
 		}
 
+		void markLadderUse();
+		
 		void addCash(int _value)
 		{
 			_cash += _value;

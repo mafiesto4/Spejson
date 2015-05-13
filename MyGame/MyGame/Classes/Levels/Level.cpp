@@ -250,7 +250,7 @@ void Level::update(float dt)
 #endif
 
 	// Update chunks
-	flushChunks();
+	updateChunks(dt);
 
 	DebugGUI::setVal(2, "Bullets count", _bullets.size());
 }

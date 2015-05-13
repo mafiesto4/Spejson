@@ -52,9 +52,9 @@ public:
 
 	static Scene* createScene();
 
-	virtual bool init();
-	virtual void update(float dt);
-	virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
+	bool init() override;
+	void update(float dt) override;
+	void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 
 	// a selector callback
 	void menuCloseCallback(Object* pSender);
@@ -79,7 +79,7 @@ public:
 	void setupInitialMap();
 
 	// updates all chnuks state (removes old ones and generates new ones)
-	void flushChunks();
+	void updateChunks(float dt);
 
 	// add single chunk to the game
 	void addChunk(Chunk* chunk);

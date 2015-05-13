@@ -186,6 +186,9 @@
     <ClInclude Include="..\Classes\Player\Weapons\MachineGun\MachineGun.h">
       <Filter>src\Player\Weapons\MachineGun</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Objects\Entity.h">
+      <Filter>src\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

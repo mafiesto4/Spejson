@@ -1,28 +1,24 @@
 #pragma once
 
 #include <cocos2d.h>
-#include "../Levels/Chunk.h"
+#include "Entity.h"
 
-class Ladder : public cocos2d::Sprite
+class Ladder : public Entity
 {
+	friend class Chunk;
+
 private:
 
-	virtual void update(float dt);
+	cocos2d::Sprite* _sprite;
+
+	Ladder(const cocos2d::Vec2& location, int height);
 
 public:
 
-	static cocos2d::Sprite* Create(const cocos2d::Vec2& location, int height)
-	{
-		// Load texture and ensure its repeating
-		Texture2D* texture = TextureCache::sharedTextureCache()->addImage("Textures/ladder.png");
-		Texture2D::TexParams tp = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };
-		texture->setTexParameters(tp);
+	void update(class Chunk* parent, float dt) override;
 
-		// Create sprite
-		auto ladder = Ladder::createWithTexture(texture, Rect(0, 0, CHUNKS_BLOCK_SIZE, height));
-		ladder->scheduleUpdateWithPriority(1000);
-		ladder->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-		ladder->setPosition(location);
-		return ladder;
+	cocos2d::Sprite* getNode() const override
+	{
+		return _sprite;
 	}
 };

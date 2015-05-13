@@ -38,7 +38,7 @@ void Level::setupInitialMap()
 	}
 }
 
-void Level::flushChunks()
+void Level::updateChunks(float dt)
 {
 	auto game = Game::getInstance();
 	if (!game)
@@ -90,6 +90,12 @@ void Level::flushChunks()
 		{
 			minDist2 = dist2;
 			_closestPToPlayerChunk = *i;
+		}
+
+		// Update chunks that are near player location
+		//if (dist2 < (CHUNKS_DEFAULT_HEIGHT * CHUNKS_DEFAULT_HEIGHT * CHUNKS_WIDTH * CHUNKS_WIDTH))
+		{
+			(*i)->update(dt);
 		}
 	}
 

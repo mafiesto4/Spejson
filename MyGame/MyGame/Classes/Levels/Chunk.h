@@ -6,6 +6,7 @@
 #include <string.h>
 #include <math.h>
 #include "Level.h"
+#include "../Objects/Entity.h"
 
 // Chunks generator configuration stuff (hej sir, have you got some weed? cause i need it)
 #define CHUNKS_DEBUG_PATH 0
@@ -56,6 +57,7 @@ protected:
 
 	Chunk* _nextChunk, *_previousChunk;
 	cocos2d::Vec2 _pathPoint;
+	std::vector<Entity*> _entities;
 
 public:
 
@@ -69,6 +71,9 @@ public:
 	
 	// Init chunk
 	bool init();
+
+	// Update chunk
+	virtual void update(float dt);
 
 	// Gets chunk type
 	inline virtual Type getType() = 0;
@@ -113,8 +118,8 @@ protected:
 	virtual void calculatePathPoint();
 	virtual void generate() = 0;
 	Sprite* addPlatform(Vec2 location, float width);
-	Sprite* addLadder(Vec2 location, float height);
-	Sprite* addWall(char dir);
+	void addLadder(Vec2 location, float height);
+	void addWall(char dir);
 
 public:
 

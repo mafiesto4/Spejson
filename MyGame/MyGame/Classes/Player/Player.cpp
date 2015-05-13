@@ -12,6 +12,7 @@ using namespace std;
 using namespace cocos2d;
 
 #define PLAYER_MOVEMENT_COEFF 100
+const float moveSpeed = 50 * PLAYER_MOVEMENT_COEFF;
 
 // forward declaration
 bool onContactBegin(PhysicsContact&);
@@ -25,9 +26,9 @@ Player::Player(string name)
 	_bron(nullptr)
 {
 #if USE_FREE_CAM
-	_wantsDown = false;
 	_useBoost = false;
 #endif
+	_wantsDown = false;
 	_wantsJump = false;
 	_wantsMoveLeft = false;
 	_wantsMoveRight = false;
@@ -110,6 +111,11 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 	_bron->setupForNode(_image);
 }
 
+void Player::markLadderUse()
+{
+	_isUsingLadder = true;
+}
+
 void Player::update(float dt)
 {
 #if USE_FREE_CAM
@@ -131,32 +137,67 @@ void Player::update(float dt)
 	move *= _useBoost ? 30 : 10;
 	_image->setPosition(_image->getPosition() + move);
 #else
-	// Check if player wants to move
-	if ((_wantsJump || _wantsMoveLeft || _wantsMoveRight))
+	// Check if player is using a ladder
+	_body->setGravityEnable(!_isUsingLadder);
+	if (_isUsingLadder)
 	{
-		auto currentVelocity = _body->getVelocity();
-		Vec2 impulse(0.0f, 0.0f);
+		//_body->applyImpulse(Vec2(0, 1) * moveSpeed, _body->getFirstShape()->getCenter());
+		
+		_body->setGravityEnable(false);
+		_body->setVelocity(Vec2::ZERO);
+		//_body->setEnable(false);
 
-		// Create impulse direction
-		const float jumpSpeed = 4000 * PLAYER_MOVEMENT_COEFF;
-		const float moveSpeed = 50 * PLAYER_MOVEMENT_COEFF;
-		if (_wantsJump)// && _grounded)
-		{
-			impulse.y = jumpSpeed;
-		}
+		Vec2 move = Vec2::ZERO;
+		if (_wantsJump)
+			move += Vec2(0, 1);
+		if (_wantsDown)
+			move += Vec2(0, -1);
 		if (_wantsMoveLeft)
 		{
-			impulse.x = -moveSpeed;
 			_image->setScaleX(-1);
+			move += Vec2(-1, 0);
 		}
 		if (_wantsMoveRight)
 		{
-			impulse.x = moveSpeed;
 			_image->setScaleX(1);
+			move += Vec2(1, 0);
 		}
-		_body->applyImpulse(impulse, _body->getFirstShape()->getCenter());
+		move *= 6;
+		_image->setPosition(_image->getPosition() + move);
+
+		// Clear flag
+		_isUsingLadder = false;
 	}
-	_wantsJump = false;
+	else
+	{
+		//_body->setEnable(true);
+
+		// Check if player wants to move
+		if ((_wantsJump || _wantsMoveLeft || _wantsMoveRight))
+		{
+			auto currentVelocity = _body->getVelocity();
+			Vec2 impulse(0.0f, 0.0f);
+
+			// Create impulse direction
+			const float jumpSpeed = 4000 * PLAYER_MOVEMENT_COEFF;
+			if (_wantsJump)// && _grounded)
+			{
+				impulse.y = jumpSpeed;
+			}
+			if (_wantsMoveLeft)
+			{
+				impulse.x = -moveSpeed;
+				_image->setScaleX(-1);
+			}
+			if (_wantsMoveRight)
+			{
+				impulse.x = moveSpeed;
+				_image->setScaleX(1);
+			}
+			_body->applyImpulse(impulse, _body->getFirstShape()->getCenter());
+		}
+		_wantsJump = false;
+	}
 #endif
 
 	if (_bron)
@@ -203,8 +244,8 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		case EventKeyboard::KeyCode::KEY_W: _wantsJump = true; break;
 		case EventKeyboard::KeyCode::KEY_A: _rightDirection = false; _wantsMoveLeft = true; break;
 		case EventKeyboard::KeyCode::KEY_D:_rightDirection = true; _wantsMoveRight = true; break;
-#if USE_FREE_CAM
 		case EventKeyboard::KeyCode::KEY_S: _wantsDown = true; break;
+#if USE_FREE_CAM
 		case EventKeyboard::KeyCode::KEY_SHIFT: _useBoost = true; break;
 #endif
 		default:
@@ -220,10 +261,10 @@ void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 	{
 		case EventKeyboard::KeyCode::KEY_A: _wantsMoveLeft = false; break;
 		case EventKeyboard::KeyCode::KEY_D: _wantsMoveRight = false; break;
-#if USE_FREE_CAM
 		case EventKeyboard::KeyCode::KEY_SPACE:
 		case EventKeyboard::KeyCode::KEY_W: _wantsJump = false; break;
 		case EventKeyboard::KeyCode::KEY_S: _wantsDown = false; break;
+#if USE_FREE_CAM
 		case EventKeyboard::KeyCode::KEY_SHIFT: _useBoost = false; break;
 #endif
 		default:

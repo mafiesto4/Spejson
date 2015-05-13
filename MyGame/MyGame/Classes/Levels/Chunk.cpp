@@ -35,6 +35,16 @@ bool Chunk::init()
 	// Good
 	return true;
 }
+
+void Chunk::update(float dt)
+{
+	// Update all entities
+	for (int i = 0; i < _entities.size(); i++)
+	{
+		_entities[i]->update(this, dt);
+	}
+}
+
 void Chunk::calculatePathPoint()
 {
 	auto size = getContentSize();
@@ -92,27 +102,14 @@ Sprite* Chunk::addPlatform(Vec2 location, float width)
 	return sprite;
 }
 
-Sprite* Chunk::addLadder(Vec2 location, float height)
+void Chunk::addLadder(Vec2 location, float height)
 {
-
-	/*// Load texture and ensure its repeating
-	Texture2D* texture = TextureCache::sharedTextureCache()->addImage("Textures/ladder.png");
-	Texture2D::TexParams tp = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };
-	texture->setTexParameters(tp);
-
-	// Create sprite
-	auto sprite = Sprite::createWithTexture(texture, Rect(0, 0, CHUNKS_BLOCK_SIZE, height));
-	sprite->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	sprite->setPosition(location);
-	*/
-	auto sprite = Ladder::Create(location, height);
-
-	// Add and back to the future
-	addChild(sprite);
-	return sprite;
+	auto ladder = new Ladder(location, height);
+	addChild(ladder->getNode());
+	_entities.push_back(ladder);
 }
 
-Sprite* Chunk::addWall(char dir)
+void Chunk::addWall(char dir)
 {
 	// Load texture and ensure its repeating
 	Texture2D* texture = TextureCache::sharedTextureCache()->addImage("Textures/dirt.png");
@@ -173,5 +170,4 @@ Sprite* Chunk::addWall(char dir)
 
 	// Add and back to the future
 	addChild(sprite);
-	return sprite;
 }
