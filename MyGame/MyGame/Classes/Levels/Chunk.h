@@ -59,6 +59,7 @@ protected:
 	cocos2d::Vec2 _pathPoint;
 	std::vector<Entity*> _entities;
 	std::vector<cocos2d::Sprite*> _platforms;
+	std::vector<cocos2d::Sprite*> _walls;
 
 public:
 

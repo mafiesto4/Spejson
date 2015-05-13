@@ -16,6 +16,7 @@ Chunk::~Chunk()
 {
 	_entities.clear();
 	_platforms.clear();
+	_walls.clear();
 }
 
 bool Chunk::init()
@@ -172,6 +173,7 @@ void Chunk::addWall(char dir)
 
 	// Add and back to the future
 	addChild(sprite);
+	_walls.push_back(sprite);
 }
 
 Sprite* Chunk::platformAtPoint(const Vec2& point) const
@@ -185,15 +187,31 @@ Sprite* Chunk::platformAtPoint(const Vec2& point) const
 		auto node = _platforms[i];
 
 		auto size = node->getContentSize();
-		auto ladderOrgin = node->getPosition() - Vec2(size.width / 2 , 0);
-		Rect ladderRect = Rect(ladderOrgin.x, ladderOrgin.y, size.width, size.height);
+		auto pos = node->getPosition();
+		Rect rect = Rect(pos.x - size.width / 2, pos.y, size.width, size.height);
 
-		if (ladderRect.containsPoint(localPos))
+		if (rect.containsPoint(localPos))
 		{
 			_platforms[i]->setColor(Color3B(220, 22, 22));
 			return _platforms[i];
 		}
 	}
+
+	// Check all walls
+	/*for (int i = 0; i < _walls.size(); i++)
+	{
+		auto node = _walls[i];
+
+		auto size = node->getContentSize();
+		auto ladderOrgin = node->getPosition();// -Vec2(size.width / 2, size.height / 2);
+		Rect ladderRect = Rect(ladderOrgin.x, ladderOrgin.y, size.width, size.height);
+
+		if (ladderRect.containsPoint(localPos))
+		{
+			_walls[i]->setColor(Color3B(10, 220, 22));
+			return _walls[i];
+		}
+	}*/
 
 	return nullptr;
 }
