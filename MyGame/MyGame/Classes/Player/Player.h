@@ -87,6 +87,11 @@ class Player
 			_cash += _value;
 		}
 
+		int Cash() const
+		{
+			return _cash;
+		}
+
 private:
 
 	void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);

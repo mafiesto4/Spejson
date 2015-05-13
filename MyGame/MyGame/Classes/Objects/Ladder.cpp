@@ -6,7 +6,8 @@
 
 using namespace cocos2d;
 
-Ladder::Ladder(const cocos2d::Vec2& location, int height)
+Ladder::Ladder(Chunk* parent, const cocos2d::Vec2& location, int height)
+	:Entity(parent)
 {
 	// Load texture and ensure its repeating
 	Texture2D* texture = TextureCache::sharedTextureCache()->addImage("Textures/ladder.png");
@@ -18,16 +19,18 @@ Ladder::Ladder(const cocos2d::Vec2& location, int height)
 	_sprite->scheduleUpdateWithPriority(1000);
 	_sprite->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
 	_sprite->setPosition(location);
+
+	_parent->addChild(_sprite);
 }
 
-void Ladder::update(class Chunk* parent, float dt)
+bool Ladder::update(Level* level, float dt)
 {
 	// Cache some data
 	auto game = Game::getInstance();
 	auto player = game->getPlayer();
 	Rect playerRect = player->getBox();
 	auto size = _sprite->getContentSize();
-	auto ladderOrgin = _sprite->getPosition() + parent->getPosition();
+	auto ladderOrgin = _sprite->getPosition() + _parent->getPosition();
 	Rect ladderRect = Rect(ladderOrgin.x, ladderOrgin.y, size.width, size.height);
 
 	// Make player rect smaller
@@ -43,4 +46,6 @@ void Ladder::update(class Chunk* parent, float dt)
 	{
 		_sprite->setColor(Color3B(255, 255, 255));
 	}
+
+	return false;
 }

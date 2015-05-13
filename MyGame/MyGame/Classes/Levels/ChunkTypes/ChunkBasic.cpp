@@ -78,8 +78,9 @@ void ChunkBasic::generate()
 	// Generate ladders
 	int ladderH1 = middleNS.y + CHUNKS_BLOCK_SIZE_HALF;
 	int ladderH2 = endNS.y - middleNS.y;
+	int ladderStart2 = middleNS.y + CHUNKS_BLOCK_SIZE_HALF;
 	addLadder(Vec2(startNS.x, 0), ladderH1);
-	addLadder(Vec2(endNS.x, middleNS.y + CHUNKS_BLOCK_SIZE_HALF), ladderH2);
+	addLadder(Vec2(endNS.x, ladderStart2), ladderH2);
 
 	// uncomment to use a non-deterministic seed
 	std::random_device rd;
@@ -87,10 +88,17 @@ void ChunkBasic::generate()
 	std::uniform_int_distribution<> distr(0, 100000);
 
 	// Generate random stuff in the chunk but do not cross the path
-	for (int y = CHUNKS_BLOCK_SIZE + CHUNKS_BLOCK_SIZE_HALF; y < size.height; y += CHUNKS_BLOCK_SIZE)
+	for (int y = CHUNKS_BLOCK_SIZE_HALF; y < size.height; y += CHUNKS_BLOCK_SIZE)
 	{
 		for (int x = 0; x < size.width; x += CHUNKS_BLOCK_SIZE)
 		{
+			// Check if its a platform or a ladder
+			if ((y == middleNS.y && x >= platformX && x <= platformRightX)
+				|| (x == middleNS.y && x <= endNS.x)
+				|| (y <= ladderH1 && x == startNS.x)
+				|| (y >= ladderStart2 && x == endNS.x))
+				continue;
+
 			// Check the chance to generate a platform
 			if (distr(gen) % 100 < 6)
 			//if (rand() % 100 < 6)
@@ -122,6 +130,22 @@ void ChunkBasic::generate()
 
 				// Ensure not to add platforms over that one on this row
 				x += width;
+			}
+			// Check if can generate entity
+			else
+			{
+				int rand = distr(gen) % 100;
+				switch (rand)
+				{
+					// Coin
+					case 0:
+					case 1:
+					case 2:
+					{
+						addCoin(Vec2(x, y));
+					}
+					break;
+				}
 			}
 		}
 	}

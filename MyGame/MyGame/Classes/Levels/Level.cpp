@@ -76,7 +76,6 @@ bool Level::init()
 
 	//dodaj przeciwnika
 	_opponents.push_back(new Alien1("janek", *this));
-	_coins.push_back(new Coin(*this, Vec2(300, 300)));
 
 	// stworz Head Up Display
 	_hud = GameHUD::create();
@@ -199,30 +198,11 @@ void Level::update(float dt)
 	{
 		if (_opponents[i]->getHP() <= 0)
 		{
-			_coins.push_back(new Coin(*this, _opponents[i]->getSprite()->getPosition()));
-
 			delete _opponents[i];
 			_opponents.erase(_opponents.begin() + i);
 			i--;
 		}
 		i++;
-	}
-
-	// Update coins
-	for (i = 0; i < _coins.size(); i++)
-	{
-		auto b = _coins[i];
-		Vec2 coinPos = b->getSprite()->getPosition();
-
-		if (playerBox.containsPoint(coinPos))
-		{
-			DebugGUI::setVal(4, "coin", "xdd");
-			player->addCash(b->getValue());
-			//_coins[i]->getSprite()->removeFromParentAndCleanup(true);
-			delete _coins[i];
-			_coins.erase(_coins.begin() + i);
-			i--;
-		}
 	}
 
 	// Weapon pickup truck
@@ -278,6 +258,7 @@ void Level::update(float dt)
 	// Update chunks
 	updateChunks(dt);
 
+	DebugGUI::setVal(4, "Money", player->Cash());
 	DebugGUI::setVal(2, "Bullets count", _bullets.size());
 }
 

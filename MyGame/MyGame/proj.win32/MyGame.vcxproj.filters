@@ -105,14 +105,14 @@
     <ClCompile Include="..\Classes\Objects\Ladder.cpp">
       <Filter>src\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Objects\Coin.cpp">
-      <Filter>src\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Player\Weapons\MachineGun\MachineGun.cpp">
       <Filter>src\Player\Weapons\MachineGun</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Player\Weapons\Weapon.cpp">
       <Filter>src\Player\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Objects\Coin.cpp">
+      <Filter>src\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

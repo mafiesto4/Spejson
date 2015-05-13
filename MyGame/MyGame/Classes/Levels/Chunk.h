@@ -39,6 +39,7 @@ static __TYPE__* create(Level* level, Chunk* parent, const Vec2& pos) \
 class Chunk : public cocos2d::LayerColor
 {
 	friend Chunk;
+	friend Entity;
 
 public:
 
@@ -75,7 +76,7 @@ public:
 	bool init();
 
 	// Update chunk
-	virtual void update(float dt);
+	virtual void update(Level* level, float dt);
 
 	// Gets chunk type
 	inline virtual Type getType() = 0;
@@ -125,6 +126,7 @@ protected:
 	Sprite* addPlatform(Vec2 location, float width);
 	void addLadder(Vec2 location, float height);
 	void addWall(char dir);
+	void addCoin(Vec2 location);
 
 public:
 
