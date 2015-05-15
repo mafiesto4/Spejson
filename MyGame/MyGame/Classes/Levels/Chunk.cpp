@@ -9,12 +9,15 @@
 #include "Level.h"
 #include "ChunkTypes/ChunkBasic.h"
 #include "../Objects/Ladder.h"
+#include "../Objects/Coin.h"
+#include "../Opponent/Alien1/Alien1.h"
+#include "../Types/List.h"
 
 using namespace cocos2d;
 
 Chunk::~Chunk()
 {
-	_entities.clear();
+	_entities.ClearDelete();
 	_platforms.clear();
 	_walls.clear();
 }
@@ -40,22 +43,15 @@ bool Chunk::init()
 
 void Chunk::update(Level* level, float dt)
 {
-	// Update all entities (iterate from back to front sice colelction may be edited during iteration)
-	/*for (int i = 0; i < _entities.size(); i++)
+	// Update all entities
+	for (int i = 0; i < _entities.Count(); i++)
 	{
-		_entities[i]->update(level, dt);
-	}
-	*/
-	for (vector<Entity*>::iterator it = _entities.begin(); it != _entities.end();)
-	{
-		auto e = *it;
+		auto e = _entities[i];
 		if (e->update(level, dt))
 		{
-			it = _entities.erase(it);
+			_entities.RemoveAt(i);
 			delete e;
 		}
-		else
-			++it;
 	}
 }
 
@@ -119,12 +115,12 @@ Sprite* Chunk::addPlatform(Vec2 location, float width)
 
 void Chunk::addLadder(Vec2 location, float height)
 {
-	_entities.push_back(new Ladder(this, location, height));
+	_entities.Add(new Ladder(this, location, height));
 }
 
 void Chunk::addCoin(Vec2 location)
 {
-	_entities.push_back(new Coin(this, location));
+	_entities.Add(new Coin(this, location));
 }
 
 void Chunk::addWall(char dir)

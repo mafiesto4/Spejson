@@ -33,7 +33,6 @@ void MachineGun::update(float dt)
 	DebugGUI::setVal(6, "dt", dt);
 	time += dt;
 
-
 	if (ifFiring() && time>0.1f/(player->fireRate) )
 	{
 		time = 0;

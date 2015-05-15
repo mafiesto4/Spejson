@@ -40,17 +40,16 @@ Scene* Level::createScene()
 
 bool Level::init()
 {
-	// init randy srandy dupy blade
+	// Init randomizer
 	srand(time(NULL));
 
-	//////////////////////////////
-	// 1. super init first
+	// Init base
 	if (!Layer::init())
 	{
 		return false;
 	}
 
-	// uruchom funckje update(...)
+	// Enable update function
 	scheduleUpdateWithPriority(1410);
 
 	// setup player
@@ -61,29 +60,19 @@ bool Level::init()
 	// Setup chunks
 	setupInitialMap();
 
-	//długa podłoga z jednego kloca(fizyka się nie krztusi) m8
-	//addBrick1(Point(0, 0));
-
 	// Create camera
 	_camera = Camera::create();
 	addChild(_camera);
 
-	// new way to enable touch
+	// Enable touch
 	auto touchListener = EventListenerTouchOneByOne::create();
 	touchListener->onTouchBegan = CC_CALLBACK_2(Level::onTouchBegan, this);
 	touchListener->onTouchEnded = CC_CALLBACK_2(Level::onTouchEnded, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
-	//dodaj przeciwnika
-	_opponents.push_back(new Alien1("janek", *this));
-
 	// stworz Head Up Display
 	_hud = GameHUD::create();
 	addChild(_hud, 1939);
-
-	// Create bullets proxy
-	//_bulletsLayer = BulletsLayer::create(this);
-	//addChild(_bulletsLayer, 1800);
 
 	// Create lava
 	_lava = Lava::create();
@@ -116,54 +105,34 @@ void Level::update(float dt)
 
 	// Update player
 	player->update(dt);
-
-	// update przeciwnikow
-	for (int i = 0; i < _opponents.size(); i++)
-	{
-		_opponents[i]->update(dt);
-	}
-
+	
 	// Update bullets
 	Rect playerBox = player->getBox();
 	int i;
 	for (i = 0; i < _bullets.size(); i++)
 	{
 		Bullet b = _bullets[i];
-		
+
 		// Update position
 		float distanceToMove = b.Speed * (dt * 1000.0f);
 		b.DistanceLeft -= distanceToMove;
 		Vec2 pos = b.Node->getPosition() + b.Direction * distanceToMove;
 
-		// Check damage
-		if (b.ShotByPlayer)
+		// Chunk at point
+		Chunk* chunk = chunkAtPoint(pos);
+		if (chunk)
 		{
-			for (int i = 0; i < _opponents.size(); i++)
+			// Platform at point
+			Sprite* platform = chunk->platformAtPoint(pos);
+			if (platform)
 			{
-				auto o = _opponents[i];
-				if (o->getBox().containsPoint(pos))
-				{
-					o->onDamage(b.Damage); // apply damage to the opponent
-					b.DistanceLeft = 0; // mark bullet to delete
-					break;
-				}
-			}
-
-			// Chunk at point
-			Chunk* chunk = chunkAtPoint(pos);
-			if (chunk)
-			{
-				// Platform at point
-				Sprite* platform = chunk->platformAtPoint(pos);
-				if (platform)
-				{
-					// Mark bullet to delete
-					b.DistanceLeft = 0;
-				}
+				// Mark bullet to delete
+				b.DistanceLeft = 0;
 			}
 		}
+
 		// Collision vs player
-		else if (!b.ShotByPlayer && playerBox.containsPoint(pos))
+		if (!b.ShotByPlayer && playerBox.containsPoint(pos))
 		{
 			// Applu damage to the player
 			player->applyDamage(b.Damage);
@@ -187,19 +156,6 @@ void Level::update(float dt)
 			node->removeFromParent();
 
 			_bullets.erase(_bullets.begin() + i);
-			i--;
-		}
-		i++;
-	}
-
-	// Remove killed opponents
-	i = 0;
-	while (i < _opponents.size() && _opponents.size() > 0)
-	{
-		if (_opponents[i]->getHP() <= 0)
-		{
-			delete _opponents[i];
-			_opponents.erase(_opponents.begin() + i);
 			i--;
 		}
 		i++;

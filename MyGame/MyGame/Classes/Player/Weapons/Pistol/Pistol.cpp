@@ -30,13 +30,8 @@ void Pistol::update(float dt)
 
 }
 
-
-
 void Pistol::onMouseDown(Vec2 pos, Level* level)
 {
-
-
-
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
 	auto player = Game::getInstance()->getPlayer();

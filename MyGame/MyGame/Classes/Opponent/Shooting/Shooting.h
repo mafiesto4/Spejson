@@ -6,16 +6,17 @@
 
 using namespace cocos2d;
 
-class Alien1 : public Opponent
+class Shooting : public Opponent
 {
 private:
 
+	float _timeAcc;
 	Vec2 _p1, _p2;
 
 public:
 
-	Alien1(Chunk* parent, Vec2 p1, Vec2 p2);
-	~Alien1();
+	Shooting(Chunk* parent, Vec2 p1, Vec2 p2);
+	~Shooting();
 
 	bool update(Level* level, float dt) override;
 
@@ -23,7 +24,6 @@ public:
 
 	float calMoveDuration()
 	{
-		//return 4;
 		return _p1.distance(_p2) / getSpeed();
 	}
 };

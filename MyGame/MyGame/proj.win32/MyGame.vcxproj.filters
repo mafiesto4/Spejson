@@ -46,6 +46,12 @@
     <Filter Include="src\Player\Weapons\MachineGun">
       <UniqueIdentifier>{a8c30141-4beb-4abd-a356-a9060b1f3ca9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Types">
+      <UniqueIdentifier>{9068f35b-d000-4a94-9fa3-cdc0c684ae65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Opponent\Shooting">
+      <UniqueIdentifier>{2f7ed8dd-3c5e-47d3-aa64-2c090746d3d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -113,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Objects\Coin.cpp">
       <Filter>src\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Opponent\Shooting\Shooting.cpp">
+      <Filter>src\Opponent\Shooting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +197,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Objects\Entity.h">
       <Filter>src\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Types\List.h">
+      <Filter>src\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Opponent\Shooting\Shooting.h">
+      <Filter>src\Opponent\Shooting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

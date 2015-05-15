@@ -7,6 +7,7 @@
 #include <math.h>
 #include "Level.h"
 #include "../Objects/Entity.h"
+#include "../Types/List.h"
 
 // Chunks generator configuration stuff (hej sir, have you got some weed? cause i need it)
 #define CHUNKS_DEBUG_PATH 0
@@ -58,7 +59,7 @@ protected:
 
 	Chunk* _nextChunk, *_previousChunk;
 	cocos2d::Vec2 _pathPoint;
-	std::vector<Entity*> _entities;
+	List<Entity*, 32> _entities;
 	std::vector<cocos2d::Sprite*> _platforms;
 	std::vector<cocos2d::Sprite*> _walls;
 
@@ -118,6 +119,8 @@ public:
 		return ((pathPoint - leftBorder) < (rightBorder - pathPoint)) ? leftBorder : rightBorder;
 	}
 
+	void addCoin(Vec2 location);
+
 protected:
 
 	virtual cocos2d::Size getDesireSize() = 0;
@@ -126,7 +129,6 @@ protected:
 	Sprite* addPlatform(Vec2 location, float width);
 	void addLadder(Vec2 location, float height);
 	void addWall(char dir);
-	void addCoin(Vec2 location);
 
 public:
 

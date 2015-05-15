@@ -4,15 +4,15 @@
 #include "Game.h"
 #include "Box2D\Box2D.h"
 #include "../HUD/DebugGUI.h"
+#include "../Levels/Chunk.h"
 
 using namespace std;
 using namespace cocos2d;
 
-Opponent::Opponent(string name)
-	:_hp(100),
-	_name(name),
+Opponent::Opponent(Chunk* parent)
+	:Entity(parent),
+	_hp(100),
 	_node(nullptr),
-	_body(nullptr),
 	_state(State::Undefined)
 {
 
@@ -29,76 +29,38 @@ Opponent::~Opponent()
 	}
 }
 
-void Opponent::update(float dt)
+bool Opponent::update(Level* level, float dt)
 {
-	// check if has image node created
-	if (!_node)
-		return;
-
-	switch (_state)
+	// Check if any bullet shot by player hist the enemy
+	auto player = Game::getInstance()->getPlayer();
+	Rect playerBox = player->getBox();
+	Rect box = _node->getBoundingBox();
+	Vec2 parentPos = _parent->getPosition();
+	for (int i = 0; i < level->_bullets.size(); i++)
 	{
-		case State::Undefined:
+		Bullet b = level->_bullets[i];
+		Vec2 pos = b.Node->getPosition() - parentPos;
+
+		// Check damage
+		if (b.ShotByPlayer)
 		{
-			auto anim = MoveTo::create(calMoveDuration(), Vec2(400, 66));
-			anim->setTag(0);
-			_node->runAction(anim);
-
-			_state = State::PatrollingA;
-
-			DebugGUI::setVal(0, "Alien state", "Undefined");
-		}
-		break;
-
-		case State::PatrollingA:
-		case State::PatrollingB:
-		{
-			bool isA = _state == State::PatrollingA;
-
-			auto action = _node->getActionByTag(0);
-			if (!action)
+			if (box.containsPoint(pos))
 			{
-				if (isA)
-				{
-					auto anim = MoveTo::create(calMoveDuration(), Vec2(1000, 66));
-					anim->setTag(0);
-					_node->runAction(anim);
-					_state = State::PatrollingB;
-				}
-				else
-				{
-					auto anim = MoveTo::create(calMoveDuration(), Vec2(400, 66));
-					anim->setTag(0);
-					_node->runAction(anim);
-					_state = State::PatrollingA;
-				}
+				onDamage(b.Damage); // apply damage to the opponent
+				b.DistanceLeft = 0; // mark bullet to delete
+				level->_bullets[i] = b;
+				break;
 			}
-
-			if (isA)
-				DebugGUI::setVal(0, "Alien state", "PatrollingA");
-			else
-				DebugGUI::setVal(0, "Alien state", "PatrollingB");
 		}
-		break;
-
-		case State::Shooting:
-		{
-
-
-			DebugGUI::setVal(0, "Alien state", "Shooting");
-		}
-		break;
-
-
-		case State::SearchForPlayer:
-		{
-
-			DebugGUI::setVal(0, "Alien state", "SearchForPlayer");
-		}
-		break;
-
-		default: assert(0);
 	}
 
-	// debug
-	DebugGUI::setVal(1, "Alien pos", _node->getPosition());
+	// Check if has any hp
+	if (_hp <= 0)
+	{
+		// Killed by death
+		_parent->addCoin(box.origin + Vec2(0, 64));
+		return true;
+	}
+
+	return false;
 }

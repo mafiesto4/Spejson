@@ -2,9 +2,15 @@
 #include <cocos2d.h>
 #include <random>
 #include "ChunkBasic.h"
+#include "../../Opponent/Alien1/Alien1.h"
+#include "../../Opponent/Shooting/Shooting.h"
 
 using namespace cocos2d;
 using namespace std;
+
+std::random_device rd;
+std::mt19937 gen(rd());
+std::uniform_int_distribution<> distr(0, 100000);
 
 Size ChunkBasic::getDesireSize()
 {
@@ -72,8 +78,27 @@ void ChunkBasic::generate()
 		right = startNS.x;
 		platformX = left;
 	}
-	int platformRightX = (int)(platformX + right - left);
-	addPlatform(Vec2(platformX, middleNS.y), right - left);
+	int width = right - left;
+	int platformRightX = (int)(platformX + width);
+	addPlatform(Vec2(platformX, middleNS.y), width);
+
+	// Try to spawn alien
+	if (width > 3 * CHUNKS_BLOCK_SIZE && distr(gen) % 100 < 69)
+	{
+		float ppy = middleNS.y + 64 + CHUNKS_BLOCK_SIZE_HALF;
+		Vec2 p1 = Vec2(platformX + CHUNKS_BLOCK_SIZE * 2, ppy);
+		Vec2 p2 = Vec2(platformX + width - CHUNKS_BLOCK_SIZE, ppy);
+		Opponent* op;
+		if (distr(gen) % 2 == 0)
+		{
+			op = new Alien1(this, p1, p2);
+		}
+		else
+		{
+			op= new Shooting(this, p1, p2);
+		}
+		_entities.Add(op);
+	}
 
 	// Generate ladders
 	int ladderH1 = middleNS.y + CHUNKS_BLOCK_SIZE_HALF;
@@ -81,11 +106,6 @@ void ChunkBasic::generate()
 	int ladderStart2 = middleNS.y + CHUNKS_BLOCK_SIZE_HALF;
 	addLadder(Vec2(startNS.x, 0), ladderH1);
 	addLadder(Vec2(endNS.x, ladderStart2), ladderH2);
-
-	// uncomment to use a non-deterministic seed
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> distr(0, 100000);
 
 	// Generate random stuff in the chunk but do not cross the path
 	for (int y = CHUNKS_BLOCK_SIZE_HALF; y < size.height; y += CHUNKS_BLOCK_SIZE)
