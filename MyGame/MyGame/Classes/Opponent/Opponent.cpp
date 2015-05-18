@@ -5,6 +5,7 @@
 #include "Box2D\Box2D.h"
 #include "../HUD/DebugGUI.h"
 #include "../Levels/Chunk.h"
+#include "../Player/Player.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -31,19 +32,21 @@ Opponent::~Opponent()
 
 bool Opponent::update(Level* level, float dt)
 {
-	// Check if any bullet shot by player hist the enemy
+	// Cache data
 	auto player = Game::getInstance()->getPlayer();
 	Rect playerBox = player->getBox();
 	Rect box = _node->getBoundingBox();
 	Vec2 parentPos = _parent->getPosition();
+
+	// Check if any bullet shot by player hist the enemy
 	for (int i = 0; i < level->_bullets.size(); i++)
 	{
 		Bullet b = level->_bullets[i];
-		Vec2 pos = b.Node->getPosition() - parentPos;
 
 		// Check damage
 		if (b.ShotByPlayer)
 		{
+			Vec2 pos = b.Node->getPosition() - parentPos;
 			if (box.containsPoint(pos))
 			{
 				onDamage(b.Damage); // apply damage to the opponent
@@ -61,6 +64,20 @@ bool Opponent::update(Level* level, float dt)
 		_parent->addCoin(box.origin + Vec2(0, 64));
 		return true;
 	}
+
+	// obra¿enia jakie otrzymuje player od przeciwników
+#if !GOD_MODE
+	box.origin += parentPos;
+	if (playerBox.intersectsRect(box))
+	{
+		if (player->getImmune() == false)
+		{
+			player->applyDamage(30);
+			player->setImmune();
+			player->onDamage(box.origin.x > playerBox.origin.x);
+		}
+	}
+#endif
 
 	return false;
 }

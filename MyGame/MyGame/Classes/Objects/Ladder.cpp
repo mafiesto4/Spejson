@@ -39,12 +39,21 @@ bool Ladder::update(Level* level, float dt)
 
 	if (ladderRect.intersectsRect(playerRect))
 	{
-		player->markLadderUse();
-		_sprite->setColor(Color3B(0, 255, 0));
+		if (player->getLaddered())
+		{
+			ifActive = true;
+		}
+
+		if (ifActive)
+		{
+			player->markLadderUse();
+			_sprite->setColor(Color3B(0, 255, 0));
+		}
 	}
 	else
 	{
 		_sprite->setColor(Color3B(255, 255, 255));
+		ifActive = false;
 	}
 
 	return false;

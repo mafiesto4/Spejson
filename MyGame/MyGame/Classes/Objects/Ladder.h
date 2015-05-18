@@ -10,7 +10,7 @@ class Ladder : public Entity
 private:
 
 	cocos2d::Sprite* _sprite;
-
+	bool ifActive = false;
 	Ladder(Chunk* parent, const cocos2d::Vec2& location, int height);
 
 public:

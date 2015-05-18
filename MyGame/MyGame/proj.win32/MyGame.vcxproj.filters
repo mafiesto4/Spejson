@@ -123,6 +123,9 @@
     <ClCompile Include="..\Classes\Opponent\Shooting\Shooting.cpp">
       <Filter>src\Opponent\Shooting</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Objects\Ammo.cpp">
+      <Filter>src\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -203,6 +206,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Opponent\Shooting\Shooting.h">
       <Filter>src\Opponent\Shooting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Objects\Ammo.h">
+      <Filter>src\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

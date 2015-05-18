@@ -79,36 +79,11 @@ bool Alien1::update(Level* level, float dt)
 					_state = State::PatrollingA;
 				}
 			}
-
-			if (isA)
-				DebugGUI::setVal(0, "Alien state", "PatrollingA");
-			else
-				DebugGUI::setVal(0, "Alien state", "PatrollingB");
-		}
-		break;
-
-		case State::Shooting:
-		{
-
-
-			DebugGUI::setVal(0, "Alien state", "Shooting");
-		}
-		break;
-
-
-		case State::SearchForPlayer:
-		{
-
-			DebugGUI::setVal(0, "Alien state", "SearchForPlayer");
 		}
 		break;
 
 		default: assert(0);
 	}
-
-	// debug
-	DebugGUI::setVal(1, "Alien pos", _node->getPosition());
-	DebugGUI::setVal(3, "Alien HP", _hp);
 
 	return false;
 }
