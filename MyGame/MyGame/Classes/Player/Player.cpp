@@ -138,6 +138,8 @@ void Player::update(float dt)
 	_image->setPosition(_image->getPosition() + move);
 #else
 	// Check if player is using a ladder
+	
+
 	_body->setGravityEnable(!_isUsingLadder);
 	if (_isUsingLadder)
 	{
@@ -210,10 +212,43 @@ void Player::update(float dt)
 	auto pos = _image->getPosition();
 	text << "Pos: " << (int)pos.x << ", " << (int)pos.y;
 	playerPosLabel->setString(text.str());
+	
+	
+
+	if (_immune)
+	{
+		_time += dt;
+		if (_time > 3)
+		{
+			_immune = false;
+			_time = 0;
+		}
+
+	}
+	
+	DebugGUI::setVal(7, "ladder", _isUsingLadder);
+}
+
+void Player::onDamage(float dt)
+{
+	Vec2 impulse(0.0f, 0.0f);
+	float _dTime;
+	// Create impulse direction
+	const float moveSpeed = 4000 * PLAYER_MOVEMENT_COEFF;
+
+	if (_headingLeft)
+	{
+		impulse.x = moveSpeed;
+		impulse.y = moveSpeed;
+	}
+	if (_headingRight)
+	{
+		impulse.x = -moveSpeed;
+		impulse.y = moveSpeed ;
+	}
+	_body->applyImpulse(impulse, _body->getFirstShape()->getCenter());
 
 
-
-	DebugGUI::setVal(5, "cash", _cash);
 }
 
 
@@ -241,9 +276,9 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		}
 		break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
-		case EventKeyboard::KeyCode::KEY_W: _wantsJump = true; break;
-		case EventKeyboard::KeyCode::KEY_A: _rightDirection = false; _wantsMoveLeft = true; break;
-		case EventKeyboard::KeyCode::KEY_D:_rightDirection = true; _wantsMoveRight = true; break;
+		case EventKeyboard::KeyCode::KEY_W: _wantsJump = true; _laddered = true;  break;
+		case EventKeyboard::KeyCode::KEY_A: _rightDirection = false; _wantsMoveLeft = true; _headingLeft = true; _headingRight = false; break;
+		case EventKeyboard::KeyCode::KEY_D:_rightDirection = true; _wantsMoveRight = true; _headingLeft = false; _headingRight = true; break;
 		case EventKeyboard::KeyCode::KEY_S: _wantsDown = true; break;
 #if USE_FREE_CAM
 		case EventKeyboard::KeyCode::KEY_SHIFT: _useBoost = true; break;
@@ -262,7 +297,7 @@ void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 		case EventKeyboard::KeyCode::KEY_A: _wantsMoveLeft = false; break;
 		case EventKeyboard::KeyCode::KEY_D: _wantsMoveRight = false; break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
-		case EventKeyboard::KeyCode::KEY_W: _wantsJump = false; break;
+		case EventKeyboard::KeyCode::KEY_W: _wantsJump = false; _laddered = false; break;
 		case EventKeyboard::KeyCode::KEY_S: _wantsDown = false; break;
 #if USE_FREE_CAM
 		case EventKeyboard::KeyCode::KEY_SHIFT: _useBoost = false; break;

@@ -15,6 +15,7 @@ private:
 	bool _firing=false;
 	Level* level;
 	float time = 0;
+	
 
 
 public:
@@ -35,4 +36,23 @@ public:
 		if (_firing){ _firing = false; return false;}
 		else{_firing = true; return true;}
 	}
+
+	/*void addAmmo(int ammo)
+	{
+		_ammo += ammo;
+		if (_ammo > _maxAmmo)
+		{
+			_ammo = _maxAmmo;
+		}
+	}
+
+	void decreaseAmmo(int ammo)
+	{
+		_ammo -= ammo;
+		if (_ammo <= 0)
+		{
+			_ammo = 0;
+		}
+	}*/
+
 };

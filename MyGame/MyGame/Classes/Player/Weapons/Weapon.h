@@ -14,6 +14,8 @@ protected:
 	int _damage;
 	int _fireRate;
 	bool isAutomatic;
+	int _maxAmmo;
+	int _ammo = 0;
 
 
 public:
@@ -36,6 +38,26 @@ public:
 	{
 
 	}
+
+	void addAmmo(int ammo)
+	{
+	_ammo += ammo;
+	if (_ammo > _maxAmmo)
+	{
+	_ammo = _maxAmmo;
+	}
+	}
+
+	void decreaseAmmo(int ammo)
+	{
+	_ammo -= ammo;
+	if (_ammo <= 0)
+	{
+	_ammo = 0;
+	}
+	}
+
+	int getAmmo(){ return _ammo; }
 
 
 };

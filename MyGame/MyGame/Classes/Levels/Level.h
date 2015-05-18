@@ -9,6 +9,7 @@
 #include "Bullet.h"
 #include "Levels/Lava.h"
 #include "Objects/Coin.h"
+#include "Objects/Ammo.h"
 #include "Player\Weapons\Weapon.h"
 #include "Player\Weapons\MachineGun\MachineGun.h"
 #include "Player\Weapons\Pistol\Pistol.h"
@@ -29,11 +30,12 @@ private:
 	vector<Bullet> _bullets;
 	vector<Opponent*> _opponents;
 	vector <Coin*> _coins;
+	vector <Ammo*> _ammoPacks;
 	vector<Chunk*> _chunks;
 	Chunk* _rootChunk;
 	Chunk* _closestPToPlayerChunk;
 	PhysicsWorld* m_world;
-	GameHUD* _hud;
+	//GameHUD* _hud;
 	MachineGun* mGun;
 	Pistol* pistol;
 	Lava* _lava;

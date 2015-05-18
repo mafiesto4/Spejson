@@ -10,6 +10,8 @@
 #include "Chunk.h"
 
 using namespace cocos2d;
+#define GOD_MODE  0
+
 
 Level::~Level()
 {
@@ -76,10 +78,11 @@ bool Level::init()
 
 	//dodaj przeciwnika
 	_opponents.push_back(new Alien1("janek", *this));
-	_coins.push_back(new Coin(*this, Vec2(300, 300)));
+	_coins.push_back(new Coin(*this, Vec2(600, 300)));
+	_ammoPacks.push_back(new Ammo(*this, Vec2(1200, 300)));
 
 	// stworz Head Up Display
-	_hud = GameHUD::create();
+	auto _hud = GameHUD::create();
 	addChild(_hud, 1939);
 
 	// Create bullets proxy
@@ -98,6 +101,7 @@ bool Level::init()
 	//broń do zebrania
 	auto _mGun = new MachineGun(this);
 	_mGun->setupForNode(this);
+	_mGun->addAmmo(30);
 	mGun = _mGun;
 
 
@@ -115,8 +119,34 @@ void Level::update(float dt)
 	if (!player)
 		return;
 
+	//hud update
+	//_hud->update(dt);
 	// Update player
 	player->update(dt);
+
+
+	//obrażenia jakie otrzymuje player od przeciwników
+	for (int i = 0; i < _opponents.size(); i++)
+	{
+		auto o = _opponents[i];
+		Rect oppBox = _opponents[i]->getBox();
+		if (player->getBox().intersectsRect(oppBox))
+		{
+#if !GOD_MODE
+			if (player->getImmune()==false)
+			{
+				player->applyDamage(30); // apply damage to the player
+				player->toggleImmune();
+				player->onDamage(dt);
+			}
+			break;
+#endif
+			
+
+		}
+	}
+
+
 
 	// update przeciwnikow
 	for (int i = 0; i < _opponents.size(); i++)
@@ -221,6 +251,21 @@ void Level::update(float dt)
 			//_coins[i]->getSprite()->removeFromParentAndCleanup(true);
 			delete _coins[i];
 			_coins.erase(_coins.begin() + i);
+			i--;
+		}
+	}
+
+	// Update ammo
+	for (i = 0; i < _ammoPacks.size(); i++)
+	{
+		auto b = _ammoPacks[i];
+		Vec2 ammoPos = b->getSprite()->getPosition();
+
+		if (playerBox.containsPoint(ammoPos))
+		{
+			player->_bron->addAmmo(30);
+			delete  _ammoPacks[i];
+			_ammoPacks.erase(_ammoPacks.begin() + i);
 			i--;
 		}
 	}

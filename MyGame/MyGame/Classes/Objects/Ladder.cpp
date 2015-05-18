@@ -34,13 +34,25 @@ void Ladder::update(class Chunk* parent, float dt)
 	playerRect.origin += Vec2(playerRect.size.width * 0.2f, playerRect.size.height * 0.1f);
 	playerRect.size = Vec2(playerRect.size.width * 0.6f, playerRect.size.height * 0.8f);
 
-	if (ladderRect.intersectsRect(playerRect))
+	if (ladderRect.intersectsRect(playerRect) )
+
 	{
-		player->markLadderUse();
-		_sprite->setColor(Color3B(0, 255, 0));
+		if (player->getLaddered())
+		{
+			ifActive = true;
+		}
+
+		if (ifActive)
+		{
+			player->markLadderUse();
+			_sprite->setColor(Color3B(0, 255, 0));
+		}
 	}
+
 	else
 	{
 		_sprite->setColor(Color3B(255, 255, 255));
+		//player->toggleLaddered();
+		ifActive = false;
 	}
 }

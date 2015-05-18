@@ -22,7 +22,7 @@ Alien1::Alien1(string name, Node& parent) :Opponent(name)
 	//_node->setTag(PHYSICS_TAG_PLAYER);
 	//_body = PhysicsBody::createBox(_node->getContentSize(), PhysicsMaterial(0.17, 0.06, 1.1));
 	//_node->setPhysicsBody(_body);
-	_node->setPosition(Vec2(200, 100));
+	_node->setPosition(Vec2(600, 100));
 
 	// Disable player rotation
 	/*_body->setRotationOffset(0);
