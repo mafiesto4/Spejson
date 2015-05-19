@@ -29,9 +29,15 @@ void ChunkBasic::generate()
 
 	// Convert path points to the node space
 	Vec2 pos = getPosition();
-	Vec2 startNS = Vec2(_previousChunk->getPathPointForPrevChunk().x - pos.x, CHUNKS_BLOCK_SIZE_HALF);
+	Vec2 prevPP = _previousChunk->getPathPointForPrevChunk();
+	auto prevSize = _previousChunk->getContentSize();
+
+	Vec2 startNS = Vec2(prevPP.x - pos.x, CHUNKS_BLOCK_SIZE_HALF);
 	Vec2 middleNS = _pathPoint - pos + Vec2(0, CHUNKS_BLOCK_SIZE_HALF);
 	Vec2 endNS = Vec2(_pathPoint.x - pos.x, size.height - CHUNKS_BLOCK_SIZE_HALF);
+
+	Vec2 prevMiddleNS = prevPP - pos + Vec2(0, CHUNKS_BLOCK_SIZE_HALF);
+	Vec2 prevEndNS = Vec2(prevPP.x - pos.x, prevSize.height - CHUNKS_BLOCK_SIZE_HALF);
 
 #if CHUNKS_DEBUG_PATH
 	while (startNS != middleNS)
@@ -104,8 +110,8 @@ void ChunkBasic::generate()
 	int ladderH1 = middleNS.y + CHUNKS_BLOCK_SIZE_HALF;
 	int ladderH2 = endNS.y - middleNS.y;
 	int ladderStart2 = middleNS.y + CHUNKS_BLOCK_SIZE_HALF;
-	addLadder(Vec2(startNS.x, 0), ladderH1);
-	addLadder(Vec2(endNS.x, ladderStart2), ladderH2);
+	float ladderH = _pathPoint.y - prevPP.y;
+	addLadder(Vec2(startNS.x, ladderH1 - ladderH), ladderH);
 
 	// Generate random stuff in the chunk but do not cross the path
 	for (int y = CHUNKS_BLOCK_SIZE_HALF; y < size.height; y += CHUNKS_BLOCK_SIZE)

@@ -79,10 +79,9 @@ void Chunk::Spread(Level* level)
 	{
 		// Switch chunk type
 		Vec2 top = getPosition() + Vec2(0, getContentSize().height);
-		switch (rand() % 5)
+		switch (rand() % 10)
 		{
-			case 1:
-			case 2:_nextChunk = ShoppingCenter::create(level, this, top); break;
+			case 1: _nextChunk = ShoppingCenter::create(level, this, top); break;
 			default: _nextChunk = ChunkBasic::create(level, this, top); break;
 		}
 
