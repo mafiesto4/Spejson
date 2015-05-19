@@ -53,9 +53,6 @@ public:
 	bool init() override;
 	void update(float dt) override;
 
-	// a selector callback
-	void menuCloseCallback(Object* pSender);
-
 	CREATE_FUNC(Level);
 
 	virtual bool onTouchBegan(Touch *touch, Event *unused_event);

@@ -114,6 +114,9 @@ protected:
 	Sprite* addPlatform(Vec2 location, float width);
 	void addLadder(Vec2 location, float height);
 	void addWall(char dir);
+	
+	void tryToSpawnAFly();
+	void spawnAFly();
 
 public:
 

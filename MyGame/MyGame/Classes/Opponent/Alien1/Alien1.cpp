@@ -46,13 +46,8 @@ bool Alien1::update(Level* level, float dt)
 	{
 		case State::Undefined:
 		{
-			auto anim = MoveTo::create(calMoveDuration(), _p1);
-			anim->setTag(0);
-			_node->runAction(anim);
-
+			_node->setPosition(_p1);
 			_state = State::PatrollingA;
-
-			DebugGUI::setVal(0, "Alien state", "Undefined");
 		}
 		break;
 

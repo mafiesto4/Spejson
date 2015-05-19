@@ -73,6 +73,9 @@
     <ClCompile Include="..\Classes\Objects\Shop.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Opponent\Fly\Fly.cpp">
+      <Filter>Opponent\Fly</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
@@ -149,6 +152,9 @@
     <ClInclude Include="..\Classes\Objects\Shop.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Opponent\Fly\Fly.h">
+      <Filter>Opponent\Fly</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
@@ -192,6 +198,9 @@
     </Filter>
     <Filter Include="Player\Weapons\MachineGun">
       <UniqueIdentifier>{c8b954eb-3a09-40db-ac81-97921d34a081}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Opponent\Fly">
+      <UniqueIdentifier>{ca57c547-279c-4cac-a92a-2b2739a9b607}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

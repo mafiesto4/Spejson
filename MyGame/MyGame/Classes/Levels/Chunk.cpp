@@ -12,8 +12,10 @@
 #include "../Objects/Ladder.h"
 #include "../Objects/Coin.h"
 #include "../Objects/Ammo.h"
-#include "../Opponent/Alien1/Alien1.h"
 #include "../Types/List.h"
+
+#include "../Opponent/Alien1/Alien1.h"
+#include "../Opponent/Fly/Fly.h"
 
 using namespace cocos2d;
 
@@ -237,4 +239,31 @@ Sprite* Chunk::platformAtPoint(const Vec2& point) const
 	}*/
 
 	return nullptr;
+}
+
+void Chunk::tryToSpawnAFly()
+{
+	if (rand() % 4 == 0)
+	{
+		spawnAFly();
+	}
+}
+
+void Chunk::spawnAFly()
+{
+	// Calculate control points
+	auto size = getContentSize();
+	Vec2 p1 = Vec2(rand() % static_cast<int>(size.width * 0.5f), rand() % static_cast<int>(size.height * 0.4f));
+	Vec2 p2;
+	int iters = 0;
+	do
+	{
+		p2 = Vec2(rand() % static_cast<int>(size.width * 0.6f), rand() % static_cast<int>(size.height * 0.5f));
+
+		if (iters++ > 10000) return;
+
+	} while (p1.distance(p2) < 500);
+
+	// Spawn
+	_entities.Add(new Fly(this, p1, p2));
 }

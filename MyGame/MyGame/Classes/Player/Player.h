@@ -7,7 +7,7 @@
 
 using namespace cocos2d;
 
-#define USE_FREE_CAM 1
+#define USE_FREE_CAM 0
 #define GOD_MODE 0
 
 class Player
@@ -75,6 +75,7 @@ class Player
 
 		void applyDamage(float damage)
 		{
+#if !USE_FREE_CAM
 			_hp -= damage;
 			if (_hp <= 0)
 			{
@@ -82,6 +83,7 @@ class Player
 				MessageBox("Player zostal zabity!", "SMIERC");
 				Director::getInstance()->end();
 			}
+#endif
 		}
 
 		void markLadderUse();

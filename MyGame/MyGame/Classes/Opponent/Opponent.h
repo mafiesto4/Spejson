@@ -16,6 +16,7 @@ public:
 		PatrollingB,
 		Shooting,
 		SearchForPlayer,
+		FollowingPlayer,
 
 		MAX
 	};

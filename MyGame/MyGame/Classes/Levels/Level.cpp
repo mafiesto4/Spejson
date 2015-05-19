@@ -248,16 +248,3 @@ void Level::addBullet(Bullet& bullet)
 	_bullets.push_back(bullet);
 	addChild(bullet.Node);
 }
-
-
-void Level::menuCloseCallback(Object* pSender)
-{
-	if (m_world->getDebugDrawMask() != PhysicsWorld::DEBUGDRAW_NONE)
-	{
-		m_world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_NONE);
-	}
-	else
-	{
-		m_world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-	}
-}

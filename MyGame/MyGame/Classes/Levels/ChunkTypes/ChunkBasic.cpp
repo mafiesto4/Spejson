@@ -27,6 +27,9 @@ void ChunkBasic::generate()
 	addWall('a');
 	addWall('d');
 
+	// Try to spawn a fly
+	tryToSpawnAFly();
+
 	// Convert path points to the node space
 	Vec2 pos = getPosition();
 	Vec2 prevPP = _previousChunk->getPathPointForPrevChunk();
@@ -101,7 +104,7 @@ void ChunkBasic::generate()
 		}
 		else
 		{
-			op= new Shooting(this, p1, p2);
+			op = new Shooting(this, p1, p2);
 		}
 		_entities.Add(op);
 	}

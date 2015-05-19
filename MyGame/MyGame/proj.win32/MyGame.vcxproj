@@ -156,6 +156,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Objects\Ladder.cpp" />
     <ClCompile Include="..\Classes\Objects\Shop.cpp" />
     <ClCompile Include="..\Classes\Opponent\Alien1\Alien1.cpp" />
+    <ClCompile Include="..\Classes\Opponent\Fly\Fly.cpp" />
     <ClCompile Include="..\Classes\Opponent\Opponent.cpp" />
     <ClCompile Include="..\Classes\Opponent\Shooting\Shooting.cpp" />
     <ClCompile Include="..\Classes\Player\Player.cpp" />
@@ -185,6 +186,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Objects\Ladder.h" />
     <ClInclude Include="..\Classes\Objects\Shop.h" />
     <ClInclude Include="..\Classes\Opponent\Alien1\Alien1.h" />
+    <ClInclude Include="..\Classes\Opponent\Fly\Fly.h" />
     <ClInclude Include="..\Classes\Opponent\Opponent.h" />
     <ClInclude Include="..\Classes\Opponent\Shooting\Shooting.h" />
     <ClInclude Include="..\Classes\Player\Player.h" />
