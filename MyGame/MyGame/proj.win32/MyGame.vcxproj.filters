@@ -1,216 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="win32">
-      <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="resource">
-      <UniqueIdentifier>{715254bc-d70b-4ec5-bf29-467dd3ace079}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src">
-      <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\MainMenu">
-      <UniqueIdentifier>{44d181db-5290-4e8f-a5d5-84773bb933c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\HUD">
-      <UniqueIdentifier>{443fabc5-ed83-4ffd-a01b-68ed1202bfed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Player">
-      <UniqueIdentifier>{0e5a4ffd-adb5-49e2-91b2-55ec1208ef83}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Levels">
-      <UniqueIdentifier>{ed0ac6a9-7420-4f8c-b581-5ea841484645}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Input">
-      <UniqueIdentifier>{29eaff6d-ba4d-48be-85de-5ea1768851f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Objects">
-      <UniqueIdentifier>{36b3b820-4b75-4b09-b0c2-d881d8e958a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Player\Weapons">
-      <UniqueIdentifier>{b6a212f5-3f01-4a30-9850-545d55944f4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Player\Weapons\Pistol">
-      <UniqueIdentifier>{0498ef4b-4d0e-4909-b8b2-4dbcbe98b412}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Opponent">
-      <UniqueIdentifier>{0d01e17d-4bd7-4866-9488-032cb09be4fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Opponent\Alien1">
-      <UniqueIdentifier>{f6fbe600-4600-4499-be04-05944baaff2d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Levels\ChunkTypes">
-      <UniqueIdentifier>{00f3ba69-c04f-4172-84b8-fdae570baa27}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Player\Weapons\MachineGun">
-      <UniqueIdentifier>{a8c30141-4beb-4abd-a356-a9060b1f3ca9}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\Game.cpp" />
+    <ClCompile Include="..\Classes\HUD\DebugGUI.cpp" />
+    <ClCompile Include="..\Classes\HUD\GameHUD.cpp" />
+    <ClCompile Include="..\Classes\Input\Input.cpp" />
+    <ClCompile Include="..\Classes\Levels\Chunk.cpp" />
+    <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.cpp" />
+    <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBasic.cpp" />
+    <ClCompile Include="..\Classes\Levels\Lava.cpp" />
+    <ClCompile Include="..\Classes\Levels\Level.cpp" />
+    <ClCompile Include="..\Classes\Levels\LevelChunks.cpp" />
+    <ClCompile Include="..\Classes\MainMenu\MainMenuGUILayer.cpp" />
+    <ClCompile Include="..\Classes\MainMenu\MainMenuScene.cpp" />
+    <ClCompile Include="..\Classes\Objects\Coin.cpp" />
+    <ClCompile Include="..\Classes\Objects\Ladder.cpp" />
+    <ClCompile Include="..\Classes\Opponent\Alien1\Alien1.cpp" />
+    <ClCompile Include="..\Classes\Opponent\Opponent.cpp" />
+    <ClCompile Include="..\Classes\Player\Player.cpp" />
+    <ClCompile Include="..\Classes\Player\Weapons\MachineGun\MachineGun.cpp" />
+    <ClCompile Include="..\Classes\Player\Weapons\Pistol\Pistol.cpp" />
+    <ClCompile Include="..\Classes\Player\Weapons\Weapon.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="..\Classes\Opponent\Shooting\Shooting.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>win32</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\MainMenu\MainMenuGUILayer.cpp">
-      <Filter>src\MainMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\MainMenu\MainMenuScene.cpp">
-      <Filter>src\MainMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\HUD\GameHUD.cpp">
-      <Filter>src\HUD</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Player\Player.cpp">
-      <Filter>src\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Game.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Input\Input.cpp">
-      <Filter>src\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Player\Weapons\Pistol\Pistol.cpp">
-      <Filter>src\Player\Weapons\Pistol</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Opponent\Alien1\Alien1.cpp">
-      <Filter>src\Opponent\Alien1</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Opponent\Opponent.cpp">
-      <Filter>src\Opponent</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\HUD\DebugGUI.cpp">
-      <Filter>src\HUD</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Levels\Level.cpp">
-      <Filter>src\Levels</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Levels\Chunk.cpp">
-      <Filter>src\Levels</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Levels\LevelChunks.cpp">
-      <Filter>src\Levels</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBasic.cpp">
-      <Filter>src\Levels\ChunkTypes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.cpp">
-      <Filter>src\Levels\ChunkTypes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Levels\Lava.cpp">
-      <Filter>src\Levels</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Objects\Ladder.cpp">
-      <Filter>src\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Objects\Coin.cpp">
-      <Filter>src\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Player\Weapons\MachineGun\MachineGun.cpp">
-      <Filter>src\Player\Weapons\MachineGun</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Player\Weapons\Weapon.cpp">
-      <Filter>src\Player\Weapons</Filter>
-    </ClCompile>
-<<<<<<< HEAD
-=======
-    <ClCompile Include="..\Classes\Objects\Coin.cpp">
-      <Filter>src\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Opponent\Shooting\Shooting.cpp">
-      <Filter>src\Opponent\Shooting</Filter>
-    </ClCompile>
->>>>>>> parent of b6cd4aa... olkowe zmiany attached
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="main.h">
-      <Filter>win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\MainMenu\MainMenuGUILayer.h">
-      <Filter>src\MainMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\MainMenu\MainMenuScene.h">
-      <Filter>src\MainMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\HUD\GameHUD.h">
-      <Filter>src\HUD</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Player\Player.h">
-      <Filter>src\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Game.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Input\Input.h">
-      <Filter>src\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Player\Weapons\Weapon.h">
-      <Filter>src\Player\Weapons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Player\Weapons\Pistol\Pistol.h">
-      <Filter>src\Player\Weapons\Pistol</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Opponent\Opponent.h">
-      <Filter>src\Opponent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Opponent\Alien1\Alien1.h">
-      <Filter>src\Opponent\Alien1</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\HUD\DebugGUI.h">
-      <Filter>src\HUD</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Bullet.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities.h">
-      <Filter>src</Filter>
-    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\Bullet.h" />
+    <ClInclude Include="..\Classes\Game.h" />
+    <ClInclude Include="..\Classes\HUD\DebugGUI.h" />
+    <ClInclude Include="..\Classes\HUD\GameHUD.h" />
+    <ClInclude Include="..\Classes\Input\Input.h" />
+    <ClInclude Include="..\Classes\Levels\Chunk.h" />
+    <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.h" />
+    <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBasic.h" />
+    <ClInclude Include="..\Classes\Levels\Lava.h" />
+    <ClInclude Include="..\Classes\Levels\Level.h" />
+    <ClInclude Include="..\Classes\MainMenu\MainMenuGUILayer.h" />
+    <ClInclude Include="..\Classes\MainMenu\MainMenuScene.h" />
+    <ClInclude Include="..\Classes\Objects\Coin.h" />
+    <ClInclude Include="..\Classes\Objects\Entity.h" />
+    <ClInclude Include="..\Classes\Objects\Ladder.h" />
+    <ClInclude Include="..\Classes\Opponent\Alien1\Alien1.h" />
+    <ClInclude Include="..\Classes\Opponent\Opponent.h" />
+    <ClInclude Include="..\Classes\Player\Player.h" />
+    <ClInclude Include="..\Classes\Player\Weapons\MachineGun\MachineGun.h" />
+    <ClInclude Include="..\Classes\Player\Weapons\Pistol\Pistol.h" />
+    <ClInclude Include="..\Classes\Player\Weapons\Weapon.h" />
     <ClInclude Include="..\Classes\Utilities.h" />
-    <ClInclude Include="..\Classes\Levels\Chunk.h">
-      <Filter>src\Levels</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Levels\Level.h">
-      <Filter>src\Levels</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBasic.h">
-      <Filter>src\Levels\ChunkTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.h">
-      <Filter>src\Levels\ChunkTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Levels\Lava.h">
-      <Filter>src\Levels</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Objects\Ladder.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Objects\Coin.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Player\Weapons\MachineGun\MachineGun.h">
-      <Filter>src\Player\Weapons\MachineGun</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Objects\Entity.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-=======
-    <ClInclude Include="..\Classes\Types\List.h">
-      <Filter>src\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Opponent\Shooting\Shooting.h">
-      <Filter>src\Opponent\Shooting</Filter>
-    </ClInclude>
->>>>>>> parent of b6cd4aa... olkowe zmiany attached
+    <ClInclude Include="main.h" />
+    <ClInclude Include="..\Classes\Opponent\Shooting\Shooting.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="game.rc">
-      <Filter>resource</Filter>
-    </ResourceCompile>
+    <ResourceCompile Include="game.rc" />
   </ItemGroup>
 </Project>
