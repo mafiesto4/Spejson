@@ -7,6 +7,7 @@
 #include <math.h>
 #include "Level.h"
 #include "../Objects/Entity.h"
+#include "../Types/List.h"
 
 // Chunks generator configuration stuff (hej sir, have you got some weed? cause i need it)
 #define CHUNKS_DEBUG_PATH 0
@@ -39,6 +40,7 @@ static __TYPE__* create(Level* level, Chunk* parent, const Vec2& pos) \
 class Chunk : public cocos2d::LayerColor
 {
 	friend Chunk;
+	friend Entity;
 
 public:
 
@@ -57,7 +59,7 @@ protected:
 
 	Chunk* _nextChunk, *_previousChunk;
 	cocos2d::Vec2 _pathPoint;
-	std::vector<Entity*> _entities;
+	List<Entity*, 32> _entities;
 	std::vector<cocos2d::Sprite*> _platforms;
 	std::vector<cocos2d::Sprite*> _walls;
 
@@ -75,7 +77,7 @@ public:
 	bool init();
 
 	// Update chunk
-	virtual void update(float dt);
+	virtual void update(Level* level, float dt);
 
 	// Gets chunk type
 	inline virtual Type getType() = 0;
@@ -116,6 +118,8 @@ public:
 		auto rightBorder = leftBorder + Vec2(CHUNKS_BLOCK_SIZE, CHUNKS_BLOCK_SIZE);
 		return ((pathPoint - leftBorder) < (rightBorder - pathPoint)) ? leftBorder : rightBorder;
 	}
+
+	void addCoin(Vec2 location);
 
 protected:
 

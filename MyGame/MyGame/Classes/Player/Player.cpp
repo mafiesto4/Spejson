@@ -141,11 +141,8 @@ void Player::update(float dt)
 	_body->setGravityEnable(!_isUsingLadder);
 	if (_isUsingLadder)
 	{
-		//_body->applyImpulse(Vec2(0, 1) * moveSpeed, _body->getFirstShape()->getCenter());
-		
-		_body->setGravityEnable(false);
+		// disable velocity
 		_body->setVelocity(Vec2::ZERO);
-		//_body->setEnable(false);
 
 		Vec2 move = Vec2::ZERO;
 		if (_wantsJump)
@@ -170,8 +167,6 @@ void Player::update(float dt)
 	}
 	else
 	{
-		//_body->setEnable(true);
-
 		// Check if player wants to move
 		if ((_wantsJump || _wantsMoveLeft || _wantsMoveRight))
 		{
@@ -205,17 +200,44 @@ void Player::update(float dt)
 		_bron->update(dt);
 	}
 
+	if (_immune)
+	{
+		_time += dt;
+		if (_time > 3)
+		{
+			_immune = false;
+			_time = 0;
+		}
+	}
+
 	// update player pos debug text
 	stringstream text;
 	auto pos = _image->getPosition();
 	text << "Pos: " << (int)pos.x << ", " << (int)pos.y;
 	playerPosLabel->setString(text.str());
 
-
-
 	DebugGUI::setVal(5, "cash", _cash);
 }
 
+void Player::onDamage(bool pushRight)
+{
+	Vec2 impulse(0.0f, 0.0f);
+	float _dTime;
+
+	// Create impulse direction
+	const float moveSpeed = 4000 * PLAYER_MOVEMENT_COEFF;
+
+	if (pushRight)
+	{
+		impulse.x = -moveSpeed;
+	}
+	else
+	{
+		impulse.x = moveSpeed;
+	}
+	impulse.y = moveSpeed;
+	_body->applyImpulse(impulse, _body->getFirstShape()->getCenter());
+}
 
 bool Player::onContactBegin(PhysicsContact& contact)
 {
@@ -235,24 +257,16 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
 	switch (keyCode)
 	{
-		case EventKeyboard::KeyCode::KEY_ESCAPE:
-		{
-			Director::getInstance()->end();
-		}
-		break;
+		case EventKeyboard::KeyCode::KEY_ESCAPE: Director::getInstance()->end(); break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
-		case EventKeyboard::KeyCode::KEY_W: _wantsJump = true; break;
+		case EventKeyboard::KeyCode::KEY_W: _wantsJump = true; _laddered = true;  break;
 		case EventKeyboard::KeyCode::KEY_A: _rightDirection = false; _wantsMoveLeft = true; break;
 		case EventKeyboard::KeyCode::KEY_D:_rightDirection = true; _wantsMoveRight = true; break;
 		case EventKeyboard::KeyCode::KEY_S: _wantsDown = true; break;
 #if USE_FREE_CAM
 		case EventKeyboard::KeyCode::KEY_SHIFT: _useBoost = true; break;
 #endif
-		default:
-			break;
 	}
-
-	
 }
 
 void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
@@ -262,12 +276,10 @@ void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 		case EventKeyboard::KeyCode::KEY_A: _wantsMoveLeft = false; break;
 		case EventKeyboard::KeyCode::KEY_D: _wantsMoveRight = false; break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
-		case EventKeyboard::KeyCode::KEY_W: _wantsJump = false; break;
+		case EventKeyboard::KeyCode::KEY_W: _wantsJump = false;  _laddered = false; break;
 		case EventKeyboard::KeyCode::KEY_S: _wantsDown = false; break;
 #if USE_FREE_CAM
 		case EventKeyboard::KeyCode::KEY_SHIFT: _useBoost = false; break;
 #endif
-		default:
-			break;
 	}
 }

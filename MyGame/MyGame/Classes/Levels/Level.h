@@ -8,7 +8,6 @@
 #include "physics\CCPhysicsWorld.h"
 #include "Bullet.h"
 #include "Levels/Lava.h"
-#include "Objects/Coin.h"
 #include "Player\Weapons\Weapon.h"
 #include "Player\Weapons\MachineGun\MachineGun.h"
 #include "Player\Weapons\Pistol\Pistol.h"
@@ -23,12 +22,11 @@ using namespace std;
 class Level : public Layer
 {
 	friend Level;
+	friend class Opponent;
 
 private:
 
 	vector<Bullet> _bullets;
-	vector<Opponent*> _opponents;
-	vector <Coin*> _coins;
 	vector<Chunk*> _chunks;
 	Chunk* _rootChunk;
 	Chunk* _closestPToPlayerChunk;

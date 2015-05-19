@@ -2,19 +2,28 @@
 
 #include <string> 
 #include "cocos2d.h"
+#include "Entity.h"
+
 using namespace cocos2d;
 
-class Coin
+class Coin : public Entity
 {
 private:
+
 	int _value;
 	Sprite* _image;
 
 public:
-	Coin(Node& level, Vec2 _pos);
+
+	Coin(Chunk* parent, Vec2 pos);
 	~Coin();
-	void setupForLevel();
-	Node* getSprite();
+
+	bool update(class Level* level, float dt) override;
+
+	cocos2d::Sprite* getNode() const
+	{
+		return _image;
+	}
 
 	int getValue()
 	{

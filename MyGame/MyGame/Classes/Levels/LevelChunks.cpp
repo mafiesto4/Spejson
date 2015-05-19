@@ -95,7 +95,7 @@ void Level::updateChunks(float dt)
 		// Update chunks that are near player location
 		//if (dist2 < (CHUNKS_DEFAULT_HEIGHT * CHUNKS_DEFAULT_HEIGHT * CHUNKS_WIDTH * CHUNKS_WIDTH))
 		{
-			(*i)->update(dt);
+			(*i)->update(this, dt);
 		}
 	}
 

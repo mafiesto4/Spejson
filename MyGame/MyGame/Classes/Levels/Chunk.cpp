@@ -9,12 +9,15 @@
 #include "Level.h"
 #include "ChunkTypes/ChunkBasic.h"
 #include "../Objects/Ladder.h"
+#include "../Objects/Coin.h"
+#include "../Opponent/Alien1/Alien1.h"
+#include "../Types/List.h"
 
 using namespace cocos2d;
 
 Chunk::~Chunk()
 {
-	_entities.clear();
+	_entities.ClearDelete();
 	_platforms.clear();
 	_walls.clear();
 }
@@ -38,12 +41,17 @@ bool Chunk::init()
 	return true;
 }
 
-void Chunk::update(float dt)
+void Chunk::update(Level* level, float dt)
 {
 	// Update all entities
-	for (int i = 0; i < _entities.size(); i++)
+	for (int i = 0; i < _entities.Count(); i++)
 	{
-		_entities[i]->update(this, dt);
+		auto e = _entities[i];
+		if (e->update(level, dt))
+		{
+			_entities.RemoveAt(i);
+			delete e;
+		}
 	}
 }
 
@@ -107,9 +115,12 @@ Sprite* Chunk::addPlatform(Vec2 location, float width)
 
 void Chunk::addLadder(Vec2 location, float height)
 {
-	auto ladder = new Ladder(location, height);
-	addChild(ladder->getNode());
-	_entities.push_back(ladder);
+	_entities.Add(new Ladder(this, location, height));
+}
+
+void Chunk::addCoin(Vec2 location)
+{
+	_entities.Add(new Coin(this, location));
 }
 
 void Chunk::addWall(char dir)

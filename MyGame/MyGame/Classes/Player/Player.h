@@ -7,7 +7,8 @@
 
 using namespace cocos2d;
 
-#define USE_FREE_CAM 1
+#define USE_FREE_CAM 0
+#define GOD_MODE 0
 
 class Player
 {
@@ -20,6 +21,9 @@ class Player
 		Label* playerPosLabel;
 
 		// Movement
+		bool _laddered = false;  //czy ma wciœniête "w" w polu drabiny
+		bool _immune = false;
+		float _time = 0;
 		bool _wantsJump;
 		bool _wantsMoveLeft;
 		bool _wantsMoveRight;
@@ -86,6 +90,27 @@ class Player
 		{
 			_cash += _value;
 		}
+
+		int Cash() const
+		{
+			return _cash;
+		}
+
+		void onDamage(bool pushRight);
+
+		void setImmune()
+		{
+			_immune = true;
+		}
+
+		void clearLaddered()
+		{
+			_laddered = false;
+		}
+
+
+		bool getImmune() { return _immune; }
+		bool getLaddered() { return _laddered; }
 
 private:
 

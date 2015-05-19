@@ -5,45 +5,85 @@
 #include "Game.h"
 #include "Box2D\Box2D.h"
 #include "../../HUD/DebugGUI.h"
+#include "../../Levels/Chunk.h"
 
 using namespace std;
 using namespace cocos2d;
 
 bool onContactBegin(PhysicsContact&);
 
-Alien1::Alien1(string name, Node& parent) :Opponent(name)
+Alien1::Alien1(Chunk* parent, Vec2 p1, Vec2 p2)
+	:Opponent(parent),
+	_p1(p1),
+	_p2(p2)
 {
-	_hp = 100;
-	_body = nullptr;
-
-
-	// Create player sprtie with physics body
 	_node = Sprite::create("Textures/twitter.png");
-	//_node->setTag(PHYSICS_TAG_PLAYER);
-	//_body = PhysicsBody::createBox(_node->getContentSize(), PhysicsMaterial(0.17, 0.06, 1.1));
-	//_node->setPhysicsBody(_body);
-	_node->setPosition(Vec2(200, 100));
-
-	// Disable player rotation
-	/*_body->setRotationOffset(0);
-	_body->setRotationEnable(false);
-	_body->setAngularVelocity(0);
-	_body->setVelocityLimit(2 * PLAYER_MOVEMENT_COEFF);*/
-	parent.addChild(_node);
-}
-
-void Alien1::update(float dt)
-{
-	// Call base
-	Opponent::update(dt);
-
-
-	
-	DebugGUI::setVal(3, "Alien HP", _hp);
+	_node->setPosition(p1);
+	parent->addChild(_node);
 }
 
 Alien1::~Alien1()
 {
-	CC_SAFE_RELEASE_NULL(_node);
+	if (_node)
+	{
+		_node->removeFromPhysicsWorld();
+		_node->removeAllChildren();
+		_node->removeFromParentAndCleanup(true);
+		_node = nullptr;
+	}
 }
 
+bool Alien1::update(Level* level, float dt)
+{
+	// Base
+	if (Opponent::update(level, dt))
+	{
+		return true;
+	}
+
+	// Switch state
+	switch (_state)
+	{
+		case State::Undefined:
+		{
+			auto anim = MoveTo::create(calMoveDuration(), _p1);
+			anim->setTag(0);
+			_node->runAction(anim);
+
+			_state = State::PatrollingA;
+
+			DebugGUI::setVal(0, "Alien state", "Undefined");
+		}
+		break;
+
+		case State::PatrollingA:
+		case State::PatrollingB:
+		{
+			bool isA = _state == State::PatrollingA;
+
+			auto action = _node->getActionByTag(0);
+			if (!action)
+			{
+				if (isA)
+				{
+					auto anim = MoveTo::create(calMoveDuration(), _p2);
+					anim->setTag(0);
+					_node->runAction(anim);
+					_state = State::PatrollingB;
+				}
+				else
+				{
+					auto anim = MoveTo::create(calMoveDuration(), _p1);
+					anim->setTag(0);
+					_node->runAction(anim);
+					_state = State::PatrollingA;
+				}
+			}
+		}
+		break;
+
+		default: assert(0);
+	}
+
+	return false;
+}

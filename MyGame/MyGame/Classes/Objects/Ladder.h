@@ -10,15 +10,10 @@ class Ladder : public Entity
 private:
 
 	cocos2d::Sprite* _sprite;
-
-	Ladder(const cocos2d::Vec2& location, int height);
+	bool ifActive = false;
+	Ladder(Chunk* parent, const cocos2d::Vec2& location, int height);
 
 public:
 
-	void update(class Chunk* parent, float dt) override;
-
-	cocos2d::Sprite* getNode() const override
-	{
-		return _sprite;
-	}
+	bool update(class Level* level, float dt) override;
 };

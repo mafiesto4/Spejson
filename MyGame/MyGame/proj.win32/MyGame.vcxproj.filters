@@ -114,6 +114,15 @@
     <ClCompile Include="..\Classes\Player\Weapons\Weapon.cpp">
       <Filter>src\Player\Weapons</Filter>
     </ClCompile>
+<<<<<<< HEAD
+=======
+    <ClCompile Include="..\Classes\Objects\Coin.cpp">
+      <Filter>src\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Opponent\Shooting\Shooting.cpp">
+      <Filter>src\Opponent\Shooting</Filter>
+    </ClCompile>
+>>>>>>> parent of b6cd4aa... olkowe zmiany attached
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -189,6 +198,15 @@
     <ClInclude Include="..\Classes\Objects\Entity.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
+<<<<<<< HEAD
+=======
+    <ClInclude Include="..\Classes\Types\List.h">
+      <Filter>src\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Opponent\Shooting\Shooting.h">
+      <Filter>src\Opponent\Shooting</Filter>
+    </ClInclude>
+>>>>>>> parent of b6cd4aa... olkowe zmiany attached
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
