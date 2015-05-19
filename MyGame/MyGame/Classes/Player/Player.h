@@ -7,7 +7,7 @@
 
 using namespace cocos2d;
 
-#define USE_FREE_CAM 0
+#define USE_FREE_CAM 1
 
 class Player
 {
@@ -18,21 +18,15 @@ class Player
 		PhysicsBody* _body;
 		EventListenerKeyboard* _keyboard;
 		Label* playerPosLabel;
-		
+
 		// Movement
-		bool _laddered = false;  //czy ma wciœniête "w" w polu drabiny
-		bool _immune = false; 
 		bool _wantsJump;
 		bool _wantsMoveLeft;
 		bool _wantsMoveRight;
-		bool _headingLeft;
-		bool _headingRight;
 		bool _grounded;
 		bool _rightDirection = true;
 		bool _isUsingLadder = false;
 		bool _wantsDown;
-		float _time = 0;
-		
 #if USE_FREE_CAM
 		bool _useBoost;
 #endif
@@ -92,22 +86,6 @@ class Player
 		{
 			_cash += _value;
 		}
-
-		void onDamage(float dt);
-
-		void toggleImmune()
-		{
-			_immune = true;
-		}
-
-		void toggleLaddered()
-		{
-			_laddered = false;
-		}
-
-
-		bool getImmune(){ return _immune; }
-		bool getLaddered(){ return _laddered; }
 
 private:
 

@@ -13,8 +13,6 @@ MachineGun::MachineGun(Level* _level)
 			_weaponImage = Sprite::create("Textures/mGun.jpg");
 			_weaponImage->setPosition(Vec2(100, 100));
 			_weaponImage->setTag(555);
-			isAutomatic = true;
-			_maxAmmo = 30;
 }
 
 MachineGun::~MachineGun()
@@ -36,7 +34,7 @@ void MachineGun::update(float dt)
 	time += dt;
 
 
-	if (ifFiring() && time>0.1f/(player->fireRate) && _ammo > 0)
+	if (ifFiring() && time>0.1f/(player->fireRate) )
 	{
 		time = 0;
 		
@@ -65,7 +63,6 @@ void MachineGun::update(float dt)
 		bullet.Node->setPosition(playerPos);
 
 		level->addBullet(bullet);
-		decreaseAmmo(1);
 	}
 }
 

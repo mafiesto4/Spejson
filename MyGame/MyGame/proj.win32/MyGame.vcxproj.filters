@@ -114,9 +114,6 @@
     <ClCompile Include="..\Classes\Player\Weapons\Weapon.cpp">
       <Filter>src\Player\Weapons</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Objects\Ammo.cpp">
-      <Filter>src\Objects</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -190,9 +187,6 @@
       <Filter>src\Player\Weapons\MachineGun</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Objects\Entity.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Objects\Ammo.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
   </ItemGroup>
