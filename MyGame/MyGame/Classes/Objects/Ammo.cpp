@@ -9,7 +9,6 @@ using namespace cocos2d;
 Ammo::Ammo(Chunk* parent, Vec2 pos)
 	:Entity(parent)
 {
-	_value = 1;
 	_image = Sprite::create("Textures/ammoPack1.png");
 	_image->setPosition(pos + Vec2(32, 0));
 	_image->setAnchorPoint(Vec2(0.5, 0.5));

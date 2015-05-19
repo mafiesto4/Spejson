@@ -145,6 +145,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Levels\Chunk.cpp" />
     <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.cpp" />
     <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBasic.cpp" />
+    <ClCompile Include="..\Classes\Levels\ChunkTypes\ShoppingCenter.cpp" />
     <ClCompile Include="..\Classes\Levels\Lava.cpp" />
     <ClCompile Include="..\Classes\Levels\Level.cpp" />
     <ClCompile Include="..\Classes\Levels\LevelChunks.cpp" />
@@ -153,6 +154,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Objects\Ammo.cpp" />
     <ClCompile Include="..\Classes\Objects\Coin.cpp" />
     <ClCompile Include="..\Classes\Objects\Ladder.cpp" />
+    <ClCompile Include="..\Classes\Objects\Shop.cpp" />
     <ClCompile Include="..\Classes\Opponent\Alien1\Alien1.cpp" />
     <ClCompile Include="..\Classes\Opponent\Opponent.cpp" />
     <ClCompile Include="..\Classes\Opponent\Shooting\Shooting.cpp" />
@@ -172,6 +174,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Levels\Chunk.h" />
     <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.h" />
     <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBasic.h" />
+    <ClInclude Include="..\Classes\Levels\ChunkTypes\ShoppingCenter.h" />
     <ClInclude Include="..\Classes\Levels\Lava.h" />
     <ClInclude Include="..\Classes\Levels\Level.h" />
     <ClInclude Include="..\Classes\MainMenu\MainMenuGUILayer.h" />
@@ -180,6 +183,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Objects\Coin.h" />
     <ClInclude Include="..\Classes\Objects\Entity.h" />
     <ClInclude Include="..\Classes\Objects\Ladder.h" />
+    <ClInclude Include="..\Classes\Objects\Shop.h" />
     <ClInclude Include="..\Classes\Opponent\Alien1\Alien1.h" />
     <ClInclude Include="..\Classes\Opponent\Opponent.h" />
     <ClInclude Include="..\Classes\Opponent\Shooting\Shooting.h" />

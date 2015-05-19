@@ -29,7 +29,7 @@ void ChunkBasic::generate()
 
 	// Convert path points to the node space
 	Vec2 pos = getPosition();
-	Vec2 startNS = Vec2(_previousChunk->getPathPoint().x - pos.x, CHUNKS_BLOCK_SIZE_HALF);
+	Vec2 startNS = Vec2(_previousChunk->getPathPointForPrevChunk().x - pos.x, CHUNKS_BLOCK_SIZE_HALF);
 	Vec2 middleNS = _pathPoint - pos + Vec2(0, CHUNKS_BLOCK_SIZE_HALF);
 	Vec2 endNS = Vec2(_pathPoint.x - pos.x, size.height - CHUNKS_BLOCK_SIZE_HALF);
 

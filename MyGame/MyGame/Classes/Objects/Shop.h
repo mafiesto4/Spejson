@@ -6,16 +6,17 @@
 
 using namespace cocos2d;
 
-class Ammo : public Entity
+class Shop : public Entity
 {
 private:
 
+	bool _isOver;
 	Sprite* _image;
 
 public:
 
-	Ammo(Chunk* parent, Vec2 pos);
-	~Ammo();
+	Shop(Chunk* parent, Vec2 pos);
+	~Shop();
 
 	bool update(class Level* level, float dt) override;
 

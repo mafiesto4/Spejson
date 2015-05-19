@@ -8,6 +8,7 @@
 #include "Chunk.h"
 #include "Level.h"
 #include "ChunkTypes/ChunkBasic.h"
+#include "ChunkTypes/ShoppingCenter.h"
 #include "../Objects/Ladder.h"
 #include "../Objects/Coin.h"
 #include "../Objects/Ammo.h"
@@ -59,7 +60,7 @@ void Chunk::update(Level* level, float dt)
 void Chunk::calculatePathPoint()
 {
 	auto size = getContentSize();
-	int prevX = _previousChunk != nullptr ? _previousChunk->getPathPoint().x : 0;
+	int prevX = _previousChunk != nullptr ? _previousChunk->getPathPointForPrevChunk().x : 0;
 	do
 	{
 		auto pos = Vec2(rand() % static_cast<int>(size.width * 0.6f), rand() % static_cast<int>(size.height * 0.5f));
@@ -76,8 +77,14 @@ void Chunk::Spread(Level* level)
 {
 	if (_nextChunk == nullptr)
 	{
-		// Add basic chunk at the top
-		_nextChunk = ChunkBasic::create(level, this, getPosition() + Vec2(0, getContentSize().height));
+		// Switch chunk type
+		Vec2 top = getPosition() + Vec2(0, getContentSize().height);
+		switch (rand() % 5)
+		{
+			case 1:
+			case 2:_nextChunk = ShoppingCenter::create(level, this, top); break;
+			default: _nextChunk = ChunkBasic::create(level, this, top); break;
+		}
 
 		// Generate itself chunk
 		generate();

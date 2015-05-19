@@ -221,6 +221,7 @@ void Player::update(float dt)
 
 void Player::onDamage(bool pushRight)
 {
+#if !USE_FREE_CAM
 	Vec2 impulse(0.0f, 0.0f);
 	float _dTime;
 
@@ -237,6 +238,7 @@ void Player::onDamage(bool pushRight)
 	}
 	impulse.y = moveSpeed;
 	_body->applyImpulse(impulse, _body->getFirstShape()->getCenter());
+#endif
 }
 
 bool Player::onContactBegin(PhysicsContact& contact)

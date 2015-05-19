@@ -67,6 +67,12 @@
     <ClCompile Include="..\Classes\Levels\LevelChunks.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Levels\ChunkTypes\ShoppingCenter.cpp">
+      <Filter>Levels\ChunkTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Objects\Shop.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
@@ -135,6 +141,12 @@
       <Filter>Player\Weapons\MachineGun</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Objects\Entity.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Levels\ChunkTypes\ShoppingCenter.h">
+      <Filter>Levels\ChunkTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Objects\Shop.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>

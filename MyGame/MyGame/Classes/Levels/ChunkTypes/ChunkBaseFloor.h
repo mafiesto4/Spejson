@@ -19,11 +19,6 @@ public:
 
 	CHUNKS_CREATE(ChunkBaseFloor);
 
-	inline Type getType() override
-	{
-		return Type::BaseFloor;
-	}
-
 private:
 
 	cocos2d::Size getDesireSize() override;

@@ -20,11 +20,6 @@ public:
 
 	CHUNKS_CREATE(ChunkBasic);
 
-	inline Type getType() override
-	{
-		return Type::Basic;
-	}
-
 private:
 
 	cocos2d::Size getDesireSize() override;

@@ -42,19 +42,6 @@ class Chunk : public cocos2d::LayerColor
 	friend Chunk;
 	friend Entity;
 
-public:
-
-	// Chunk type
-	enum Type
-	{
-		Basic = 0,
-		BaseFloor,
-		ShoppingCentre,
-		TwoWays,
-
-		MAX
-	};
-
 protected:
 
 	Chunk* _nextChunk, *_previousChunk;
@@ -79,11 +66,8 @@ public:
 	// Update chunk
 	virtual void update(Level* level, float dt);
 
-	// Gets chunk type
-	inline virtual Type getType() = 0;
-
-	// Returns path point for current chunk
-	inline cocos2d::Vec2 getPathPoint() const
+	// Returns path point for current chunk that can be used by the previous one when generating the path
+	virtual cocos2d::Vec2 getPathPointForPrevChunk() const
 	{
 		return _pathPoint;
 	}
