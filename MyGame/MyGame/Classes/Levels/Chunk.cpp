@@ -10,6 +10,7 @@
 #include "ChunkTypes/ChunkBasic.h"
 #include "../Objects/Ladder.h"
 #include "../Objects/Coin.h"
+#include "../Objects/Ammo.h"
 #include "../Opponent/Alien1/Alien1.h"
 #include "../Types/List.h"
 
@@ -121,6 +122,11 @@ void Chunk::addLadder(Vec2 location, float height)
 void Chunk::addCoin(Vec2 location)
 {
 	_entities.Add(new Coin(this, location));
+}
+
+void Chunk::addAmmo(Vec2 location)
+{
+	_entities.Add(new Ammo(this, location));
 }
 
 void Chunk::addWall(char dir)

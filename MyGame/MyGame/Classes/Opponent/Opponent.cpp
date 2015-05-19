@@ -72,7 +72,7 @@ bool Opponent::update(Level* level, float dt)
 	{
 		if (player->getImmune() == false)
 		{
-			player->applyDamage(30);
+			player->applyDamage(20);
 			player->setImmune();
 			player->onDamage(box.origin.x > playerBox.origin.x);
 		}

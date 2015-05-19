@@ -150,6 +150,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Levels\LevelChunks.cpp" />
     <ClCompile Include="..\Classes\MainMenu\MainMenuGUILayer.cpp" />
     <ClCompile Include="..\Classes\MainMenu\MainMenuScene.cpp" />
+    <ClCompile Include="..\Classes\Objects\Ammo.cpp" />
     <ClCompile Include="..\Classes\Objects\Coin.cpp" />
     <ClCompile Include="..\Classes\Objects\Ladder.cpp" />
     <ClCompile Include="..\Classes\Opponent\Alien1\Alien1.cpp" />
@@ -175,6 +176,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Levels\Level.h" />
     <ClInclude Include="..\Classes\MainMenu\MainMenuGUILayer.h" />
     <ClInclude Include="..\Classes\MainMenu\MainMenuScene.h" />
+    <ClInclude Include="..\Classes\Objects\Ammo.h" />
     <ClInclude Include="..\Classes\Objects\Coin.h" />
     <ClInclude Include="..\Classes\Objects\Entity.h" />
     <ClInclude Include="..\Classes\Objects\Ladder.h" />

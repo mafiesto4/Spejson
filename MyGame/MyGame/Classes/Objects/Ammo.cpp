@@ -3,17 +3,17 @@
 #include "Game.h"
 #include "Box2D\Box2D.h"
 #include "Objects/Ammo.h"
+#include "../Levels/Chunk.h"
 using namespace cocos2d;
 
-Ammo::Ammo(Node& level, Vec2 _pos)
+Ammo::Ammo(Chunk* parent, Vec2 pos)
+	:Entity(parent)
 {
-
 	_value = 1;
-	_image = Sprite::create("Textures/Bullets-icon.png");
-	_image->setPosition(_pos);
+	_image = Sprite::create("Textures/ammoPack1.png");
+	_image->setPosition(pos + Vec2(32, 0));
 	_image->setAnchorPoint(Vec2(0.5, 0.5));
-	level.addChild(_image);
-
+	_parent->addChild(_image);
 }
 
 Ammo::~Ammo()
@@ -27,16 +27,17 @@ Ammo::~Ammo()
 	}
 }
 
-
-void Ammo::setupForLevel()
+bool Ammo::update(Level* level, float dt)
 {
+	Vec2 ammoPos = _image->getPosition() + _parent->getPosition();
 
+	auto player = Game::getInstance()->getPlayer();
+	if (player->getBox().containsPoint(ammoPos))
+	{
+		//player->addCash(_value);
+		/// TODO add ammo
+		return true;
+	}
 
-
-
-}
-
-Node* Ammo::getSprite()
-{
-	return _image;
+	return false;
 }

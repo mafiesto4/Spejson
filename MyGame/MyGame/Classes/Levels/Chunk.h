@@ -120,6 +120,7 @@ public:
 	}
 
 	void addCoin(Vec2 location);
+	void addAmmo(Vec2 location);
 
 protected:
 

@@ -2,19 +2,28 @@
 
 #include <string> 
 #include "cocos2d.h"
+#include "Entity.h"
+
 using namespace cocos2d;
 
-class Ammo
+class Ammo : public Entity
 {
 private:
+
 	int _value;
 	Sprite* _image;
 
 public:
-	Ammo(Node& level, Vec2 _pos);
+
+	Ammo(Chunk* parent, Vec2 pos);
 	~Ammo();
-	void setupForLevel();
-	Node* getSprite();
+
+	bool update(class Level* level, float dt) override;
+
+	cocos2d::Sprite* getNode() const
+	{
+		return _image;
+	}
 
 	int getValue()
 	{

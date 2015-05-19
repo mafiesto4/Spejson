@@ -119,6 +119,8 @@ void ChunkBasic::generate()
 				|| (y >= ladderStart2 && x == endNS.x))
 				continue;
 
+			Vec2 p(x, y);
+
 			// Check the chance to generate a platform
 			if (distr(gen) % 100 < 6)
 			//if (rand() % 100 < 6)
@@ -146,7 +148,7 @@ void ChunkBasic::generate()
 					continue;
 
 				// Add platform
-				addPlatform(Vec2(x, y), width);
+				addPlatform(p, width);
 
 				// Ensure not to add platforms over that one on this row
 				x += width;
@@ -154,15 +156,25 @@ void ChunkBasic::generate()
 			// Check if can generate entity
 			else
 			{
-				int rand = distr(gen) % 100;
+				int rand = distr(gen) % 200;
 				switch (rand)
 				{
 					// Coin
 					case 0:
 					case 1:
 					case 2:
+					case 3:
+					case 4:
+					case 5:
 					{
-						addCoin(Vec2(x, y));
+						addCoin(p);
+					}
+					break;
+
+					// Ammo
+					case 6:
+					{
+						addAmmo(p);
 					}
 					break;
 				}
