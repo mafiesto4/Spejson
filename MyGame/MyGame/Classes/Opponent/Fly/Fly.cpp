@@ -127,7 +127,7 @@ bool Fly::update(Level* level, float dt)
 			if (seePlayer)
 			{
 				_timeAcc += dt;
-				if (_timeAcc > 0.5f)
+				if (_timeAcc > 0.6f)
 				{
 					_timeAcc = 0;
 
@@ -136,7 +136,7 @@ bool Fly::update(Level* level, float dt)
 					bullet.Direction = dirNorm;
 					bullet.DistanceLeft = 10000;
 					bullet.ShotByPlayer = false;
-					bullet.Speed = 1;
+					bullet.Speed = 1.5f;
 					bullet.Node = Sprite::create("Textures/bullet1.png");
 					bullet.Node->setPosition(posWS);
 

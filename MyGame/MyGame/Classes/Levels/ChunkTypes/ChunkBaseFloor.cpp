@@ -58,7 +58,7 @@ void ChunkBaseFloor::generate()
 #else
 
 	// Generate ladder
-	addLadder(Vec2(endNS.x, 0), size.height - _pathPoint.y + CHUNKS_BLOCK_SIZE);
+	addLadder(Vec2(endNS.x, 0), size.height);
 
 #endif
 }

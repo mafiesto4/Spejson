@@ -112,7 +112,7 @@ protected:
 	virtual void calculatePathPoint();
 	virtual void generate() = 0;
 	Sprite* addPlatform(Vec2 location, float width);
-	void addLadder(Vec2 location, float height);
+	class Ladder* addLadder(Vec2 location, float height);
 	void addWall(char dir);
 	
 	void tryToSpawnAFly();

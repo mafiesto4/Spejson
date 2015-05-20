@@ -16,4 +16,9 @@ private:
 public:
 
 	bool update(class Level* level, float dt) override;
+
+	cocos2d::Node* getNode() const
+	{
+		return _sprite;
+	}
 };

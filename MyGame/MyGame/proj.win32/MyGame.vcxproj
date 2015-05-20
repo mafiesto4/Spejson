@@ -143,8 +143,10 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\HUD\GameHUD.cpp" />
     <ClCompile Include="..\Classes\Input\Input.cpp" />
     <ClCompile Include="..\Classes\Levels\Chunk.cpp" />
+    <ClCompile Include="..\Classes\Levels\ChunkTypes\BossFight.cpp" />
     <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.cpp" />
     <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBasic.cpp" />
+    <ClCompile Include="..\Classes\Levels\ChunkTypes\PreBossFight.cpp" />
     <ClCompile Include="..\Classes\Levels\ChunkTypes\ShoppingCenter.cpp" />
     <ClCompile Include="..\Classes\Levels\Lava.cpp" />
     <ClCompile Include="..\Classes\Levels\Level.cpp" />
@@ -156,6 +158,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Objects\Ladder.cpp" />
     <ClCompile Include="..\Classes\Objects\Shop.cpp" />
     <ClCompile Include="..\Classes\Opponent\Alien1\Alien1.cpp" />
+    <ClCompile Include="..\Classes\Opponent\Boss\Boss.cpp" />
     <ClCompile Include="..\Classes\Opponent\Fly\Fly.cpp" />
     <ClCompile Include="..\Classes\Opponent\Opponent.cpp" />
     <ClCompile Include="..\Classes\Opponent\Shooting\Shooting.cpp" />
@@ -173,8 +176,10 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\HUD\GameHUD.h" />
     <ClInclude Include="..\Classes\Input\Input.h" />
     <ClInclude Include="..\Classes\Levels\Chunk.h" />
+    <ClInclude Include="..\Classes\Levels\ChunkTypes\BossFight.h" />
     <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.h" />
     <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBasic.h" />
+    <ClInclude Include="..\Classes\Levels\ChunkTypes\PreBossFight.h" />
     <ClInclude Include="..\Classes\Levels\ChunkTypes\ShoppingCenter.h" />
     <ClInclude Include="..\Classes\Levels\Lava.h" />
     <ClInclude Include="..\Classes\Levels\Level.h" />
@@ -186,6 +191,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Objects\Ladder.h" />
     <ClInclude Include="..\Classes\Objects\Shop.h" />
     <ClInclude Include="..\Classes\Opponent\Alien1\Alien1.h" />
+    <ClInclude Include="..\Classes\Opponent\Boss\Boss.h" />
     <ClInclude Include="..\Classes\Opponent\Fly\Fly.h" />
     <ClInclude Include="..\Classes\Opponent\Opponent.h" />
     <ClInclude Include="..\Classes\Opponent\Shooting\Shooting.h" />

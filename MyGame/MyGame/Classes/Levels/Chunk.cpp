@@ -4,15 +4,18 @@
 #include <string.h>
 #include "physics\CCPhysicsWorld.h"
 
-
-#include "Chunk.h"
+#include "../Types/List.h"
 #include "Level.h"
+#include "Chunk.h"
+
 #include "ChunkTypes/ChunkBasic.h"
 #include "ChunkTypes/ShoppingCenter.h"
+#include "ChunkTypes/BossFight.h"
+#include "ChunkTypes/PreBossFight.h"
+
 #include "../Objects/Ladder.h"
 #include "../Objects/Coin.h"
 #include "../Objects/Ammo.h"
-#include "../Types/List.h"
 
 #include "../Opponent/Alien1/Alien1.h"
 #include "../Opponent/Fly/Fly.h"
@@ -83,7 +86,9 @@ void Chunk::Spread(Level* level)
 		Vec2 top = getPosition() + Vec2(0, getContentSize().height);
 		switch (rand() % 10)
 		{
-			case 1: _nextChunk = ShoppingCenter::create(level, this, top); break;
+			case 0:
+			case 1:// _nextChunk = ShoppingCenter::create(level, this, top); break;
+			case 2:_nextChunk = PreBossFight::create(level, this, top); break;
 			default: _nextChunk = ChunkBasic::create(level, this, top); break;
 		}
 
@@ -122,9 +127,11 @@ Sprite* Chunk::addPlatform(Vec2 location, float width)
 	return sprite;
 }
 
-void Chunk::addLadder(Vec2 location, float height)
+Ladder* Chunk::addLadder(Vec2 location, float height)
 {
-	_entities.Add(new Ladder(this, location, height));
+	Ladder* result = new Ladder(this, location, height);
+	_entities.Add(result);
+	return result;
 }
 
 void Chunk::addCoin(Vec2 location)

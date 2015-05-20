@@ -20,7 +20,7 @@ public:
 
 	CHUNKS_CREATE(ChunkBasic);
 
-private:
+protected:
 
 	cocos2d::Size getDesireSize() override;
 	void generate() override;

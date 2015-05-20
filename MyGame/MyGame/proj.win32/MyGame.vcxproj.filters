@@ -76,6 +76,15 @@
     <ClCompile Include="..\Classes\Opponent\Fly\Fly.cpp">
       <Filter>Opponent\Fly</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Opponent\Boss\Boss.cpp">
+      <Filter>Opponent\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Levels\ChunkTypes\BossFight.cpp">
+      <Filter>Levels\ChunkTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Levels\ChunkTypes\PreBossFight.cpp">
+      <Filter>Levels\ChunkTypes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
@@ -155,6 +164,15 @@
     <ClInclude Include="..\Classes\Opponent\Fly\Fly.h">
       <Filter>Opponent\Fly</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Opponent\Boss\Boss.h">
+      <Filter>Opponent\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Levels\ChunkTypes\BossFight.h">
+      <Filter>Levels\ChunkTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Levels\ChunkTypes\PreBossFight.h">
+      <Filter>Levels\ChunkTypes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
@@ -201,6 +219,9 @@
     </Filter>
     <Filter Include="Opponent\Fly">
       <UniqueIdentifier>{ca57c547-279c-4cac-a92a-2b2739a9b607}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Opponent\Boss">
+      <UniqueIdentifier>{3e096bf5-1c60-410a-ba07-65cca3241290}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

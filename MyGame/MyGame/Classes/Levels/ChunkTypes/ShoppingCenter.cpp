@@ -75,8 +75,6 @@ void ShoppingCenter::generate()
 
 	// Generate ladders
 	int ladderH1 = middleNS.y + CHUNKS_BLOCK_SIZE_HALF;
-	int ladderH2 = endNS.y - middleNS.y;
-	int ladderStart2 = middleNS.y + CHUNKS_BLOCK_SIZE_HALF;
 	float ladderH = _pathPoint.y - prevPP.y;
 	addLadder(Vec2(startNS.x, ladderH1 - ladderH), ladderH);
 
