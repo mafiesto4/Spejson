@@ -7,12 +7,14 @@
 
 Freezer::Freezer(Level* level)
 	:Weapon(Type::Freezer, level),
-	_time(0),
+	_time(1000),
 	_isFiring(false)
 {
 	level = _level;
 	_sprite = Sprite::create("Textures/freezer.png");
 	_sprite->setPosition(Vec2(100, 100));
+	_ammo = 3;
+	_magazine = 1;
 }
 
 Freezer::~Freezer()
@@ -26,21 +28,33 @@ void Freezer::update(float dt)
 
 	_time += dt;
 
-	if (_isFiring && _time > (1.0f / player->fireRate))
+	if (_ammo > 0 && _time > (1.0f / player->fireRate))
 	{
-		_time = 0;
+		if (_isFiring)
+		{
+			_time = 0;
 
-		Bullet bullet;
-		bullet.Damage = 50;
-		bullet.Direction = player->ifMovingRight() ? Vec2(1, 0) : Vec2(-1, 0);
-		bullet.DistanceLeft = 10000;
-		bullet.ShotByPlayer = true;
-		bullet.Speed = 1;
-		bullet.Node = Sprite::create("Textures/bullet1.png");
-		bullet.Node->setPosition(player->getPosition());
-		bullet.Luj = true;
+			Bullet bullet;
+			bullet.Damage = 50;
+			bullet.Direction = player->ifMovingRight() ? Vec2(1, 0) : Vec2(-1, 0);
+			bullet.DistanceLeft = 10000;
+			bullet.ShotByPlayer = true;
+			bullet.Speed = 1;
+			bullet.Node = Sprite::create("Textures/rocket.png");
+			bullet.Node->setPosition(player->getPosition());
+			bullet.Luj = true;
 
-		_level->addBullet(bullet);
+			_level->addBullet(bullet);
+			_magazine = 0;
+		}
+		else
+		{
+			_magazine = _ammo > 0 ? 1 : 0;
+		}
+	}
+	else
+	{
+		_magazine = 0;
 	}
 }
 

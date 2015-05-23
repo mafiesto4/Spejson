@@ -50,6 +50,7 @@ public:
 
 	Weapon* _selectedGun;
 	float fireRate = 1;
+	int lifes = 1;
 
 	Player(std::string name);
 	~Player();
@@ -108,6 +109,11 @@ public:
 
 	void onDamage(bool pushRight);
 
+	void addScore(int addedScore)
+	{
+		_score += addedScore;
+	}
+
 	void setImmune()
 	{
 		_immune = true;
@@ -118,7 +124,6 @@ public:
 		_laddered = false;
 	}
 
-
 	bool getImmune() const
 	{
 		return _immune; 
@@ -128,6 +133,22 @@ public:
 	{
 		return _laddered; 
 	}
+
+	int getScore() const
+	{
+		return _score;
+	}
+	
+	int getCash() const
+	{
+		return _cash;
+	}
+
+	int getHP() const
+	{
+		return _hp;
+	}
+
 
 private:
 
