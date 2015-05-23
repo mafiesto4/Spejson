@@ -4,6 +4,8 @@
 #include "cocos2d.h"
 #include <string.h>
 
+#define USE_DEBUG_LAYER 0
+
 class DebugGUI : public cocos2d::Node
 {
 private:

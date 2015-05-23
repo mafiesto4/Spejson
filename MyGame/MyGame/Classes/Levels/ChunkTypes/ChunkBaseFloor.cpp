@@ -2,6 +2,7 @@
 #include <cocos2d.h>
 #include "ChunkBaseFloor.h"
 #include "../../Game.h"
+#include "../../Objects/WeaponPickup.h"
 
 using namespace cocos2d;
 
@@ -61,4 +62,8 @@ void ChunkBaseFloor::generate()
 	addLadder(Vec2(endNS.x, 0), size.height);
 
 #endif
+
+	// ³ejpons tu pikap
+	_entities.Add(new WeaponPickup(this, Vec2(600, 50), Weapon::Type::MachineGun));
+	_entities.Add(new WeaponPickup(this, Vec2(900, 50), Weapon::Type::Freezer));
 }

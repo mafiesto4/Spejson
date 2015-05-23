@@ -157,15 +157,16 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Objects\Coin.cpp" />
     <ClCompile Include="..\Classes\Objects\Ladder.cpp" />
     <ClCompile Include="..\Classes\Objects\Shop.cpp" />
+    <ClCompile Include="..\Classes\Objects\WeaponPickup.cpp" />
     <ClCompile Include="..\Classes\Opponent\Alien1\Alien1.cpp" />
     <ClCompile Include="..\Classes\Opponent\Boss\Boss.cpp" />
     <ClCompile Include="..\Classes\Opponent\Fly\Fly.cpp" />
     <ClCompile Include="..\Classes\Opponent\Opponent.cpp" />
     <ClCompile Include="..\Classes\Opponent\Shooting\Shooting.cpp" />
     <ClCompile Include="..\Classes\Player\Player.cpp" />
+    <ClCompile Include="..\Classes\Player\Weapons\Freezer\Freezer.cpp" />
     <ClCompile Include="..\Classes\Player\Weapons\MachineGun\MachineGun.cpp" />
     <ClCompile Include="..\Classes\Player\Weapons\Pistol\Pistol.cpp" />
-    <ClCompile Include="..\Classes\Player\Weapons\Weapon.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -190,12 +191,14 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Objects\Entity.h" />
     <ClInclude Include="..\Classes\Objects\Ladder.h" />
     <ClInclude Include="..\Classes\Objects\Shop.h" />
+    <ClInclude Include="..\Classes\Objects\WeaponPickup.h" />
     <ClInclude Include="..\Classes\Opponent\Alien1\Alien1.h" />
     <ClInclude Include="..\Classes\Opponent\Boss\Boss.h" />
     <ClInclude Include="..\Classes\Opponent\Fly\Fly.h" />
     <ClInclude Include="..\Classes\Opponent\Opponent.h" />
     <ClInclude Include="..\Classes\Opponent\Shooting\Shooting.h" />
     <ClInclude Include="..\Classes\Player\Player.h" />
+    <ClInclude Include="..\Classes\Player\Weapons\Freezer\Freezer.h" />
     <ClInclude Include="..\Classes\Player\Weapons\MachineGun\MachineGun.h" />
     <ClInclude Include="..\Classes\Player\Weapons\Pistol\Pistol.h" />
     <ClInclude Include="..\Classes\Player\Weapons\Weapon.h" />

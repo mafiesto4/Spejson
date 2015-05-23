@@ -27,6 +27,9 @@ protected:
 	int _hp;
 	Node* _node;
 	State _state;
+	float _ogluszony;
+
+	bool preUpdate(float dt);
 
 public:
 

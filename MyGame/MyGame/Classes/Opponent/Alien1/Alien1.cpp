@@ -24,22 +24,15 @@ Alien1::Alien1(Chunk* parent, Vec2 p1, Vec2 p2)
 
 Alien1::~Alien1()
 {
-	if (_node)
-	{
-		_node->removeFromPhysicsWorld();
-		_node->removeAllChildren();
-		_node->removeFromParentAndCleanup(true);
-		_node = nullptr;
-	}
 }
 
 bool Alien1::update(Level* level, float dt)
 {
 	// Base
+	if (Opponent::preUpdate(dt))
+		return false;
 	if (Opponent::update(level, dt))
-	{
 		return true;
-	}
 
 	// Switch state
 	switch (_state)

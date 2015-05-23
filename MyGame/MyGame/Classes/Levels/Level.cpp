@@ -2,6 +2,7 @@
 #include "Level.h"
 #include "..\Player\Player.h"
 #include "..\Player\Weapons\Pistol\Pistol.h"
+#include "..\Player\Weapons\Freezer\Freezer.h"
 #include "..\Opponent\Alien1\Alien1.h"
 #include "HUD\GameHUD.h"
 #include "Game.h"
@@ -78,18 +79,6 @@ bool Level::init()
 	_lava = Lava::create();
 	addChild(_lava);
 
-
-
-
-
-
-	//broń do zebrania
-	auto _mGun = new MachineGun(this);
-	_mGun->setupForNode(this);
-	mGun = _mGun;
-
-
-
 	return true;
 }
 
@@ -161,22 +150,6 @@ void Level::update(float dt)
 		i++;
 	}
 
-	// Weapon pickup truck
-	if (mGun->getSprite() != nullptr)
-	{
-		Vec2 weaPos = mGun->getSprite()->getPosition();
-		if (playerBox.containsPoint(weaPos))
-		{
-			DebugGUI::setVal(4, "coin", "bron");
-			mGun->getSprite()->retain();
-			mGun->getSprite()->removeFromParent();
-			player->getNode()->addChild(mGun->getSprite());
-			player->_bron = mGun;
-			mGun->getSprite()->release();
-			//player->getNode()->removeChildByTag(555);
-		}
-	}
-
 	// Update camera
 #if USE_FREE_CAM
 	{
@@ -223,9 +196,9 @@ bool Level::onTouchBegan(Touch *touch, Event *unused_event)
 	auto player = Game::getInstance()->getPlayer();
 	auto location = touch->getLocation();
 
-	if (player->_bron)
+	if (player->_selectedGun)
 	{
-		player->_bron->onMouseDown(location, this);
+		player->_selectedGun->onMouseDown(location);
 	}
 
 	return true;
@@ -236,9 +209,9 @@ void Level::onTouchEnded(Touch *touch, Event *unused_event)
 	auto player = Game::getInstance()->getPlayer();
 	auto location = touch->getLocation();
 
-	if (player->_bron)
+	if (player->_selectedGun)
 	{
-		player->_bron->onMouseUp(location, this);
+		player->_selectedGun->onMouseUp(location);
 	}
 }
 

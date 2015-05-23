@@ -32,8 +32,6 @@ private:
 	Chunk* _closestPToPlayerChunk;
 	PhysicsWorld* m_world;
 	GameHUD* _hud;
-	MachineGun* mGun;
-	Pistol* pistol;
 	Lava* _lava;
 	bool onContactBegin(EventCustom* event, const PhysicsContact& contact);
 

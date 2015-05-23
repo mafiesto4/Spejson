@@ -30,62 +30,78 @@ bool DebugGUI::init()
 
 void DebugGUI::update(float dt)
 {
+#if USE_DEBUG_LAYER
 	string text;
 	for (int i = 0; i < VALUES_CNT; i++)
 	{
 		text += names[i] + " = " + values[i] + '\n';
 	}
 	_label->setString(text);
+#endif
 }
 
 void DebugGUI::setVal(int index, const std::string name, const unsigned int value)
 {
+#if USE_DEBUG_LAYER
 	std::ostringstream ss;
 	ss << value;
 	setVal(index, name, ss.str());
+#endif
 }
 
 void DebugGUI::setVal(int index, const std::string name, const bool value)
 {
+#if USE_DEBUG_LAYER
 	std::ostringstream ss;
 	if (value)
 		ss << "true";
 	else
 		ss << "false";
 	setVal(index, name, ss.str());
+#endif
 }
 
 void DebugGUI::setVal(int index, const std::string name, const int value)
 {
+#if USE_DEBUG_LAYER
 	std::ostringstream ss;
 	ss << value;
 	setVal(index, name, ss.str());
+#endif
 }
 
 void DebugGUI::setVal(int index, const string name, const float value)
 {
+#if USE_DEBUG_LAYER
 	std::ostringstream ss;
 	ss << value;
 	setVal(index, name, ss.str());
+#endif
 }
 
 void DebugGUI::setVal(int index, const string name, const cocos2d::Vec2& value)
 {
+#if USE_DEBUG_LAYER
 	std::ostringstream ss;
 	ss << '(' << (int)value.x << ", " << (int)value.y << ')';
 	setVal(index, name, ss.str());
+#endif
 }
 
 void DebugGUI::setVal(int index, const string name, const char* value)
 {
+#if USE_DEBUG_LAYER
 	assert(index >= 0 & index < VALUES_CNT);
 	names[index] = name;
 	values[index] = value;
+#endif
 }
 
 void DebugGUI::setVal(int index, const string name, const string value)
 {
+#if USE_DEBUG_LAYER
 	assert(index >= 0 & index < VALUES_CNT);
 	names[index] = name;
 	values[index] = value;
+#endif
 }

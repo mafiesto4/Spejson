@@ -4,9 +4,12 @@
 #include "Player.h"
 #include "Game.h"
 #include "Box2D\Box2D.h"
-#include "Player\Weapons\Pistol\Pistol.h"
-#include "../HUD/DebugGUI.h"
 
+#include "Player\Weapons\Pistol\Pistol.h"
+#include "Player\Weapons\MachineGun\MachineGun.h"
+#include "Player\Weapons\Freezer\Freezer.h"
+
+#include "../HUD/DebugGUI.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -23,7 +26,8 @@ Player::Player(string name)
 	_keyboard(nullptr),
 	_image(nullptr),
 	_body(nullptr),
-	_bron(nullptr)
+	_selectedGun(nullptr),
+	_level(nullptr)
 {
 #if USE_FREE_CAM
 	_useBoost = false;
@@ -43,6 +47,7 @@ Player::~Player()
 void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 {
 	// Cache data
+	_level = level;
 	auto director = Director::getInstance();
 	auto eventDispatcher = director->getEventDispatcher();
 
@@ -106,9 +111,35 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 	// add node to the level
 	level->addChild(_image);
 
-	//setup weaopn, kontrolnie xdd
-	_bron = new Pistol();
-	_bron->setupForNode(_image);
+	// Select pistol
+	selectWeapon(Weapon::Type::Pistol);
+}
+
+void Player::selectWeapon(Weapon::Type type)
+{
+	// Check if has previous weapon
+	if (_selectedGun)
+	{
+		// Check if selected gun won't change
+		if (_selectedGun->getType() == type)
+		{
+			// Back
+			return;
+		}
+
+		// Unlink
+		delete _selectedGun;
+	}
+
+	// Link
+	switch (type)
+	{
+		case Weapon::Type::Pistol: _selectedGun = new Pistol(_level); break;
+		case Weapon::Type::MachineGun: _selectedGun = new MachineGun(_level); break;
+		case Weapon::Type::Freezer: _selectedGun = new Freezer(_level); break;
+	}
+	cocos2d::Sprite* spr = _selectedGun->getSprite();
+	_image->addChild(spr);
 }
 
 void Player::markLadderUse()
@@ -195,9 +226,9 @@ void Player::update(float dt)
 	}
 #endif
 
-	if (_bron)
+	if (_selectedGun)
 	{
-		_bron->update(dt);
+		_selectedGun->update(dt);
 	}
 
 	if (_immune)

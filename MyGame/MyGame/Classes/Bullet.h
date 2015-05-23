@@ -9,5 +9,6 @@ struct Bullet
 	float Damage;
 	float Speed;
 	float DistanceLeft;
+	bool Luj;
 	cocos2d::Sprite* Node;
 };

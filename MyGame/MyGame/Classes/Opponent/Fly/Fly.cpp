@@ -25,22 +25,15 @@ Fly::Fly(Chunk* parent, Vec2 p1, Vec2 p2)
 
 Fly::~Fly()
 {
-	if (_node)
-	{
-		_node->removeFromPhysicsWorld();
-		_node->removeAllChildren();
-		_node->removeFromParentAndCleanup(true);
-		_node = nullptr;
-	}
 }
 
 bool Fly::update(Level* level, float dt)
 {
 	// Base
+	if (Opponent::preUpdate(dt))
+		return false;
 	if (Opponent::update(level, dt))
-	{
 		return true;
-	}
 
 	// Cache data
 	auto player = Game::getInstance()->getPlayer();

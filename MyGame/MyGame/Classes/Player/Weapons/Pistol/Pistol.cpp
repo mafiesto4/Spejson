@@ -7,22 +7,15 @@
 
 using namespace cocos2d;
 
-Pistol::Pistol()
+Pistol::Pistol(Level* level)
+	:Weapon(Type::Pistol, level)
 {
-	_weaponImage = Sprite::create("Textures/pistol.png");
-	_weaponImage->setPosition(Vec2(100, 100));
-	_weaponImage->setTag(555);
+	_sprite = Sprite::create("Textures/pistol.png");
+	_sprite->setPosition(Vec2(100, 100));
 }
 
 Pistol::~Pistol()
 {
-	if (_weaponImage)
-	{
-		_weaponImage->removeFromPhysicsWorld();
-		_weaponImage->removeAllChildren();
-		_weaponImage->removeFromParentAndCleanup(true);
-		_weaponImage = nullptr;
-	}
 }
 
 void Pistol::update(float dt)
@@ -30,36 +23,23 @@ void Pistol::update(float dt)
 
 }
 
-void Pistol::onMouseDown(Vec2 pos, Level* level)
+void Pistol::onMouseDown(Vec2 pos)
 {
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-
 	auto player = Game::getInstance()->getPlayer();
-
-	auto playerPos = player->getPosition();
-	auto camPos = level->getCamera()->getPosition();
 
 	Bullet bullet;
 	bullet.Damage = 10;
-	//bullet.Direction = location - (playerPos - camPos + visibleSize * 0.5);
-
-	if (player->ifMovingRight())
-		bullet.Direction = Vec2(1, 0);
-	else
-	{
-		bullet.Direction = Vec2(-1, 0);
-	}
-
+	bullet.Direction = player->ifMovingRight() ? Vec2(1, 0) : Vec2(-1, 0);
 	bullet.DistanceLeft = 10000;
 	bullet.ShotByPlayer = true;
 	bullet.Speed = 1;
 	bullet.Node = Sprite::create("Textures/bullet1.png");
-	bullet.Node->setPosition(playerPos);
+	bullet.Node->setPosition(player->getPosition());
+	bullet.Luj = false;
 
-	level->addBullet(bullet);
+	_level->addBullet(bullet);
 }
 
-void Pistol::onMouseUp(Vec2 pos, Level* level)
+void Pistol::onMouseUp(Vec2 pos)
 {
-
 }

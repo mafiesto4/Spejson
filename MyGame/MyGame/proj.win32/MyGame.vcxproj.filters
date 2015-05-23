@@ -55,9 +55,6 @@
     <ClCompile Include="..\Classes\Player\Player.cpp">
       <Filter>Player</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Player\Weapons\Weapon.cpp">
-      <Filter>Player\Weapons</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Player\Weapons\Pistol\Pistol.cpp">
       <Filter>Player\Weapons\Pistol</Filter>
     </ClCompile>
@@ -84,6 +81,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Levels\ChunkTypes\PreBossFight.cpp">
       <Filter>Levels\ChunkTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Player\Weapons\Freezer\Freezer.cpp">
+      <Filter>Player\Weapons\Freezer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Objects\WeaponPickup.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +176,12 @@
     <ClInclude Include="..\Classes\Levels\ChunkTypes\PreBossFight.h">
       <Filter>Levels\ChunkTypes</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Player\Weapons\Freezer\Freezer.h">
+      <Filter>Player\Weapons\Freezer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Objects\WeaponPickup.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
@@ -222,6 +231,9 @@
     </Filter>
     <Filter Include="Opponent\Boss">
       <UniqueIdentifier>{3e096bf5-1c60-410a-ba07-65cca3241290}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Weapons\Freezer">
+      <UniqueIdentifier>{93f81b9a-e610-426b-8094-241352605ca6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

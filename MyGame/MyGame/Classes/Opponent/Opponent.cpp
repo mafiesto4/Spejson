@@ -1,4 +1,3 @@
-#include <string>
 #include "cocos2d.h"
 #include "Opponent\Opponent.h"
 #include "Game.h"
@@ -14,9 +13,9 @@ Opponent::Opponent(Chunk* parent, int hp)
 	:Entity(parent),
 	_hp(hp),
 	_node(nullptr),
-	_state(State::Undefined)
+	_state(State::Undefined),
+	_ogluszony(false)
 {
-
 }
 
 Opponent::~Opponent()
@@ -28,6 +27,23 @@ Opponent::~Opponent()
 		_node->removeFromParentAndCleanup(true);
 		_node = nullptr;
 	}
+}
+
+bool Opponent::preUpdate(float dt)
+{
+	if (_ogluszony > 0)
+	{
+		_ogluszony -= dt;
+		if (_ogluszony <= 0)
+		{
+			_ogluszony = 0;
+			_node->setColor(Color3B(255, 255, 255));
+			return false;
+		}
+		_node->setColor(Color3B(0, 162, 232));
+		return true;
+	}
+	return false;
 }
 
 bool Opponent::update(Level* level, float dt)
@@ -49,9 +65,20 @@ bool Opponent::update(Level* level, float dt)
 			Vec2 pos = b.Node->getPosition() - parentPos;
 			if (box.containsPoint(pos))
 			{
-				onDamage(b.Damage); // apply damage to the opponent
-				b.DistanceLeft = 0; // mark bullet to delete
+				// apply stunt
+				if (b.Luj)
+					_ogluszony = 2.0f;
+
+				// apply damage to the opponent
+				onDamage(b.Damage);
+
+				// mark bullet to delete
+				b.DistanceLeft = 0;
+
+				// Store bullet state
 				level->_bullets[i] = b;
+
+				// Back
 				break;
 			}
 		}
