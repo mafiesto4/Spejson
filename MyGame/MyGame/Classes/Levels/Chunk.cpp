@@ -24,9 +24,9 @@ using namespace cocos2d;
 
 Chunk::~Chunk()
 {
-	_entities.ClearDelete();
-	_platforms.clear();
+	_platforms.Clear();
 	_walls.clear();
+	_entities.ClearDelete();
 }
 
 bool Chunk::init()
@@ -123,8 +123,14 @@ Sprite* Chunk::addPlatform(Vec2 location, float width)
 
 	// Add and back to the future
 	addChild(sprite);
-	_platforms.push_back(sprite);
+	_platforms.Add(sprite);
 	return sprite;
+}
+
+void Chunk::removePlatform(Sprite* platform)
+{
+	_platforms.Remove(platform);
+	platform->removeFromParentAndCleanup(true);
 }
 
 Ladder* Chunk::addLadder(Vec2 location, float height)
@@ -214,7 +220,7 @@ Sprite* Chunk::platformAtPoint(const Vec2& point) const
 	Vec2 localPos = point - getPosition();
 
 	// Check all platforms
-	for (int i = 0; i < _platforms.size(); i++)
+	for (int i = 0; i < _platforms.Count(); i++)
 	{
 		auto node = _platforms[i];
 
@@ -250,7 +256,7 @@ Sprite* Chunk::platformAtPoint(const Vec2& point) const
 
 void Chunk::tryToSpawnAFly()
 {
-	if (rand() % 4 == 0)
+	if (rand() % 5 == 0)
 	{
 		spawnAFly();
 	}

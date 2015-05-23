@@ -17,6 +17,7 @@ public:
 		Shooting,
 		SearchForPlayer,
 		FollowingPlayer,
+		AttackPlayer,
 
 		MAX
 	};
@@ -29,7 +30,7 @@ protected:
 
 public:
 
-	Opponent(Chunk* parent);
+	Opponent(Chunk* parent, int hp = 100);
 	~Opponent();
 
 	virtual bool update(Level* level, float dt);
@@ -63,5 +64,18 @@ public:
 	virtual float getSpeed() const
 	{
 		return 200.0f;
+	}
+
+	virtual float calMoveDuration(Vec2 end) const
+	{
+		Vec2 pos = getSprite()->getPosition();
+		return pos.distance(end) / getSpeed();
+	}
+
+	cocos2d::MoveTo* moveTo(Vec2 target) const
+	{
+		auto result = cocos2d::MoveTo::create(calMoveDuration(target), target);
+		result->setTag(0);
+		return result;
 	}
 };

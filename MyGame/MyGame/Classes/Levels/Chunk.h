@@ -47,7 +47,7 @@ protected:
 	Chunk* _nextChunk, *_previousChunk;
 	cocos2d::Vec2 _pathPoint;
 	List<Entity*, 32> _entities;
-	std::vector<cocos2d::Sprite*> _platforms;
+	List<cocos2d::Sprite*, 16> _platforms;
 	std::vector<cocos2d::Sprite*> _walls;
 
 public:
@@ -112,6 +112,7 @@ protected:
 	virtual void calculatePathPoint();
 	virtual void generate() = 0;
 	Sprite* addPlatform(Vec2 location, float width);
+	void removePlatform(Sprite* platform);
 	class Ladder* addLadder(Vec2 location, float height);
 	void addWall(char dir);
 	

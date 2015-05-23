@@ -60,12 +60,18 @@ void BossFight::generate()
 	const int bossSize = 100 + CHUNKS_BLOCK_SIZE_HALF;
 	const int bossCenterPos = 150 + CHUNKS_BLOCK_SIZE_HALF;
 	Vec2 p1 = Vec2(platformStart + bossSize, platformY + bossCenterPos);
-	Vec2 p2 = Vec2(platformStart + platformWidth - bossSize, platformY + bossCenterPos);
+	Vec2 p2 = Vec2(platformStart + platformWidth - bossSize + CHUNKS_BLOCK_SIZE * 4, p1.y);
 	_entities.Add(new Boss(this, p1, p2));
+
+	// Add blocking platform
+	_blockingPlatform = addPlatform(Vec2(0, size.height - CHUNKS_BLOCK_SIZE_HALF - CHUNKS_BLOCK_SIZE), size.width);
 }
 
 void BossFight::onBossKilled()
 {
+	// Remove blocking platform
+	removePlatform(_blockingPlatform);
+
 	// Generate ladder for the player to allow him to go forward though the map
 	auto size = getContentSize();
 	float h = size.height - CHUNKS_BLOCK_SIZE * 2;

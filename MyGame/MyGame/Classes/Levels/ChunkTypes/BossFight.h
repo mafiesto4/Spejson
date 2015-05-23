@@ -13,6 +13,7 @@ class BossFight : public Chunk
 private:
 
 	cocos2d::Vec2 _pathPointForNext;
+	cocos2d::Sprite* _blockingPlatform;
 
 public:
 

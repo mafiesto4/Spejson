@@ -10,9 +10,9 @@
 using namespace std;
 using namespace cocos2d;
 
-Opponent::Opponent(Chunk* parent)
+Opponent::Opponent(Chunk* parent, int hp)
 	:Entity(parent),
-	_hp(100),
+	_hp(hp),
 	_node(nullptr),
 	_state(State::Undefined)
 {

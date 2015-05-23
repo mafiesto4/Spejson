@@ -10,8 +10,9 @@ class Boss : public Opponent
 {
 private:
 
-	float _timeAcc;
+	float _sleep;
 	Vec2 _p1, _p2;
+	Vec2 _target;
 
 public:
 
@@ -19,11 +20,4 @@ public:
 	~Boss();
 
 	bool update(Level* level, float dt) override;
-
-public:
-
-	float calMoveDuration()
-	{
-		return _p1.distance(_p2) / getSpeed();
-	}
 };
