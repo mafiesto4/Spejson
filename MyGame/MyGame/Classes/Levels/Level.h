@@ -19,6 +19,8 @@ class Opponent;
 using namespace cocos2d;
 using namespace std;
 
+#define USE_PHYSICS_DEBUG_LAYER 0
+
 class Level : public Layer
 {
 	friend Level;

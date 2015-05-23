@@ -25,7 +25,9 @@ Scene* Level::createScene()
 
 	// Setup physics simulation
 	auto physicsWorld = scene->getPhysicsWorld();
+#if USE_PHYSICS_DEBUG_LAYER
 	physicsWorld->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+#endif
 	physicsWorld->setGravity(Vec2(0.0f, -300.0f));
 	physicsWorld->setSpeed(2.0f);
 	physicsWorld->setUpdateRate(1.0f);
