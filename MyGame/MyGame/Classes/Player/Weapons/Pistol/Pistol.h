@@ -8,6 +8,13 @@ using namespace cocos2d;
 
 class Pistol : public Weapon
 {
+protected:
+
+	const char* getSpritePath() const override
+	{
+		return "Textures/pistol.png";
+	}
+
 public:
 
 	Pistol(Level* level);

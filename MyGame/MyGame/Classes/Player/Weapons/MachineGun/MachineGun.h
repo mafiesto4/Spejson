@@ -12,6 +12,16 @@ private:
 
 	bool _isFiring;
 	float _time;
+	float _reloadTimer;
+	int _MgAmmo;
+	int _MgMaxAmmo;
+
+protected:
+
+	const char* getSpritePath() const override
+	{
+		return "Textures/mGun.jpg";
+	}
 
 public:
 
@@ -23,8 +33,22 @@ public:
 	void onMouseDown(Vec2 pos) override;
 	void onMouseUp(Vec2 pos) override;
 
+public:
+
 	bool IsFiring() const
 	{
 		return _isFiring;
 	}
+
+	void addAmmo(int value) override
+	{
+		_MgAmmo += value;
+	}
+
+	int getAmmo() const override
+	{
+		return _MgAmmo;
+	}
+
+	void reload(float dt);
 };

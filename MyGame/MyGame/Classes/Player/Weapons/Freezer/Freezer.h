@@ -13,6 +13,14 @@ private:
 
 	bool _isFiring;
 	float _time;
+	int _ammo;
+
+protected:
+
+	const char* getSpritePath() const override
+	{
+		return "Textures/freezer.png";
+	}
 
 public:
 
@@ -23,4 +31,16 @@ public:
 
 	void onMouseDown(Vec2 pos) override;
 	void onMouseUp(Vec2 pos) override;
+
+public:
+
+	void addAmmo(int value) override
+	{
+		_ammo += value;
+	}
+
+	int getAmmo() const override
+	{
+		return _ammo;
+	}
 };

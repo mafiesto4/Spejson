@@ -33,8 +33,7 @@ bool Ammo::update(Level* level, float dt)
 	auto player = Game::getInstance()->getPlayer();
 	if (player->getBox().containsPoint(ammoPos))
 	{
-		//player->addCash(_value);
-		/// TODO add ammo
+		player->getGun()->addAmmo(20);
 		return true;
 	}
 

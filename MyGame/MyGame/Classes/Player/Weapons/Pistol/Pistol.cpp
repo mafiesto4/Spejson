@@ -10,8 +10,6 @@ using namespace cocos2d;
 Pistol::Pistol(Level* level)
 	:Weapon(Type::Pistol, level)
 {
-	_sprite = Sprite::create("Textures/pistol.png");
-	_sprite->setPosition(Vec2(100, 100));
 }
 
 Pistol::~Pistol()

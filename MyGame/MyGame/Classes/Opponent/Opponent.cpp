@@ -29,7 +29,7 @@ Opponent::~Opponent()
 	}
 }
 
-bool Opponent::preUpdate(float dt)
+bool Opponent::postUpdate(float dt)
 {
 	if (_ogluszony > 0)
 	{

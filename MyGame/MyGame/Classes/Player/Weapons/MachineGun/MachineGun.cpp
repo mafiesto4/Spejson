@@ -8,11 +8,14 @@
 
 MachineGun::MachineGun(Level* level)
 	:Weapon(Type::MachineGun, level),
-	_time(0),
-	_isFiring(false)
+	_time(1000),
+	_isFiring(false),
+	_reloadTimer(0)
 {
-	_sprite = Sprite::create("Textures/mGun.jpg");
-	_sprite->setPosition(Vec2(100, 100));
+	// Setup ammo
+	_MgAmmo = 20;
+	_magazine = 20;
+	_MgMaxAmmo = 20;
 }
 
 MachineGun::~MachineGun()
@@ -25,7 +28,7 @@ void MachineGun::update(float dt)
 
 	_time += dt;
 
-	if (_isFiring && (_time > 0.1f / player->fireRate))
+	if (_isFiring && (_time > 0.1f / player->fireRate) && _magazine > 0)
 	{
 		_time = 0;
 
@@ -40,6 +43,11 @@ void MachineGun::update(float dt)
 		bullet.Luj = false;
 
 		_level->addBullet(bullet);
+		_magazine--;
+	}
+	else if (_magazine <= 0)
+	{
+		reload(dt);
 	}
 }
 
@@ -51,4 +59,24 @@ void MachineGun::onMouseDown(Vec2 pos)
 void MachineGun::onMouseUp(Vec2 pos)
 {
 	_isFiring = false;
+}
+
+void MachineGun::reload(float dt)
+{
+	_reloadTimer += dt;
+
+	if (_reloadTimer > 2)
+	{
+		_reloadTimer = 0;
+		if (_MgAmmo >= _MgMaxAmmo)
+		{
+			_magazine += _MgMaxAmmo;
+			_MgAmmo -= _MgMaxAmmo;
+		}
+		else
+		{
+			_magazine += _MgAmmo;
+			_MgAmmo = 0;
+		}
+	}
 }

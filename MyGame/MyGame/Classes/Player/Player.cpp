@@ -111,6 +111,11 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 	// add node to the level
 	level->addChild(_image);
 
+	// Create weapons
+	_weapons[0] = new Pistol(level); _weapons[0]->CanUse = true;
+	_weapons[1] = new MachineGun(level);
+	_weapons[2] = new Freezer(level);
+
 	// Select pistol
 	selectWeapon(Weapon::Type::Pistol);
 }
@@ -128,18 +133,22 @@ void Player::selectWeapon(Weapon::Type type)
 		}
 
 		// Unlink
-		delete _selectedGun;
+		_selectedGun->onDeselect();
+		//delete _selectedGun;
+
 	}
 
 	// Link
-	switch (type)
+	_selectedGun = _weapons[(int)type];
+	/*switch (type)
 	{
 		case Weapon::Type::Pistol: _selectedGun = new Pistol(_level); break;
 		case Weapon::Type::MachineGun: _selectedGun = new MachineGun(_level); break;
 		case Weapon::Type::Freezer: _selectedGun = new Freezer(_level); break;
 	}
 	cocos2d::Sprite* spr = _selectedGun->getSprite();
-	_image->addChild(spr);
+	_image->addChild(spr);*/
+	_selectedGun->onSelect(_image);
 }
 
 void Player::markLadderUse()
@@ -253,12 +262,11 @@ void Player::update(float dt)
 void Player::onDamage(bool pushRight)
 {
 #if !USE_FREE_CAM
-	Vec2 impulse(0.0f, 0.0f);
-	float _dTime;
 
 	// Create impulse direction
 	const float moveSpeed = 4000 * PLAYER_MOVEMENT_COEFF;
 
+	Vec2 impulse(0.0f, 0.0f);
 	if (pushRight)
 	{
 		impulse.x = -moveSpeed;

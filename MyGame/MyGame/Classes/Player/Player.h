@@ -22,11 +22,6 @@ private:
 	Label* playerPosLabel;
 	Level* _level;
 
-	//Weapon* _weapons[(int)Weapon::Type::MAX];
-	Weapon* _w0;
-	Weapon* _w1;
-	Weapon* _w2;
-
 	// Movement
 	bool _laddered = false;  //czy ma wciœniête "w" w polu drabiny
 	bool _immune = false;
@@ -46,9 +41,12 @@ private:
 	int _score;
 	int _cash;
 
+	// Weapons stuff
+	Weapon* _weapons[(int)Weapon::Type::MAX];
+	Weapon* _selectedGun;
+
 public:
 
-	Weapon* _selectedGun;
 	float fireRate = 1;
 	int lifes = 1;
 
@@ -149,6 +147,10 @@ public:
 		return _hp;
 	}
 
+	Weapon* getGun() const
+	{
+		return _selectedGun;
+	}
 
 private:
 

@@ -198,9 +198,10 @@ bool Level::onTouchBegan(Touch *touch, Event *unused_event)
 	auto player = Game::getInstance()->getPlayer();
 	auto location = touch->getLocation();
 
-	if (player->_selectedGun)
+	auto gun = player->getGun();
+	if (gun)
 	{
-		player->_selectedGun->onMouseDown(location);
+		gun->onMouseDown(location);
 	}
 
 	return true;
@@ -211,9 +212,10 @@ void Level::onTouchEnded(Touch *touch, Event *unused_event)
 	auto player = Game::getInstance()->getPlayer();
 	auto location = touch->getLocation();
 
-	if (player->_selectedGun)
+	auto gun = player->getGun();
+	if (gun)
 	{
-		player->_selectedGun->onMouseUp(location);
+		gun->onMouseUp(location);
 	}
 }
 

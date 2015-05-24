@@ -29,13 +29,13 @@ Boss::~Boss()
 bool Boss::update(Level* level, float dt)
 {
 	// Base
-	if (Opponent::preUpdate(dt))
-		return false;
 	if (Opponent::update(level, dt))
 	{
 		((BossFight*)_parent)->onBossKilled();
 		return true;
 	}
+	if (Opponent::postUpdate(dt))
+		return false;
 
 	// Cache data
 	auto player = Game::getInstance()->getPlayer();

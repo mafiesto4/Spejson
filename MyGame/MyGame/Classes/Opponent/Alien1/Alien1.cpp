@@ -29,10 +29,10 @@ Alien1::~Alien1()
 bool Alien1::update(Level* level, float dt)
 {
 	// Base
-	if (Opponent::preUpdate(dt))
-		return false;
 	if (Opponent::update(level, dt))
 		return true;
+	if (Opponent::postUpdate(dt))
+		return false;
 
 	// Switch state
 	switch (_state)

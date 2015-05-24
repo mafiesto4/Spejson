@@ -8,12 +8,9 @@
 Freezer::Freezer(Level* level)
 	:Weapon(Type::Freezer, level),
 	_time(1000),
-	_isFiring(false)
+	_isFiring(false),
+	_ammo(3)
 {
-	level = _level;
-	_sprite = Sprite::create("Textures/freezer.png");
-	_sprite->setPosition(Vec2(100, 100));
-	_ammo = 3;
 	_magazine = 1;
 }
 

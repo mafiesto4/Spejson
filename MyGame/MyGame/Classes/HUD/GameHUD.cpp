@@ -67,7 +67,7 @@ void GameHUD::update(float dt)
 	_hp->setString(ss.str());
 	ss.str("");
 
-	auto weapon = player->_selectedGun;
+	auto weapon = player->getGun();
 	ss << "Ammo " << weapon->getMagazine() << " / " << weapon->getAmmo();
 	_ammo->setString(ss.str());
 	ss.str("");

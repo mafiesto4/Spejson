@@ -29,7 +29,7 @@ protected:
 	State _state;
 	float _ogluszony;
 
-	bool preUpdate(float dt);
+	bool postUpdate(float dt);
 
 public:
 
