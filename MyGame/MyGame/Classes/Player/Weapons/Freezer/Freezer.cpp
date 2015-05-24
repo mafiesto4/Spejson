@@ -43,6 +43,7 @@ void Freezer::update(float dt)
 
 			_level->addBullet(bullet);
 			_magazine = 0;
+			_ammo--;
 		}
 		else
 		{

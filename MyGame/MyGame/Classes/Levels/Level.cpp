@@ -99,7 +99,7 @@ void Level::update(float dt)
 	
 	// Update bullets
 	Rect playerBox = player->getBox();
-	int i;
+	unsigned int i;
 	for (i = 0; i < _bullets.size(); i++)
 	{
 		Bullet b = _bullets[i];

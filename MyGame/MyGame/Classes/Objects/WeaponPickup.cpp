@@ -41,7 +41,7 @@ bool WeaponPickup::update(Level* level, float dt)
 
 	if (player->getBox().containsPoint(posWS))
 	{
-		player->selectWeapon(_type);
+		player->pickupWeapon(_type);
 		return true;
 	}
 

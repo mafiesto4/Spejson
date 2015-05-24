@@ -256,7 +256,7 @@ Sprite* Chunk::platformAtPoint(const Vec2& point) const
 
 void Chunk::tryToSpawnAFly()
 {
-	if (rand() % 5 == 0)
+	if (getPosition().y > CHUNKS_DEFAULT_HEIGHT * 2 && rand() % 5 == 0)
 	{
 		spawnAFly();
 	}

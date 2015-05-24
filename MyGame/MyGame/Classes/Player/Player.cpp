@@ -24,6 +24,7 @@ Player::Player(string name)
 	:_hp(100),
 	_name(name),
 	_keyboard(nullptr),
+	_mouse(nullptr),
 	_image(nullptr),
 	_body(nullptr),
 	_selectedGun(nullptr),
@@ -51,14 +52,43 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 	auto director = Director::getInstance();
 	auto eventDispatcher = director->getEventDispatcher();
 
-	// sprawdz czy keyboard listner zstal stworzony
-	if (&_keyboard != NULL)
+	// Input
+	if (_keyboard == nullptr)
 	{
-		// Initializing and binding 
-		auto keyboard = EventListenerKeyboard::create();
-		keyboard->onKeyPressed = CC_CALLBACK_2(Player::onKeyPressed, this);
-		keyboard->onKeyReleased = CC_CALLBACK_2(Player::onKeyReleased, this);
-		eventDispatcher->addEventListenerWithSceneGraphPriority(keyboard, level);
+		_keyboard = EventListenerKeyboard::create();
+		_keyboard->onKeyPressed = CC_CALLBACK_2(Player::onKeyPressed, this);
+		_keyboard->onKeyReleased = CC_CALLBACK_2(Player::onKeyReleased, this);
+		eventDispatcher->addEventListenerWithSceneGraphPriority(_keyboard, level);
+	}
+	if (_mouse == nullptr)
+	{
+		_mouse = EventListenerMouse::create();
+		/*_keyboard->onMouseDown = [](cocos2d::Event* event)
+			{
+			try
+			{
+			EventMouse* mouseEvent = dynamic_cast<EventMouse*>(event);
+			mouseEvent->getMouseButton();
+			std::stringstream message;
+			message << "Mouse event: Button: " << mouseEvent->getMouseButton() << "pressed at point (" <<
+			mouseEvent->getLocation().x << "," << mouseEvent->getLocation().y << ")"; MessageBox(message.str().c_str(), "Mouse Event Details");
+			}
+			catch (std::bad_cast& e)
+			{// Not sure what kind of event you passed us cocos, but it was the wrong onereturn;}};
+			listener->onMouseMove = [](cocos2d::Event* event)
+			{// Cast Event to EventMouse for position details like above
+			cocos2d::log("Mouse moved event");
+			};
+			listener->onMouseUp = [](cocos2d::Event* event)
+			{
+			cocos2d::log("Mouse button released");
+			};
+			_eventDispatcher->addEventListenerWithFixedPriority(listener, 1); return true;
+			}
+			*/
+
+		_mouse->onMouseScroll = CC_CALLBACK_1(Player::onMouseScroll, this);
+		eventDispatcher->addEventListenerWithSceneGraphPriority(_mouse, level);
 	}
 
 	// Check if created
@@ -112,16 +142,31 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 	level->addChild(_image);
 
 	// Create weapons
-	_weapons[0] = new Pistol(level); _weapons[0]->CanUse = true;
+	_weapons[0] = new Pistol(level);
 	_weapons[1] = new MachineGun(level);
 	_weapons[2] = new Freezer(level);
 
 	// Select pistol
-	selectWeapon(Weapon::Type::Pistol);
+	pickupWeapon(Weapon::Type::Pistol);
+}
+
+void Player::pickupWeapon(Weapon::Type type)
+{
+	// Set flag
+	_weapons[(int)type]->CanUse = true;
+
+	// Select it
+	selectWeapon(type);
 }
 
 void Player::selectWeapon(Weapon::Type type)
 {
+	// Validate
+	if (!_weapons[(int)type]->CanUse)
+	{
+		return;
+	}
+
 	// Check if has previous weapon
 	if (_selectedGun)
 	{
@@ -134,20 +179,11 @@ void Player::selectWeapon(Weapon::Type type)
 
 		// Unlink
 		_selectedGun->onDeselect();
-		//delete _selectedGun;
 
 	}
 
 	// Link
 	_selectedGun = _weapons[(int)type];
-	/*switch (type)
-	{
-		case Weapon::Type::Pistol: _selectedGun = new Pistol(_level); break;
-		case Weapon::Type::MachineGun: _selectedGun = new MachineGun(_level); break;
-		case Weapon::Type::Freezer: _selectedGun = new Freezer(_level); break;
-	}
-	cocos2d::Sprite* spr = _selectedGun->getSprite();
-	_image->addChild(spr);*/
 	_selectedGun->onSelect(_image);
 }
 
@@ -323,4 +359,38 @@ void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 		case EventKeyboard::KeyCode::KEY_SHIFT: _useBoost = false; break;
 #endif
 	}
+}
+
+void Player::onMouseScroll(Event* event)
+{
+	// Gather event data
+	EventMouse* data = (EventMouse*)event;
+
+	// Find firt usable weapon
+	int weaponIndex = (int)_selectedGun->getType();
+	if (data->getScrollY() > 0)
+	{
+		do
+		{
+			weaponIndex--;
+
+			if (weaponIndex < 0)
+				weaponIndex = (int)Weapon::Type::MAX - 1;
+
+		} while (!_weapons[weaponIndex]->CanUse);
+	}
+	else
+	{
+		do
+		{
+			weaponIndex++;
+
+			if (weaponIndex >= (int)Weapon::Type::MAX)
+				weaponIndex = 0;
+
+		} while (!_weapons[weaponIndex]->CanUse);
+	}
+
+	// Select weapon
+	selectWeapon((Weapon::Type)weaponIndex);
 }

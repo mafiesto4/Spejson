@@ -19,6 +19,7 @@ private:
 	Sprite* _image;
 	PhysicsBody* _body;
 	EventListenerKeyboard* _keyboard;
+	EventListenerMouse* _mouse;
 	Label* playerPosLabel;
 	Level* _level;
 
@@ -58,6 +59,7 @@ public:
 	bool onContactBegin(PhysicsContact& contact);
 	void onContactSeperate(PhysicsContact& contact);
 
+	void pickupWeapon(Weapon::Type type);
 	void selectWeapon(Weapon::Type type);
 
 	Node* getNode() const
@@ -154,7 +156,7 @@ public:
 
 private:
 
-	void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
-	void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
-
+	void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
+	void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
+	void onMouseScroll(Event* event);
 };

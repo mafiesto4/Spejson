@@ -19,9 +19,6 @@
     <ClCompile Include="..\Classes\HUD\GameHUD.cpp">
       <Filter>HUD</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Input\Input.cpp">
-      <Filter>Input</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Levels\Chunk.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
@@ -110,9 +107,6 @@
     <ClInclude Include="..\Classes\HUD\GameHUD.h">
       <Filter>HUD</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Input\Input.h">
-      <Filter>Input</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Levels\Chunk.h">
       <Filter>Levels</Filter>
     </ClInclude>
@@ -192,9 +186,6 @@
     </Filter>
     <Filter Include="HUD">
       <UniqueIdentifier>{f1fc6ff7-701e-4209-b6ac-d8911e0d2930}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Input">
-      <UniqueIdentifier>{4e72de7f-8e71-44ef-9e57-060979117825}</UniqueIdentifier>
     </Filter>
     <Filter Include="Levels">
       <UniqueIdentifier>{464ffd3f-60f4-4d30-a7ae-2865e5d3c4c4}</UniqueIdentifier>
