@@ -19,6 +19,7 @@ Boss::Boss(Chunk* parent, Vec2 p1, Vec2 p2)
 {
 	_node = Sprite::create("Textures/boss.png");
 	_node->setPosition(p1);
+	_node->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	parent->addChild(_node, 10000);
 }
 
@@ -51,7 +52,7 @@ bool Boss::update(Level* level, float dt)
 	bool seePlayer = posWS.y - 200 <= playerPosWS.y;
 	Vec2 dir = _target - pos;
 	bool isOverTarget = abs(dir.x - epsilon) <= epsilon && abs(dir.y - epsilon) <= epsilon;
-	float speed = 1.6;
+	float speed = 1.6f;
 	if (!seePlayer && _state != State::PatrollingB && _state != State::PatrollingA)
 	{
 		_state = Undefined;
@@ -62,30 +63,51 @@ bool Boss::update(Level* level, float dt)
 			pos = _p1;
 			_target = _p2;
 			_state = State::PatrollingB;
+			_node->setScaleX(-1);
 			return false;
 
 		case Opponent::PatrollingA:
 			if (seePlayer)
 			{
-				_target = playerPosCS.x > pos.x ? _p2 : _p1;
+				if (playerPosCS.x > pos.x)
+				{
+					_target = _p2;
+					_node->setScaleX(-1);
+				}
+				else
+				{
+					_target = _p1;
+					_node->setScaleX(1);
+				}
 				_state = AttackPlayer;
 			}
 			else if (isOverTarget)
 			{
 				_target = _p2;
 				_state = PatrollingB;
+				_node->setScaleX(-1);
 			}
 			break;
 		case Opponent::PatrollingB:
 			if (seePlayer)
 			{
-				_target = playerPosCS.x > pos.x ? _p2 : _p1;
+				if (playerPosCS.x > pos.x)
+				{
+					_target = _p2;
+					_node->setScaleX(-1);
+				}
+				else
+				{
+					_target = _p1;
+					_node->setScaleX(1);
+				}
 				_state = AttackPlayer;
 			}
 			else if (isOverTarget)
 			{
 				_target = _p1;
 				_state = PatrollingA;
+				_node->setScaleX(1);
 			}
 			break;
 		
@@ -103,11 +125,13 @@ bool Boss::update(Level* level, float dt)
 				{
 					_target = _p2;
 					_state = State::PatrollingB;
+					_node->setScaleX(-1);
 				}
 				else
 				{
 					_target = _p1;
 					_state = State::PatrollingA;
+					_node->setScaleX(1);
 				}
 			}
 			break;

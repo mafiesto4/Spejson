@@ -10,7 +10,7 @@ using namespace std;
 using namespace cocos2d;
 
 Opponent::Opponent(Chunk* parent, int hp)
-	:Entity(parent),
+	:Entity(parent, Vec2::ZERO),
 	_hp(hp),
 	_node(nullptr),
 	_state(State::Undefined),
@@ -55,7 +55,7 @@ bool Opponent::update(Level* level, float dt)
 	Vec2 parentPos = _parent->getPosition();
 
 	// Check if any bullet shot by player hist the enemy
-	for (int i = 0; i < level->_bullets.size(); i++)
+	for (unsigned int i = 0; i < level->_bullets.size(); i++)
 	{
 		Bullet b = level->_bullets[i];
 
@@ -63,7 +63,8 @@ bool Opponent::update(Level* level, float dt)
 		if (b.ShotByPlayer)
 		{
 			Vec2 pos = b.Node->getPosition() - parentPos;
-			if (box.containsPoint(pos))
+			Rect bulletBox = Rect(pos.x - (BULLET_SIZE / 2), pos.y - (BULLET_SIZE / 2), BULLET_SIZE, BULLET_SIZE);
+			if (box.intersectsRect(bulletBox))
 			{
 				// apply stunt
 				if (b.Luj)

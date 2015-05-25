@@ -7,7 +7,8 @@
 using namespace cocos2d;
 
 Shop::Shop(Chunk* parent, Vec2 pos)
-	:Entity(parent),
+	:Entity(parent, pos),
+	_image(nullptr),
 	_isOver(false)
 {
 	_image = Sprite::create("Textures/shop1.png");
@@ -29,15 +30,19 @@ Shop::~Shop()
 
 bool Shop::update(Level* level, float dt)
 {
-	// Check if player is over the shop
-	Vec2 pos = _image->getPosition() + _parent->getPosition();
+	// Cache data
 	auto player = Game::getInstance()->getPlayer();
-	bool isOver = player->getBox().containsPoint(pos);
-	
+	Vec2 pos = _image->getPosition() + _parent->getPosition() - Vec2(CHUNKS_BLOCK_SIZE_HALF, CHUNKS_BLOCK_SIZE_HALF);
+	auto size = _image->getContentSize();
+	Rect box = Rect(pos.x, pos.y, size.width, size.height);
+
+	// Test collision
+	bool isOver = player->getBox().intersectsRect(box);
+
 	// Check if can show shop stuff
 	if (!_isOver && isOver)
 	{
-		MessageBox("gracz wlazl w zsklep", "sklep z ziolem");
+		MessageBox("gracz wlazl w szklep.\noj no bo to michal jest gupi", "sklep z ziolem");
 	}
 
 	// Store state

@@ -2,6 +2,8 @@
 
 #include <cocos2d.h>
 
+#define BULLET_SIZE 10
+
 struct Bullet
 {
 	bool ShotByPlayer;

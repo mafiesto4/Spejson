@@ -7,20 +7,21 @@
 using namespace cocos2d;
 
 Ammo::Ammo(Chunk* parent, Vec2 pos)
-	:Entity(parent)
+	:Entity(parent, pos),
+	_image(nullptr)
 {
-	_image = Sprite::create("Textures/ammoPack1.png");
+	_image = Sprite::create("Textures/ammo.png");
 	_image->setPosition(pos + Vec2(32, 0));
 	_image->setAnchorPoint(Vec2(0.5, 0.5));
 	_parent->addChild(_image);
+
+	setupAnim(3, 4, 4, 5);
 }
 
 Ammo::~Ammo()
 {
 	if (_image)
 	{
-		_image->removeFromPhysicsWorld();
-		_image->removeAllChildren();
 		_image->removeFromParentAndCleanup(true);
 		_image = nullptr;
 	}
@@ -28,14 +29,22 @@ Ammo::~Ammo()
 
 bool Ammo::update(Level* level, float dt)
 {
-	Vec2 ammoPos = _image->getPosition() + _parent->getPosition();
-
+	// Cache data
 	auto player = Game::getInstance()->getPlayer();
-	if (player->getBox().containsPoint(ammoPos))
+	Vec2 pos = _image->getPosition() + _parent->getPosition() - Vec2(CHUNKS_BLOCK_SIZE_HALF, CHUNKS_BLOCK_SIZE_HALF);
+	auto size = _image->getContentSize();
+	Rect box = Rect(pos.x, pos.y, size.width, size.height);
+
+	// Test collision
+	if (player->getBox().intersectsRect(box))
 	{
-		player->getGun()->addAmmo(20);
+		// Pickup ammo
+		player->onPickupAmmo();
 		return true;
 	}
+
+	// Sprite animation
+	animate(dt, _image);
 
 	return false;
 }

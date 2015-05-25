@@ -16,7 +16,7 @@ using namespace cocos2d;
 void Level::cleanAllChunks()
 {
 	// Dispose all chunks
-	for (int i = 0; i < _chunks.size(); i++)
+	for (unsigned int i = 0; i < _chunks.size(); i++)
 	{
 		_chunks[i]->removeFromParentAndCleanup(true);
 	}
@@ -81,7 +81,7 @@ void Level::updateChunks(float dt)
 	}
 
 	// Find chunk that is near player
-	float minDist2 = 999999999;
+	float minDist2 = 999999999.0f;
 	_closestPToPlayerChunk = _rootChunk;
 	for (vector<Chunk*>::reverse_iterator i = _chunks.rbegin(); i != _chunks.rend(); i++)
 	{

@@ -7,7 +7,9 @@
 using namespace cocos2d;
 
 Ladder::Ladder(Chunk* parent, const cocos2d::Vec2& location, int height)
-	:Entity(parent)
+	:Entity(parent, location),
+	_isActive(false),
+	_image(nullptr)
 {
 	// Load texture and ensure its repeating
 	Texture2D* texture = TextureCache::sharedTextureCache()->addImage("Textures/ladder.png");
@@ -15,12 +17,20 @@ Ladder::Ladder(Chunk* parent, const cocos2d::Vec2& location, int height)
 	texture->setTexParameters(tp);
 
 	// Create sprite
-	_sprite = Sprite::createWithTexture(texture, Rect(0, 0, CHUNKS_BLOCK_SIZE, height));
-	_sprite->scheduleUpdateWithPriority(1000);
-	_sprite->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	_sprite->setPosition(location);
+	_image = Sprite::createWithTexture(texture, Rect(0, 0, CHUNKS_BLOCK_SIZE, height));
+	_image->scheduleUpdateWithPriority(1000);
+	_image->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	_image->setPosition(location);
+	_parent->addChild(_image);
+}
 
-	_parent->addChild(_sprite);
+Ladder::~Ladder()
+{
+	if (_image)
+	{
+		_image->removeFromParentAndCleanup(true);
+		_image = nullptr;
+	}
 }
 
 bool Ladder::update(Level* level, float dt)
@@ -29,8 +39,8 @@ bool Ladder::update(Level* level, float dt)
 	auto game = Game::getInstance();
 	auto player = game->getPlayer();
 	Rect playerRect = player->getBox();
-	auto size = _sprite->getContentSize();
-	auto ladderOrgin = _sprite->getPosition() + _parent->getPosition();
+	auto size = _image->getContentSize();
+	auto ladderOrgin = _image->getPosition() + _parent->getPosition();
 	Rect ladderRect = Rect(ladderOrgin.x, ladderOrgin.y, size.width, size.height);
 
 	// Make player rect smaller
@@ -41,19 +51,19 @@ bool Ladder::update(Level* level, float dt)
 	{
 		if (player->getLaddered())
 		{
-			ifActive = true;
+			_isActive = true;
 		}
 
-		if (ifActive)
+		if (_isActive)
 		{
 			player->markLadderUse();
-			_sprite->setColor(Color3B(0, 255, 0));
+			_image->setColor(Color3B(0, 255, 0));
 		}
 	}
 	else
 	{
-		_sprite->setColor(Color3B(255, 255, 255));
-		ifActive = false;
+		_image->setColor(Color3B(255, 255, 255));
+		_isActive = false;
 	}
 
 	return false;

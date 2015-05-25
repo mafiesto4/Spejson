@@ -8,7 +8,8 @@
 using namespace cocos2d;
 
 WeaponPickup::WeaponPickup(Chunk* parent, Vec2 pos, Weapon::Type type)
-	:Entity(parent),
+	:Entity(parent, pos),
+	_image(nullptr),
 	_type(type)
 {
 	char* path;
@@ -22,13 +23,14 @@ WeaponPickup::WeaponPickup(Chunk* parent, Vec2 pos, Weapon::Type type)
 	_image->setPosition(pos);
 	_image->setAnchorPoint(Vec2(0.5, 0.5));
 	_parent->addChild(_image);
+
+	setupAnim(2, 5, 2, 3);
 }
 
 WeaponPickup::~WeaponPickup()
 {
 	if (_image)
 	{
-		_image->removeAllChildren();
 		_image->removeFromParentAndCleanup(true);
 		_image = nullptr;
 	}
@@ -36,14 +38,22 @@ WeaponPickup::~WeaponPickup()
 
 bool WeaponPickup::update(Level* level, float dt)
 {
-	Vec2 posWS = _image->getPosition() + _parent->getPosition();
+	// Cache data
 	auto player = Game::getInstance()->getPlayer();
+	Vec2 pos = _image->getPosition() + _parent->getPosition() - Vec2(CHUNKS_BLOCK_SIZE_HALF, CHUNKS_BLOCK_SIZE_HALF);
+	auto size = _image->getContentSize();
+	Rect box = Rect(pos.x, pos.y, size.width, size.height);
 
-	if (player->getBox().containsPoint(posWS))
+	// Test collision
+	if (player->getBox().intersectsRect(box))
 	{
+		// Pickup weapon
 		player->pickupWeapon(_type);
 		return true;
 	}
+
+	// Sprite animation
+	animate(dt, _image);
 
 	return false;
 }

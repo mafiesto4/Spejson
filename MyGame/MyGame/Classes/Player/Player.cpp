@@ -28,15 +28,17 @@ Player::Player(string name)
 	_image(nullptr),
 	_body(nullptr),
 	_selectedGun(nullptr),
-	_level(nullptr)
+	_level(nullptr),
+
+	_isPressingW(false),
+	_isPressingS(false),
+	_isPressingA(false),
+	_isPressingD(false)
 {
 #if USE_FREE_CAM
 	_useBoost = false;
 #endif
-	_wantsDown = false;
 	_wantsJump = false;
-	_wantsMoveLeft = false;
-	_wantsMoveRight = false;
 }
 
 Player::~Player()
@@ -63,30 +65,6 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 	if (_mouse == nullptr)
 	{
 		_mouse = EventListenerMouse::create();
-		/*_keyboard->onMouseDown = [](cocos2d::Event* event)
-			{
-			try
-			{
-			EventMouse* mouseEvent = dynamic_cast<EventMouse*>(event);
-			mouseEvent->getMouseButton();
-			std::stringstream message;
-			message << "Mouse event: Button: " << mouseEvent->getMouseButton() << "pressed at point (" <<
-			mouseEvent->getLocation().x << "," << mouseEvent->getLocation().y << ")"; MessageBox(message.str().c_str(), "Mouse Event Details");
-			}
-			catch (std::bad_cast& e)
-			{// Not sure what kind of event you passed us cocos, but it was the wrong onereturn;}};
-			listener->onMouseMove = [](cocos2d::Event* event)
-			{// Cast Event to EventMouse for position details like above
-			cocos2d::log("Mouse moved event");
-			};
-			listener->onMouseUp = [](cocos2d::Event* event)
-			{
-			cocos2d::log("Mouse button released");
-			};
-			_eventDispatcher->addEventListenerWithFixedPriority(listener, 1); return true;
-			}
-			*/
-
 		_mouse->onMouseScroll = CC_CALLBACK_1(Player::onMouseScroll, this);
 		eventDispatcher->addEventListenerWithSceneGraphPriority(_mouse, level);
 	}
@@ -125,16 +103,11 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 		contactListener->onContactSeperate = CC_CALLBACK_1(Player::onContactSeperate, this);
 		eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, level);
 #endif
-
-		// debug player pos
-		playerPosLabel = Label::createWithTTF("", "Fonts/arial.ttf", 24);
-		playerPosLabel->setAnchorPoint(Vec2(1, 1));
-		playerPosLabel->setPosition(Vec2::ZERO);
-		_image->addChild(playerPosLabel);
 	}
 
 	// Clear state
-	_wantsJump = _wantsMoveLeft = _wantsMoveRight = false;
+	_wantsJump = false;
+	_isPressingA = _isPressingD = _isPressingS = _isPressingW = false;
 	_score = 0;
 	_cash = 0;
 
@@ -187,6 +160,12 @@ void Player::selectWeapon(Weapon::Type type)
 	_selectedGun->onSelect(_image);
 }
 
+void Player::onPickupAmmo()
+{
+	_weapons[1]->addAmmo(40);
+	_weapons[2]->addAmmo(3);
+}
+
 void Player::markLadderUse()
 {
 	_isUsingLadder = true;
@@ -196,16 +175,16 @@ void Player::update(float dt)
 {
 #if USE_FREE_CAM
 	Vec2 move = Vec2::ZERO;
-	if (_wantsJump)
+	if (_isPressingW)
 		move += Vec2(0, 1);
-	if (_wantsDown)
+	if (_isPressingS)
 		move += Vec2(0, -1);
-	if (_wantsMoveLeft)
+	if (_isPressingA)
 	{
 		_image->setScaleX(-1);
 		move += Vec2(-1, 0);
 	}
-	if (_wantsMoveRight)
+	if (_isPressingD)
 	{
 		_image->setScaleX(1);
 		move += Vec2(1, 0);
@@ -221,16 +200,20 @@ void Player::update(float dt)
 		_body->setVelocity(Vec2::ZERO);
 
 		Vec2 move = Vec2::ZERO;
-		if (_wantsJump)
+		if (_isPressingW)
+		{
 			move += Vec2(0, 1);
-		if (_wantsDown)
+		}
+		if (_isPressingS)
+		{
 			move += Vec2(0, -1);
-		if (_wantsMoveLeft)
+		}
+		if (_isPressingA)
 		{
 			_image->setScaleX(-1);
 			move += Vec2(-1, 0);
 		}
-		if (_wantsMoveRight)
+		if (_isPressingD)
 		{
 			_image->setScaleX(1);
 			move += Vec2(1, 0);
@@ -244,7 +227,7 @@ void Player::update(float dt)
 	else
 	{
 		// Check if player wants to move
-		if ((_wantsJump || _wantsMoveLeft || _wantsMoveRight))
+		if (_wantsJump || _isPressingA || _isPressingD)
 		{
 			auto currentVelocity = _body->getVelocity();
 			Vec2 impulse(0.0f, 0.0f);
@@ -254,20 +237,20 @@ void Player::update(float dt)
 			if (_wantsJump)// && _grounded)
 			{
 				impulse.y = jumpSpeed;
+				_wantsJump = false;
 			}
-			if (_wantsMoveLeft)
+			if (_isPressingA)
 			{
 				impulse.x = -moveSpeed;
 				_image->setScaleX(-1);
 			}
-			if (_wantsMoveRight)
+			if (_isPressingD)
 			{
 				impulse.x = moveSpeed;
 				_image->setScaleX(1);
 			}
 			_body->applyImpulse(impulse, _body->getFirstShape()->getCenter());
 		}
-		_wantsJump = false;
 	}
 #endif
 
@@ -285,14 +268,6 @@ void Player::update(float dt)
 			_time = 0;
 		}
 	}
-
-	// update player pos debug text
-	stringstream text;
-	auto pos = _image->getPosition();
-	text << "Pos: " << (int)pos.x << ", " << (int)pos.y;
-	playerPosLabel->setString(text.str());
-
-	DebugGUI::setVal(5, "cash", _cash);
 }
 
 void Player::onDamage(bool pushRight)
@@ -336,10 +311,10 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 	{
 		case EventKeyboard::KeyCode::KEY_ESCAPE: Director::getInstance()->end(); break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
-		case EventKeyboard::KeyCode::KEY_W: _wantsJump = true; _laddered = true;  break;
-		case EventKeyboard::KeyCode::KEY_A: _rightDirection = false; _wantsMoveLeft = true; break;
-		case EventKeyboard::KeyCode::KEY_D:_rightDirection = true; _wantsMoveRight = true; break;
-		case EventKeyboard::KeyCode::KEY_S: _wantsDown = true; break;
+		case EventKeyboard::KeyCode::KEY_W: _isPressingW = true; _wantsJump = true; _laddered = true; break;
+		case EventKeyboard::KeyCode::KEY_A: _rightDirection = false; _isPressingA = true; break;
+		case EventKeyboard::KeyCode::KEY_D:_rightDirection = true; _isPressingD = true; break;
+		case EventKeyboard::KeyCode::KEY_S: _isPressingS = true; break;
 #if USE_FREE_CAM
 		case EventKeyboard::KeyCode::KEY_SHIFT: _useBoost = true; break;
 #endif
@@ -350,11 +325,11 @@ void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
 	switch (keyCode)
 	{
-		case EventKeyboard::KeyCode::KEY_A: _wantsMoveLeft = false; break;
-		case EventKeyboard::KeyCode::KEY_D: _wantsMoveRight = false; break;
+		case EventKeyboard::KeyCode::KEY_A: _isPressingA = false; break;
+		case EventKeyboard::KeyCode::KEY_D: _isPressingD = false; break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
-		case EventKeyboard::KeyCode::KEY_W: _wantsJump = false;  _laddered = false; break;
-		case EventKeyboard::KeyCode::KEY_S: _wantsDown = false; break;
+		case EventKeyboard::KeyCode::KEY_W: _isPressingW = false; _wantsJump = false; _laddered = false; break;
+		case EventKeyboard::KeyCode::KEY_S: _isPressingS = false; break;
 #if USE_FREE_CAM
 		case EventKeyboard::KeyCode::KEY_SHIFT: _useBoost = false; break;
 #endif

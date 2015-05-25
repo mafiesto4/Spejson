@@ -84,15 +84,16 @@ void Chunk::Spread(Level* level)
 	{
 		// Switch chunk type
 		Vec2 top = getPosition() + Vec2(0, getContentSize().height);
-		switch (rand() % 10)
+		switch (rand() % 20)
 		{
-			case 0:
-			case 1:// _nextChunk = ShoppingCenter::create(level, this, top); break;
-			case 2:_nextChunk = PreBossFight::create(level, this, top); break;
+			case 0: _nextChunk = PreBossFight::create(level, this, top); break;
+			case 1:
+			case 2:
+			case 3: _nextChunk = ShoppingCenter::create(level, this, top); break;
 			default: _nextChunk = ChunkBasic::create(level, this, top); break;
 		}
 
-		// Generate itself chunk
+		// Generate itself
 		generate();
 	}
 	else
@@ -104,7 +105,7 @@ void Chunk::Spread(Level* level)
 Sprite* Chunk::addPlatform(Vec2 location, float width)
 {
 	// Load texture and ensure its repeating
-	Texture2D* texture = TextureCache::sharedTextureCache()->addImage("Textures/brick1.png");
+	Texture2D* texture = TextureCache::sharedTextureCache()->addImage("Textures/brick.png");
 	Texture2D::TexParams tp = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };
 	texture->setTexParameters(tp);
 
@@ -226,7 +227,7 @@ Sprite* Chunk::platformAtPoint(const Vec2& point) const
 
 		auto size = node->getContentSize();
 		auto pos = node->getPosition();
-		Rect rect = Rect(pos.x - size.width / 2, pos.y, size.width, size.height);
+		Rect rect = Rect(pos.x - size.width / 2 + 10, pos.y + 10 - CHUNKS_BLOCK_SIZE_HALF, size.width - 20, size.height - 20);
 
 		if (rect.containsPoint(localPos))
 		{

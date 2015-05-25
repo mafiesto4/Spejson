@@ -68,9 +68,16 @@ void GameHUD::update(float dt)
 	ss.str("");
 
 	auto weapon = player->getGun();
-	ss << "Ammo " << weapon->getMagazine() << " / " << weapon->getAmmo();
-	_ammo->setString(ss.str());
-	ss.str("");
+	if (weapon->getType() == Weapon::Type::Pistol)
+	{
+		_ammo->setString("");
+	}
+	else
+	{
+		ss << "Ammo " << weapon->getMagazine() << " / " << weapon->getAmmo();
+		_ammo->setString(ss.str());
+		ss.str("");
+	}
 
 	ss << "Lifes x " << player->lifes;
 	_lifes->setString(ss.str());

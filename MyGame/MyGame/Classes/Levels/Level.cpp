@@ -123,11 +123,15 @@ void Level::update(float dt)
 		}
 
 		// Collision vs player
-		if (!b.ShotByPlayer && playerBox.containsPoint(pos))
+		if (!b.ShotByPlayer)
 		{
-			// Applu damage to the player
-			player->applyDamage(b.Damage);
-			b.DistanceLeft = 0; // mark bullet to delete
+			Rect bulletBox = Rect(pos.x - (BULLET_SIZE / 2), pos.y - (BULLET_SIZE / 2), BULLET_SIZE, BULLET_SIZE);
+			if (playerBox.intersectsRect(bulletBox))
+			{
+				// Applu damage to the player
+				player->applyDamage(b.Damage);
+				b.DistanceLeft = 0; // mark bullet to delete
+			}
 		}
 
 		// Change position

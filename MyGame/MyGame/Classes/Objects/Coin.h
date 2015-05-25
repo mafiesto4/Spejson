@@ -10,7 +10,6 @@ class Coin : public Entity
 {
 private:
 
-	int _value;
 	Sprite* _image;
 
 public:
@@ -23,10 +22,5 @@ public:
 	cocos2d::Sprite* getNode() const
 	{
 		return _image;
-	}
-
-	int getValue()
-	{
-		return _value;
 	}
 };

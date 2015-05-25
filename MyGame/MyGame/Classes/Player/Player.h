@@ -7,7 +7,7 @@
 
 using namespace cocos2d;
 
-#define USE_FREE_CAM 0
+#define USE_FREE_CAM 1
 #define GOD_MODE 0
 
 class Player
@@ -20,20 +20,19 @@ private:
 	PhysicsBody* _body;
 	EventListenerKeyboard* _keyboard;
 	EventListenerMouse* _mouse;
-	Label* playerPosLabel;
 	Level* _level;
+
+	// Input
+	bool _isPressingW, _isPressingS, _isPressingA, _isPressingD;
 
 	// Movement
 	bool _laddered = false;  //czy ma wciœniête "w" w polu drabiny
 	bool _immune = false;
 	float _time = 0;
 	bool _wantsJump;
-	bool _wantsMoveLeft;
-	bool _wantsMoveRight;
 	bool _grounded;
 	bool _rightDirection = true;
 	bool _isUsingLadder = false;
-	bool _wantsDown;
 #if USE_FREE_CAM
 	bool _useBoost;
 #endif
@@ -61,6 +60,8 @@ public:
 
 	void pickupWeapon(Weapon::Type type);
 	void selectWeapon(Weapon::Type type);
+
+	void onPickupAmmo();
 
 	Node* getNode() const
 	{
@@ -119,19 +120,14 @@ public:
 		_immune = true;
 	}
 
-	void clearLaddered()
+	bool getLaddered() const
 	{
-		_laddered = false;
+		return _laddered;
 	}
 
 	bool getImmune() const
 	{
 		return _immune; 
-	}
-
-	bool getLaddered() const
-	{
-		return _laddered; 
 	}
 
 	int getScore() const

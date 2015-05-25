@@ -50,17 +50,18 @@ void BossFight::generate()
 	addLadder(Vec2(startNS.x, ladderH1 - ladderH), ladderH);
 
 	// Generate platforms for fight
-	float platformY = CHUNKS_BLOCK_SIZE_HALF;
-	float platformStart = 0;
-	float platformWidth = (size.width * 0.5f);
-	addPlatform(Vec2(platformStart, platformY), platformWidth);
-	addPlatform(Vec2(platformStart + platformWidth + CHUNKS_BLOCK_SIZE, platformY), CHUNKS_BLOCK_SIZE * 4);
+	const float platformY = CHUNKS_BLOCK_SIZE_HALF;
+	const float platformStart = 0;
+	float platform1Width = (size.width * 0.5f);
+	float platform2Width = size.width - platform1Width - CHUNKS_BLOCK_SIZE;
+	addPlatform(Vec2(platformStart, platformY), platform1Width);
+	addPlatform(Vec2(platformStart + platform1Width + CHUNKS_BLOCK_SIZE, platformY), platform2Width);
 
 	// Spawn a boss
 	const int bossSize = 100 + CHUNKS_BLOCK_SIZE_HALF;
-	const int bossCenterPos = 150 + CHUNKS_BLOCK_SIZE_HALF;
+	const int bossCenterPos = 64 + CHUNKS_BLOCK_SIZE_HALF;
 	Vec2 p1 = Vec2(platformStart + bossSize, platformY + bossCenterPos);
-	Vec2 p2 = Vec2(platformStart + platformWidth - bossSize + CHUNKS_BLOCK_SIZE * 4, p1.y);
+	Vec2 p2 = Vec2(platformStart + platform1Width + CHUNKS_BLOCK_SIZE + platform2Width - bossSize, p1.y);
 	_entities.Add(new Boss(this, p1, p2));
 
 	// Add blocking platform

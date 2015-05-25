@@ -9,16 +9,19 @@ class Ladder : public Entity
 
 private:
 
-	cocos2d::Sprite* _sprite;
-	bool ifActive = false;
+	cocos2d::Sprite* _image;
+	bool _isActive;
+
 	Ladder(Chunk* parent, const cocos2d::Vec2& location, int height);
 
 public:
+
+	~Ladder();
 
 	bool update(class Level* level, float dt) override;
 
 	cocos2d::Node* getNode() const
 	{
-		return _sprite;
+		return _image;
 	}
 };

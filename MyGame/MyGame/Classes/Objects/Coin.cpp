@@ -7,21 +7,21 @@
 using namespace cocos2d;
 
 Coin::Coin(Chunk* parent, Vec2 pos)
-	:Entity(parent)
+	:Entity(parent, pos),
+	_image(nullptr)
 {
-	_value = 1;
 	_image = Sprite::create("Textures/super_mario_coin.png");
 	_image->setPosition(pos + Vec2(24,0));
 	_image->setAnchorPoint(Vec2(0.5, 0.5));
 	_parent->addChild(_image);
+
+	setupAnim(1, 4, 8, 10);
 }
 
 Coin::~Coin()
 {
 	if (_image)
 	{
-		_image->removeFromPhysicsWorld();
-		_image->removeAllChildren();
 		_image->removeFromParentAndCleanup(true);
 		_image = nullptr;
 	}
@@ -29,14 +29,22 @@ Coin::~Coin()
 
 bool Coin::update(Level* level, float dt)
 {
-	Vec2 coinPos = _image->getPosition() + _parent->getPosition();
-
+	// Cache data
 	auto player = Game::getInstance()->getPlayer();
-	if (player->getBox().containsPoint(coinPos))
+	Vec2 pos = _image->getPosition() + _parent->getPosition() - Vec2(CHUNKS_BLOCK_SIZE_HALF, CHUNKS_BLOCK_SIZE_HALF);
+	auto size = _image->getContentSize();
+	Rect box = Rect(pos.x, pos.y, size.width, size.height);
+
+	// Test collision
+	if (player->getBox().intersectsRect(box))
 	{
-		player->addCash(_value);
+		// Add cash
+		player->addCash(1);
 		return true;
 	}
+	
+	// Sprite animation
+	animate(dt, _image);
 
 	return false;
 }
