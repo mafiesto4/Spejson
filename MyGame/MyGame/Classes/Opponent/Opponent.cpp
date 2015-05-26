@@ -14,7 +14,8 @@ Opponent::Opponent(Chunk* parent, int hp)
 	_hp(hp),
 	_node(nullptr),
 	_state(State::Undefined),
-	_ogluszony(false)
+	_ogluszony(false),
+	_score(hp)
 {
 }
 
@@ -90,6 +91,7 @@ bool Opponent::update(Level* level, float dt)
 	{
 		// Killed by death
 		_parent->addCoin(box.origin + Vec2(0, 64));
+		player->addScore(_score);
 		return true;
 	}
 

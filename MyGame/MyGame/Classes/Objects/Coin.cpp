@@ -4,6 +4,7 @@
 #include "Box2D\Box2D.h"
 #include "Objects/Coin.h"
 #include "../Levels/Chunk.h"
+
 using namespace cocos2d;
 
 Coin::Coin(Chunk* parent, Vec2 pos)
@@ -11,8 +12,8 @@ Coin::Coin(Chunk* parent, Vec2 pos)
 	_image(nullptr)
 {
 	_image = Sprite::create("Textures/super_mario_coin.png");
-	_image->setPosition(pos + Vec2(24,0));
-	_image->setAnchorPoint(Vec2(0.5, 0.5));
+	_image->setPosition(pos);
+	_image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_parent->addChild(_image);
 
 	setupAnim(1, 4, 8, 10);

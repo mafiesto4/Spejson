@@ -24,6 +24,7 @@ public:
 
 protected:
 
+	int _score;
 	int _hp;
 	Node* _node;
 	State _state;

@@ -165,6 +165,7 @@ void ChunkBasic::generate()
 			else
 			{
 				int rand = distr(gen) % 200;
+				p.x += CHUNKS_BLOCK_SIZE_HALF;
 				switch (rand)
 				{
 					// Coin

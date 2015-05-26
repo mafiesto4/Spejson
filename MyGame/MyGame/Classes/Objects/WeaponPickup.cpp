@@ -21,7 +21,7 @@ WeaponPickup::WeaponPickup(Chunk* parent, Vec2 pos, Weapon::Type type)
 	}
 	_image = Sprite::create(path);
 	_image->setPosition(pos);
-	_image->setAnchorPoint(Vec2(0.5, 0.5));
+	_image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_parent->addChild(_image);
 
 	setupAnim(2, 5, 2, 3);

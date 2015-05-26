@@ -11,7 +11,7 @@ using namespace std;
 using namespace cocos2d;
 
 Fly::Fly(Chunk* parent, Vec2 p1, Vec2 p2)
-	:Opponent(parent),
+	:Opponent(parent, 60),
 	_p1(p1),
 	_p2(p2),
 	_timeAcc(0),
