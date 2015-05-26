@@ -320,7 +320,7 @@ public:
 	// Create instance of Array class from the list
 	/*Array<T> ToArray()
 	{
-		return new Array<T>(_data, _count);
+	return new Array<T>(_data, _count);
 	}*/
 
 	// Sets the capacity to the actual number of elements in the list, if that number is less than a threshold value
@@ -348,5 +348,55 @@ public:
 			num = minCapacity;
 		}
 		setCapacity(num);
+	}
+
+	// Sort items in the list using Quicksort algorithm O(n*log(n))
+	void Sort()
+	{
+		if (_count > 1)
+			Quicksort(0, _count - 1);
+	}
+
+private:
+
+	void Quicksort(int l, int r)
+	{
+		// Select division point
+		int indeksPodzialu = (l + r) / 2;
+
+		// Cache element at center point
+		T wartoscPodzialu = _data[indeksPodzialu];
+
+		// Swap with the first one
+		swap(indeksPodzialu, r);
+
+		// Sort
+		int pos = l;
+		for (int i = l; i < r; i++)
+		{
+			if (_data[i] < wartoscPodzialu)
+			{
+				swap(i, pos);
+				pos++;
+			}
+		}
+
+		// Swap with the last one
+		swap(pos, r);
+
+		// Sort lower part
+		if (l < pos - 1)
+			Quicksort(l, pos - 1);
+
+		// Sort higher part
+		if (pos + 1 < r)
+			Quicksort(pos + 1, r);
+	}
+
+	FORCE_INLINE void swap(const int i1, const int i2)
+	{
+		T tmp = _data[i1];
+		_data[i1] = _data[i2];
+		_data[i2] = tmp;
 	}
 };

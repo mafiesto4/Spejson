@@ -23,6 +23,21 @@ private:
 			Score(score)
 		{
 		}
+		
+		bool operator<(const Entry& e)
+		{
+			return Score < e.Score;
+		}
+
+		bool operator>(const Entry& e)
+		{
+			return Score > e.Score;
+		}
+
+		bool operator==(const Entry& e)
+		{
+			return Score == e.Score;
+		}
 
 	} Entry;
 

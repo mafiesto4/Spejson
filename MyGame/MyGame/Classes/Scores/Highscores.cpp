@@ -56,5 +56,9 @@ void Highscores::save()
 
 void Highscores::addRecord(std::string name, int score)
 {
+	// Add element
 	_table.Add(Entry(name, score));
+
+	// Sort results
+	_table.Sort();
 }
