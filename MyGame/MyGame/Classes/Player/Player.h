@@ -80,13 +80,12 @@ public:
 
 	void applyDamage(float damage)
 	{
-#if !USE_FREE_CAM
+#if !USE_FREE_CAM && !GOD_MODE
 		_hp -= damage;
 		if (_hp <= 0)
 		{
 			_hp = 0;
-			MessageBox("Player zostal zabity!", "SMIERC");
-			Director::getInstance()->end();
+			_level->onPlayerDeath();
 		}
 #endif
 	}

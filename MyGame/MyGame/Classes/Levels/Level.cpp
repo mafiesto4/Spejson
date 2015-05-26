@@ -9,6 +9,7 @@
 #include "HUD\DebugGUI.h"
 #include "Utilities.h"
 #include "Chunk.h"
+#include "../Scores/Highscores.h"
 
 using namespace cocos2d;
 
@@ -192,9 +193,15 @@ void Level::update(float dt)
 
 	// Update chunks
 	updateChunks(dt);
+}
 
-	DebugGUI::setVal(4, "Money", player->Cash());
-	DebugGUI::setVal(2, "Bullets count", _bullets.size());
+void Level::onPlayerDeath()
+{
+	// Save player result
+	Scores.addRecord("gracz1", Game::getInstance()->getPlayer()->getScore());
+	Scores.save();
+
+	Director::getInstance()->end();
 }
 
 bool Level::onTouchBegan(Touch *touch, Event *unused_event)

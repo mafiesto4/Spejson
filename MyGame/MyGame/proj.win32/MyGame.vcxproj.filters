@@ -85,6 +85,9 @@
     <ClCompile Include="..\Classes\Objects\WeaponPickup.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Scores\Highscores.cpp">
+      <Filter>Scores</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
@@ -176,6 +179,9 @@
     <ClInclude Include="..\Classes\Objects\WeaponPickup.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Scores\Highscores.h">
+      <Filter>Scores</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
@@ -225,6 +231,9 @@
     </Filter>
     <Filter Include="Player\Weapons\Freezer">
       <UniqueIdentifier>{93f81b9a-e610-426b-8094-241352605ca6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scores">
+      <UniqueIdentifier>{24df3a10-ddad-498c-a022-36a8ea67e125}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

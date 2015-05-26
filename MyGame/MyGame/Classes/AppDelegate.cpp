@@ -2,6 +2,7 @@
 #include "MainMenu\MainMenuScene.h"
 #include "Game.h"
 #include "HUD/DebugGUI.h"
+#include "Scores/Highscores.h"
 
 USING_NS_CC;
 
@@ -44,6 +45,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 
 	// Pobierz instancje gry
 	auto game = Game::getInstance();
+
+	// Load scores
+	Scores.load();
 
 	// laduj defaultowy profile dla testow
 	game->loadProfile("default");

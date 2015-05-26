@@ -55,6 +55,8 @@ public:
 
 	CREATE_FUNC(Level);
 
+	void onPlayerDeath();
+	
 	virtual bool onTouchBegan(Touch *touch, Event *unused_event);
 	virtual void onTouchEnded(Touch *touch, Event *unused_event);
 

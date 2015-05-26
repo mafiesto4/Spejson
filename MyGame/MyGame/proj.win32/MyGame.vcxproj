@@ -166,6 +166,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Player\Weapons\Freezer\Freezer.cpp" />
     <ClCompile Include="..\Classes\Player\Weapons\MachineGun\MachineGun.cpp" />
     <ClCompile Include="..\Classes\Player\Weapons\Pistol\Pistol.cpp" />
+    <ClCompile Include="..\Classes\Scores\Highscores.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +201,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Player\Weapons\MachineGun\MachineGun.h" />
     <ClInclude Include="..\Classes\Player\Weapons\Pistol\Pistol.h" />
     <ClInclude Include="..\Classes\Player\Weapons\Weapon.h" />
+    <ClInclude Include="..\Classes\Scores\Highscores.h" />
     <ClInclude Include="..\Classes\Utilities.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
