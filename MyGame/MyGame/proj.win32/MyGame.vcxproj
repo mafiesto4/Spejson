@@ -141,6 +141,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Game.cpp" />
     <ClCompile Include="..\Classes\HUD\DebugGUI.cpp" />
     <ClCompile Include="..\Classes\HUD\GameHUD.cpp" />
+    <ClCompile Include="..\Classes\Levels\Background.cpp" />
     <ClCompile Include="..\Classes\Levels\Chunk.cpp" />
     <ClCompile Include="..\Classes\Levels\ChunkTypes\BossFight.cpp" />
     <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.cpp" />
@@ -175,6 +176,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Game.h" />
     <ClInclude Include="..\Classes\HUD\DebugGUI.h" />
     <ClInclude Include="..\Classes\HUD\GameHUD.h" />
+    <ClInclude Include="..\Classes\Levels\Background.h" />
     <ClInclude Include="..\Classes\Levels\Chunk.h" />
     <ClInclude Include="..\Classes\Levels\ChunkTypes\BossFight.h" />
     <ClInclude Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.h" />

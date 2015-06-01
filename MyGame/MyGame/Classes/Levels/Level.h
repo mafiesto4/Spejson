@@ -3,18 +3,15 @@
 
 #include <vector>
 #include <cocos2d.h>
-#include <string.h>
 #include "HUD\GameHUD.h"
 #include "physics\CCPhysicsWorld.h"
 #include "Bullet.h"
 #include "Levels/Lava.h"
-#include "Player\Weapons\Weapon.h"
-#include "Player\Weapons\MachineGun\MachineGun.h"
-#include "Player\Weapons\Pistol\Pistol.h"
 
 // Forward declarations
 class Chunk;
 class Opponent;
+class Background;
 
 using namespace cocos2d;
 using namespace std;
@@ -35,7 +32,7 @@ private:
 	PhysicsWorld* m_world;
 	GameHUD* _hud;
 	Lava* _lava;
-	bool onContactBegin(EventCustom* event, const PhysicsContact& contact);
+	Background* _background;
 
 	// Camera movement
 	#define CAM_MAX_VELOCITY 1000.0f

@@ -4,6 +4,10 @@
 
 USING_NS_CC;
 
+// http://developer.download.nvidia.com/devzone/devcenter/gamegraphics/files/OptimusRenderingPolicies.pdf
+// The following line is to favor the high performance NVIDIA GPU if there are multiple GPUs
+extern "C" { _declspec(dllexport) unsigned int NvOptimusEnablement = 0x00000001; }
+
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                        HINSTANCE hPrevInstance,
                        LPTSTR    lpCmdLine,

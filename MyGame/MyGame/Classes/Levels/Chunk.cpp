@@ -1,8 +1,6 @@
 
 #include <cocos2d.h>
 #include <vector>
-#include <string.h>
-#include "physics\CCPhysicsWorld.h"
 
 #include "../Types/List.h"
 #include "Level.h"
@@ -10,17 +8,17 @@
 
 #include "ChunkTypes/ChunkBasic.h"
 #include "ChunkTypes/ShoppingCenter.h"
-#include "ChunkTypes/BossFight.h"
 #include "ChunkTypes/PreBossFight.h"
 
 #include "../Objects/Ladder.h"
 #include "../Objects/Coin.h"
 #include "../Objects/Ammo.h"
 
-#include "../Opponent/Alien1/Alien1.h"
 #include "../Opponent/Fly/Fly.h"
 
 using namespace cocos2d;
+
+//bool noTexLoaded = true;
 
 Chunk::~Chunk()
 {
@@ -32,8 +30,22 @@ Chunk::~Chunk()
 bool Chunk::init()
 {
 	// Base
-	//if (!Layer::init())
-	if (!LayerColor::initWithColor(Color4B(rand() % 255, rand() % 255, rand() % 255, 255)))
+	if (!Layer::init())
+	//if (!LayerColor::initWithColor(Color4B(rand() % 255, rand() % 255, rand() % 255, 255)))
+	/*Texture2D *texture = Director::getInstance()->getTextureCache()->addImage("Textures/bg.png");
+	if (!texture)
+	{
+		return false;
+	}
+	if (noTexLoaded)
+	{
+		Texture2D::TexParams params{ GL_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE };
+		texture->setTexParameters(params);
+		noTexLoaded = false;
+	}
+	Rect rect = Rect::ZERO;
+	rect.size = texture->getContentSize();
+	if (!Sprite::initWithTexture(texture, rect, false))*/
 	{
 		return false;
 	}
@@ -111,9 +123,7 @@ Sprite* Chunk::addPlatform(Vec2 location, float width)
 	// Create sprite
 	auto sprite = Sprite::createWithTexture(texture, Rect(0, 0, width, CHUNKS_BLOCK_SIZE));
 	sprite->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	//sprite->setPosition(location);
 	sprite->setPosition(Vec2(location.x + width / 2, location.y));
-	//sprite->setTag(PHYSICS_TAG_GROUND);
 
 	// Create body
 	auto body = PhysicsBody::createBox(sprite->getContentSize(), PhysicsMaterial(0.1f, 0.0f, 0.52f));
@@ -230,7 +240,7 @@ Sprite* Chunk::platformAtPoint(const Vec2& point) const
 
 		if (rect.containsPoint(localPos))
 		{
-			_platforms[i]->setColor(Color3B(220, 22, 22));
+			//_platforms[i]->setColor(Color3B(220, 22, 22));
 			return _platforms[i];
 		}
 	}

@@ -88,6 +88,9 @@
     <ClCompile Include="..\Classes\Scores\Highscores.cpp">
       <Filter>Scores</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Levels\Background.cpp">
+      <Filter>Levels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
@@ -181,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Scores\Highscores.h">
       <Filter>Scores</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Levels\Background.h">
+      <Filter>Levels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,7 +11,7 @@ Coin::Coin(Chunk* parent, Vec2 pos)
 	:Entity(parent, pos),
 	_image(nullptr)
 {
-	_image = Sprite::create("Textures/super_mario_coin.png");
+	_image = Sprite::create("Textures/coin.png");
 	_image->setPosition(pos);
 	_image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_parent->addChild(_image);

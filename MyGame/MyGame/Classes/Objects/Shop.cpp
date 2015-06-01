@@ -8,8 +8,8 @@ using namespace cocos2d;
 
 Shop::Shop(Chunk* parent, Vec2 pos)
 	:Entity(parent, pos),
-	_image(nullptr),
-	_isOver(false)
+	_isOver(false),
+	_image(nullptr)
 {
 	_image = Sprite::create("Textures/shop1.png");
 	_image->setPosition(pos + Vec2(64, 0));

@@ -14,7 +14,7 @@ private:
 
 		Entry()
 		{
-			// Invalid entry
+			// Considered as invalid entry
 			Score = -1;
 		}
 

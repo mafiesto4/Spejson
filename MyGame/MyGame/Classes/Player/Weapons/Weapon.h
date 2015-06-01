@@ -37,15 +37,15 @@ public:
 	bool CanUse;
 
 	Weapon(Type type, Level* level)
-		:_type(type),
+		:_sprite(nullptr),
+		_type(type),
 		_level(level),
-		_sprite(nullptr),
 		_magazine(0),
 		CanUse(false)
 	{
 	}
 
-	~Weapon()
+	virtual ~Weapon()
 	{
 		onDeselect();
 	}
@@ -57,21 +57,21 @@ public:
 
 	virtual void onSelect(cocos2d::Node* parent)
 	{
-		_sprite = cocos2d::Sprite::create(getSpritePath());
+		/*_sprite = cocos2d::Sprite::create(getSpritePath());
 		_sprite->setPosition(cocos2d::Vec2(100, 100));
-		parent->addChild(_sprite);
+		parent->addChild(_sprite);*/
 	}
 
 	virtual void update(float dt) = 0;
 
 	virtual void onDeselect()
 	{
-		if (_sprite)
+		/*if (_sprite)
 		{
 			_sprite->removeAllChildren();
 			_sprite->removeFromParentAndCleanup(true);
 			_sprite = nullptr;
-		}
+		}*/
 	}
 
 public:

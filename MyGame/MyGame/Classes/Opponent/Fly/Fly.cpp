@@ -3,8 +3,6 @@
 #include "Opponent\Opponent.h"
 #include "Fly.h"
 #include "Game.h"
-#include "Box2D\Box2D.h"
-#include "../../HUD/DebugGUI.h"
 #include "../../Levels/Chunk.h"
 
 using namespace std;
@@ -12,13 +10,13 @@ using namespace cocos2d;
 
 Fly::Fly(Chunk* parent, Vec2 p1, Vec2 p2)
 	:Opponent(parent, 60),
-	_p1(p1),
-	_p2(p2),
 	_timeAcc(0),
 	_speed(300),
+	_p1(p1 + Vec2(0, 24)),
+	_p2(p2 + Vec2(0, 24)),
 	_randDir(1,0)
 {
-	_node = Sprite::create("Textures/youtube.png");
+	_node = Sprite::create("Textures/fly.png");
 	_node->setPosition(p1);
 	parent->addChild(_node, 10000);
 }
@@ -67,6 +65,7 @@ bool Fly::update(Level* level, float dt)
 				auto anim = MoveTo::create(calMoveDuration(), _p2);
 				anim->setTag(0);
 				_node->runAction(anim);
+				_node->setScaleX(-1);
 				_state = State::PatrollingB;
 			}
 		}
@@ -79,6 +78,7 @@ bool Fly::update(Level* level, float dt)
 				auto anim = MoveTo::create(calMoveDuration(), _p1);
 				anim->setTag(0);
 				_node->runAction(anim);
+				_node->setScaleX(1);
 				_state = State::PatrollingA;
 			}
 		}

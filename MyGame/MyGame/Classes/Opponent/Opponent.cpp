@@ -11,11 +11,11 @@ using namespace cocos2d;
 
 Opponent::Opponent(Chunk* parent, int hp)
 	:Entity(parent, Vec2::ZERO),
+	_score(hp * 10.0f),
 	_hp(hp),
 	_node(nullptr),
 	_state(State::Undefined),
-	_ogluszony(false),
-	_score(hp)
+	_ogluszony(false)
 {
 }
 

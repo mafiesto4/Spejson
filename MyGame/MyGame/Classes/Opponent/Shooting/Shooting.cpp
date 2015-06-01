@@ -12,9 +12,9 @@ using namespace cocos2d;
 
 Shooting::Shooting(Chunk* parent, Vec2 p1, Vec2 p2)
 	:Opponent(parent),
-	_p1(p1),
-	_p2(p2),
-	_timeAcc(0)
+	_timeAcc(0),
+	_p1(p1 + Vec2(0, 64)),
+	_p2(p2 + Vec2(0, 64))
 {
 	_node = Sprite::create("Textures/facebook.png");
 	_node->setPosition(p1);
@@ -70,6 +70,7 @@ bool Shooting::update(Level* level, float dt)
 				auto anim = MoveTo::create(calMoveDuration(), _p2);
 				anim->setTag(0);
 				_node->runAction(anim);
+				_node->setScaleX(-1);
 				_state = State::PatrollingB;
 			}
 		}
@@ -82,6 +83,7 @@ bool Shooting::update(Level* level, float dt)
 				auto anim = MoveTo::create(calMoveDuration(), _p1);
 				anim->setTag(0);
 				_node->runAction(anim);
+				_node->setScaleX(1);
 				_state = State::PatrollingA;
 			}
 		}
@@ -108,7 +110,6 @@ bool Shooting::update(Level* level, float dt)
 			}
 		}
 		break;
-
 
 		case State::SearchForPlayer:
 		{

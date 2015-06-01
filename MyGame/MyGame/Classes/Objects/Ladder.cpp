@@ -47,6 +47,7 @@ bool Ladder::update(Level* level, float dt)
 	playerRect.origin += Vec2(playerRect.size.width * 0.2f, playerRect.size.height * 0.1f);
 	playerRect.size = Vec2(playerRect.size.width * 0.6f, playerRect.size.height * 0.8f);
 
+	// Check if player is over the ladder
 	if (ladderRect.intersectsRect(playerRect))
 	{
 		if (player->getLaddered())
@@ -57,13 +58,15 @@ bool Ladder::update(Level* level, float dt)
 		if (_isActive)
 		{
 			player->markLadderUse();
-			_image->setColor(Color3B(0, 255, 0));
+			//_image->setColor(Color3B(0, 255, 0));
 		}
+
+		player->OverLadder = true;
 	}
 	else
 	{
-		_image->setColor(Color3B(255, 255, 255));
 		_isActive = false;
+		//_image->setColor(Color3B(255, 255, 255));
 	}
 
 	return false;

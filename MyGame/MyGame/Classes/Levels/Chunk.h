@@ -3,8 +3,6 @@
 
 #include <vector>
 #include <cocos2d.h>
-#include <string.h>
-#include <math.h>
 #include "Level.h"
 #include "../Objects/Entity.h"
 #include "../Types/List.h"
@@ -36,11 +34,14 @@ static __TYPE__* create(Level* level, Chunk* parent, const Vec2& pos) \
 	return nullptr; \
 }
 
+class Player;
+
 // Describes single chunk with own logic and children
-class Chunk : public cocos2d::LayerColor
+class Chunk : public cocos2d::Layer
 {
 	friend Chunk;
 	friend Entity;
+	friend Player;
 
 protected:
 
@@ -52,7 +53,7 @@ protected:
 
 public:
 
-	Chunk(Chunk* prevChunk)
+	explicit Chunk(Chunk* prevChunk)
 		:_nextChunk(nullptr),
 		_previousChunk(prevChunk)
 	{
@@ -61,7 +62,7 @@ public:
 	~Chunk();
 	
 	// Init chunk
-	bool init();
+	bool init() override;
 
 	// Update chunk
 	virtual void update(Level* level, float dt);
@@ -118,8 +119,4 @@ protected:
 	
 	void tryToSpawnAFly();
 	void spawnAFly();
-
-public:
-
-	bool LoadChunkTemplates();
 };

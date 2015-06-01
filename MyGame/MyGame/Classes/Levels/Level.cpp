@@ -1,15 +1,12 @@
 ﻿
 #include "Level.h"
 #include "..\Player\Player.h"
-#include "..\Player\Weapons\Pistol\Pistol.h"
-#include "..\Player\Weapons\Freezer\Freezer.h"
-#include "..\Opponent\Alien1\Alien1.h"
 #include "HUD\GameHUD.h"
 #include "Game.h"
-#include "HUD\DebugGUI.h"
 #include "Utilities.h"
 #include "Chunk.h"
 #include "../Scores/Highscores.h"
+#include "Background.h"
 
 using namespace cocos2d;
 
@@ -35,7 +32,7 @@ Scene* Level::createScene()
 	physicsWorld->setSubsteps(4);
 
 	// Create level layer
-	auto level = Level::create();
+	auto level = create();
 	level->m_world = physicsWorld;
 	scene->addChild(level);
 
@@ -55,6 +52,9 @@ bool Level::init()
 
 	// Enable update function
 	scheduleUpdateWithPriority(1410);
+
+	// Create background
+	_background = Background::create(this);
 
 	// setup player
 	auto game = Game::getInstance();
@@ -164,7 +164,9 @@ void Level::update(float dt)
 		Size visibleSize = Director::getInstance()->getVisibleSize();
 		Vec2 newPos =  player->getPosition();
 		_camera->setPosition(newPos);
-		_hud->setPosition(newPos - visibleSize * 0.5f);
+		auto hudPos = newPos - visibleSize * 0.5f;
+		_hud->setPosition(hudPos);
+		_background->setPosition(hudPos);
 	}
 #else
 	{
@@ -184,7 +186,9 @@ void Level::update(float dt)
 		// move camera and HUD
 		Vec2 newPos = prevCamPos + _camVelocity * dt;
 		_camera->setPosition(newPos);
-		_hud->setPosition(newPos - visibleSize * 0.5f);
+		Vec2 guiPos = newPos - visibleSize * 0.5f;
+		_hud->setPosition(guiPos);
+		_background->setPosition(guiPos);
 
 		// dump velocity to create smooth effect
 		_camVelocity *= powf(CAM_VELOCITY_DUMP, dt);

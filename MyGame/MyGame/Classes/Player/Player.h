@@ -4,11 +4,13 @@
 #include <string> 
 #include "cocos2d.h"
 #include "Levels\Level.h"
+#include "Weapons/Weapon.h"
 
 using namespace cocos2d;
 
 #define USE_FREE_CAM 0
 #define GOD_MODE 0
+#define GROUNDED_EPSOLON 10
 
 class Player
 {
@@ -21,18 +23,22 @@ private:
 	EventListenerKeyboard* _keyboard;
 	EventListenerMouse* _mouse;
 	Level* _level;
+	Vec2 _prevPos;
+
+	float _maxHeight;
 
 	// Input
 	bool _isPressingW, _isPressingS, _isPressingA, _isPressingD;
 
 	// Movement
-	bool _laddered = false;  //czy ma wciœniête "w" w polu drabiny
-	bool _immune = false;
-	float _time = 0;
+	bool _laddered;
+	bool _immune;
+	float _time;
 	bool _wantsJump;
 	bool _grounded;
-	bool _rightDirection = true;
-	bool _isUsingLadder = false;
+	bool _doubleJumpFlag;
+	bool _rightDirection;
+	bool _isUsingLadder;
 #if USE_FREE_CAM
 	bool _useBoost;
 #endif
@@ -47,8 +53,12 @@ private:
 
 public:
 
-	float fireRate = 1;
-	int lifes = 1;
+	float fireRate;
+	int lifes;
+
+	bool _isMovingUp;
+
+	bool OverLadder;
 
 	Player(std::string name);
 	~Player();

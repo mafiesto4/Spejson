@@ -1,12 +1,8 @@
 
 #include "Level.h"
 #include "..\Player\Player.h"
-#include "..\Player\Weapons\Pistol\Pistol.h"
-#include "..\Opponent\Alien1\Alien1.h"
-#include "HUD\GameHUD.h"
 #include "Game.h"
 #include "HUD\DebugGUI.h"
-#include "Utilities.h"
 #include "Levels/Chunk.h"
 #include "Levels/ChunkTypes/ChunkBaseFloor.h"
 #include <assert.h>

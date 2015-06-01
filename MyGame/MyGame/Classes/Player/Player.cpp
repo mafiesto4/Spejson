@@ -3,11 +3,12 @@
 #include "cocos2d.h"
 #include "Player.h"
 #include "Game.h"
-#include "Box2D\Box2D.h"
 
 #include "Player\Weapons\Pistol\Pistol.h"
 #include "Player\Weapons\MachineGun\MachineGun.h"
 #include "Player\Weapons\Freezer\Freezer.h"
+
+#include "../Levels/Chunk.h"
 
 #include "../HUD/DebugGUI.h"
 
@@ -23,17 +24,29 @@ bool onContactBegin(PhysicsContact&);
 Player::Player(string name)
 	:_hp(100),
 	_name(name),
-	_keyboard(nullptr),
-	_mouse(nullptr),
 	_image(nullptr),
 	_body(nullptr),
-	_selectedGun(nullptr),
+	_keyboard(nullptr),
+	_mouse(nullptr),
 	_level(nullptr),
+	_maxHeight(100),
 
 	_isPressingW(false),
 	_isPressingS(false),
 	_isPressingA(false),
-	_isPressingD(false)
+	_isPressingD(false),
+
+	_laddered(false),
+	_immune(false),
+	OverLadder(false),
+
+	_time(0),
+	_rightDirection(true),
+	_isUsingLadder(false),
+	_selectedGun(nullptr),
+	fireRate(1),
+
+	lifes(1)
 {
 #if USE_FREE_CAM
 	_useBoost = false;
@@ -173,6 +186,38 @@ void Player::markLadderUse()
 
 void Player::update(float dt)
 {
+	// Check if grounded or is in the air
+	auto pos = _image->getPosition();
+	auto size = _image->getContentSize();
+	float playerBotom = pos.y - size.height;
+	_grounded = playerBotom < 10 || OverLadder;
+	OverLadder = false;
+	if (!_grounded)
+	{
+		Chunk* chunk = _level->chunkAtPoint(Vec2(pos.x, playerBotom - (GROUNDED_EPSOLON / 2)));
+		if (chunk)
+		{
+			// Check collsion with all the platforms
+			Vec2 chunkRoot = chunk->getPosition();
+			for (int i = 0; i < chunk->_platforms.Count(); i++)
+			{
+				auto platform = chunk->_platforms[i];
+				auto platformSize = platform->getContentSize();
+				auto platformPos = chunkRoot + platform->getPosition();
+
+				if (abs(platformPos.y - playerBotom) <= GROUNDED_EPSOLON && abs(pos.x - platformPos.x) <= (platformSize.width + size.width) / 2)
+				{
+					_grounded = true;
+					break;
+				}
+			}
+		}
+	}
+	if (_grounded)
+	{
+		_doubleJumpFlag = true;
+	}
+
 #if USE_FREE_CAM
 	Vec2 move = Vec2::ZERO;
 	if (_isPressingW)
@@ -189,8 +234,8 @@ void Player::update(float dt)
 		_image->setScaleX(1);
 		move += Vec2(1, 0);
 	}
-	move *= _useBoost ? 30 : 10;
-	_image->setPosition(_image->getPosition() + move);
+	move *= _useBoost ? 30 : 5;
+	_image->setPosition(pos + move);
 #else
 	// Check if player is using a ladder
 	_body->setGravityEnable(!_isUsingLadder);
@@ -219,7 +264,7 @@ void Player::update(float dt)
 			move += Vec2(1, 0);
 		}
 		move *= 6;
-		_image->setPosition(_image->getPosition() + move);
+		_image->setPosition(pos + move);
 
 		// Clear flag
 		_isUsingLadder = false;
@@ -234,10 +279,11 @@ void Player::update(float dt)
 
 			// Create impulse direction
 			const float jumpSpeed = 4000 * PLAYER_MOVEMENT_COEFF;
-			if (_wantsJump)// && _grounded)
+			if (_wantsJump && (_grounded || _doubleJumpFlag))
 			{
 				impulse.y = jumpSpeed;
 				_wantsJump = false;
+				_doubleJumpFlag = _grounded;
 			}
 			if (_isPressingA)
 			{
@@ -254,11 +300,13 @@ void Player::update(float dt)
 	}
 #endif
 
+	// update broni
 	if (_selectedGun)
 	{
 		_selectedGun->update(dt);
 	}
 
+	// timer niezniszczalnosci
 	if (_immune)
 	{
 		_time += dt;
@@ -268,6 +316,18 @@ void Player::update(float dt)
 			_time = 0;
 		}
 	}
+
+	// liczenie pkt za wysokosc
+	float h = _image->getPositionY();
+	if (_maxHeight < h)
+	{
+		_score += h - _maxHeight;
+		_maxHeight = h;
+	}
+
+	// Check player move direction
+	_isMovingUp = _prevPos.y < pos.y;
+	_prevPos = _image->getPosition();
 }
 
 void Player::onDamage(bool pushRight)

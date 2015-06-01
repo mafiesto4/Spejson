@@ -4,7 +4,6 @@
 #include "Opponent\Alien1\Alien1.h"
 #include "Game.h"
 #include "Box2D\Box2D.h"
-#include "../../HUD/DebugGUI.h"
 #include "../../Levels/Chunk.h"
 
 using namespace std;
@@ -14,10 +13,10 @@ bool onContactBegin(PhysicsContact&);
 
 Alien1::Alien1(Chunk* parent, Vec2 p1, Vec2 p2)
 	:Opponent(parent),
-	_p1(p1),
-	_p2(p2)
+	_p1(p1 + Vec2(0, 16)),
+	_p2(p2 + Vec2(0, 16))
 {
-	_node = Sprite::create("Textures/twitter.png");
+	_node = Sprite::create("Textures/alien1.png");
 	_node->setPosition(p1);
 	parent->addChild(_node);
 }
@@ -57,6 +56,7 @@ bool Alien1::update(Level* level, float dt)
 					auto anim = MoveTo::create(calMoveDuration(), _p2);
 					anim->setTag(0);
 					_node->runAction(anim);
+					_node->setScaleX(-1);
 					_state = State::PatrollingB;
 				}
 				else
@@ -64,6 +64,7 @@ bool Alien1::update(Level* level, float dt)
 					auto anim = MoveTo::create(calMoveDuration(), _p1);
 					anim->setTag(0);
 					_node->runAction(anim);
+					_node->setScaleX(1);
 					_state = State::PatrollingA;
 				}
 			}
