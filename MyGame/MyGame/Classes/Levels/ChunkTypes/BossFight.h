@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include <vector>
 #include <cocos2d.h>
 #include <string.h>
 #include "../Chunk.h"
@@ -12,13 +11,13 @@ class BossFight : public Chunk
 
 private:
 
-	cocos2d::Vec2 _pathPointForNext;
-	cocos2d::Sprite* _blockingPlatform;
+	Vec2 _pathPointForNext;
+	Sprite* _blockingPlatform;
 
 public:
 
-	BossFight(Chunk* prevChunk)
-		:Chunk(prevChunk)
+	BossFight(Chunk* prevChunk, Level* level)
+		:Chunk(prevChunk, level)
 	{
 	}
 
@@ -28,11 +27,11 @@ public:
 
 	CHUNKS_CREATE(BossFight);
 
-	cocos2d::Vec2 getPathPointForPrevChunk() const override;
+	Vec2 getPathPointForPrevChunk() const override;
 
 private:
 
-	cocos2d::Size getDesireSize() override;
+	Size getDesireSize() override;
 	void calculatePathPoint() override;
 	void generate() override;
 

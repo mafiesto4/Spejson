@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include <vector>
 #include <cocos2d.h>
 #include <string.h>
 #include "../Chunk.h"
@@ -10,8 +9,8 @@ class ChunkBasic : public Chunk
 {
 public:
 
-	ChunkBasic(Chunk* prevChunk)
-		:Chunk(prevChunk)
+	ChunkBasic(Chunk* prevChunk, Level* level)
+		:Chunk(prevChunk, level)
 	{
 	}
 
@@ -22,6 +21,6 @@ public:
 
 protected:
 
-	cocos2d::Size getDesireSize() override;
+	Size getDesireSize() override;
 	void generate() override;
 };

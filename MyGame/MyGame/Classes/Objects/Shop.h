@@ -1,17 +1,28 @@
 #pragma once
 
-#include <string> 
 #include "cocos2d.h"
 #include "Entity.h"
 
 using namespace cocos2d;
+
+#define SHOP_ANIMATION_TIME 1.0f
+
+extern bool AnyShopInUse;
 
 class Shop : public Entity
 {
 private:
 
 	bool _isOver;
+	float _animTime;
+	
 	Sprite* _image;
+	Sprite* _logo;
+	Sprite* _info;
+
+	Sprite* _itemAmmo;
+	Sprite* _itemMed;
+	Sprite* _itemFreezer;
 
 public:
 
@@ -19,8 +30,10 @@ public:
 	~Shop();
 
 	bool update(class Level* level, float dt) override;
+	void onMouseDown(EventMouse* event) override;
+	void onMouseUp(EventMouse* event) override;
 
-	cocos2d::Sprite* getNode() const
+	Sprite* getNode() const
 	{
 		return _image;
 	}

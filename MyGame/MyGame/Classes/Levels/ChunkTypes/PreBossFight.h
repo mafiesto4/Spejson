@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include <vector>
 #include <cocos2d.h>
 #include <string.h>
 #include "../Chunk.h"
@@ -18,8 +17,8 @@ private:
 
 public:
 
-	PreBossFight(Chunk* prevChunk)
-		:ChunkBasic(prevChunk)
+	PreBossFight(Chunk* prevChunk, Level* level)
+		:ChunkBasic(prevChunk, level)
 	{
 	}
 

@@ -20,7 +20,7 @@
 #define CHUNKS_CREATE(__TYPE__) \
 static __TYPE__* create(Level* level, Chunk* parent, const Vec2& pos) \
 { \
-	__TYPE__ *result = new(std::nothrow) __TYPE__(parent); \
+	__TYPE__ *result = new(std::nothrow) __TYPE__(parent, level); \
 	if (result && result->init()) \
 	{ \
 		result->autorelease(); \
@@ -37,7 +37,7 @@ static __TYPE__* create(Level* level, Chunk* parent, const Vec2& pos) \
 class Player;
 
 // Describes single chunk with own logic and children
-class Chunk : public cocos2d::Layer
+class Chunk : public Layer
 {
 	friend Chunk;
 	friend Entity;
@@ -45,16 +45,18 @@ class Chunk : public cocos2d::Layer
 
 protected:
 
+	Level* _level;
 	Chunk* _nextChunk, *_previousChunk;
-	cocos2d::Vec2 _pathPoint;
+	Vec2 _pathPoint;
 	List<Entity*, 32> _entities;
-	List<cocos2d::Sprite*, 16> _platforms;
-	std::vector<cocos2d::Sprite*> _walls;
+	List<Sprite*, 16> _platforms;
+	vector<Sprite*> _walls;
 
 public:
 
-	explicit Chunk(Chunk* prevChunk)
-		:_nextChunk(nullptr),
+	explicit Chunk(Chunk* prevChunk, Level* level)
+		:_level(level),
+		_nextChunk(nullptr),
 		_previousChunk(prevChunk)
 	{
 	}
@@ -63,6 +65,12 @@ public:
 	
 	// Init chunk
 	bool init() override;
+
+	// get level handle
+	Level* getLevel() const
+	{
+		return _level;
+	}
 
 	// Update chunk
 	virtual void update(Level* level, float dt);
@@ -97,9 +105,9 @@ public:
 public:
 
 	// Set point to the chunks blocky grid
-	static cocos2d::Vec2 AlignPointToGrid(cocos2d::Vec2 pathPoint)
+	static Vec2 AlignPointToGrid(Vec2 pathPoint)
 	{
-		auto leftBorder = CHUNKS_BLOCK_SIZE * cocos2d::Vec2(::floor((int)pathPoint.x / CHUNKS_BLOCK_SIZE), ::floor((int)pathPoint.y / CHUNKS_BLOCK_SIZE));
+		auto leftBorder = CHUNKS_BLOCK_SIZE * Vec2(::floor(static_cast<int>(pathPoint.x) / CHUNKS_BLOCK_SIZE), ::floor(static_cast<int>(pathPoint.y) / CHUNKS_BLOCK_SIZE));
 		auto rightBorder = leftBorder + Vec2(CHUNKS_BLOCK_SIZE, CHUNKS_BLOCK_SIZE);
 		return ((pathPoint - leftBorder) < (rightBorder - pathPoint)) ? leftBorder : rightBorder;
 	}
@@ -109,7 +117,7 @@ public:
 
 protected:
 
-	virtual cocos2d::Size getDesireSize() = 0;
+	virtual Size getDesireSize() = 0;
 	virtual void calculatePathPoint();
 	virtual void generate() = 0;
 	Sprite* addPlatform(Vec2 location, float width);

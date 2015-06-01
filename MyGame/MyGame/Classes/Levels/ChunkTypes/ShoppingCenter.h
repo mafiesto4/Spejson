@@ -14,8 +14,8 @@ private:
 
 public:
 
-	ShoppingCenter(Chunk* prevChunk)
-		:Chunk(prevChunk)
+	ShoppingCenter(Chunk* prevChunk, Level* level)
+		:Chunk(prevChunk, level)
 	{
 	}
 
