@@ -8,6 +8,8 @@
 #include "Player\Weapons\MachineGun\MachineGun.h"
 #include "Player\Weapons\Freezer\Freezer.h"
 
+#include "../Objects/Shop.h"
+
 #include "../Levels/Chunk.h"
 
 #include "../HUD/DebugGUI.h"
@@ -38,15 +40,15 @@ Player::Player(string name)
 
 	_laddered(false),
 	_immune(false),
-	OverLadder(false),
-
 	_time(0),
+
 	_rightDirection(true),
 	_isUsingLadder(false),
 	_selectedGun(nullptr),
 	fireRate(1),
+	lifes(1),
 
-	lifes(1)
+	OverLadder(false)
 {
 #if USE_FREE_CAM
 	_useBoost = false;
@@ -78,6 +80,8 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 	if (_mouse == nullptr)
 	{
 		_mouse = EventListenerMouse::create();
+		_mouse->onMouseDown = CC_CALLBACK_1(Player::onMouseDown, this);
+		_mouse->onMouseUp = CC_CALLBACK_1(Player::onMouseUp, this);
 		_mouse->onMouseScroll = CC_CALLBACK_1(Player::onMouseScroll, this);
 		eventDispatcher->addEventListenerWithSceneGraphPriority(_mouse, level);
 	}
@@ -122,7 +126,7 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 	_wantsJump = false;
 	_isPressingA = _isPressingD = _isPressingS = _isPressingW = false;
 	_score = 0;
-	_cash = 0;
+	_cash = 100;
 
 	// add node to the level
 	level->addChild(_image);
@@ -393,6 +397,48 @@ void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 #if USE_FREE_CAM
 		case EventKeyboard::KeyCode::KEY_SHIFT: _useBoost = false; break;
 #endif
+	}
+}
+
+void Player::onMouseDown(Event* event)
+{
+	// Gather event data
+	EventMouse* data = (EventMouse*)event;
+
+	if (_selectedGun && !AnyShopInUse)
+	{
+		_selectedGun->onMouseDown(data->getLocation());
+	}
+
+	// Get chunk with teh player and fire event for it's entities
+	Chunk* chunk = _level->chunkAtPoint(_image->getPosition());
+	if (chunk)
+	{
+		for (int i = 0; i < chunk->_entities.Count(); i++)
+		{
+			chunk->_entities[i]->onMouseDown(data);
+		}
+	}
+}
+
+void Player::onMouseUp(Event* event)
+{
+	// Gather event data
+	EventMouse* data = (EventMouse*)event;
+
+	if (_selectedGun && !AnyShopInUse)
+	{
+		_selectedGun->onMouseUp(data->getLocation());
+	}
+
+	// Get chunk with teh player and fire event for it's entities
+	Chunk* chunk = _level->chunkAtPoint(_image->getPosition());
+	if (chunk)
+	{
+		for (int i = 0; i < chunk->_entities.Count(); i++)
+		{
+			chunk->_entities[i]->onMouseUp(data);
+		}
 	}
 }
 

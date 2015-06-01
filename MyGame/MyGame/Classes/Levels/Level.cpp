@@ -7,6 +7,7 @@
 #include "Chunk.h"
 #include "../Scores/Highscores.h"
 #include "Background.h"
+#include "../Objects/Shop.h"
 
 using namespace cocos2d;
 
@@ -68,12 +69,6 @@ bool Level::init()
 	_camera = Camera::create();
 	addChild(_camera);
 
-	// Enable touch
-	auto touchListener = EventListenerTouchOneByOne::create();
-	touchListener->onTouchBegan = CC_CALLBACK_2(Level::onTouchBegan, this);
-	touchListener->onTouchEnded = CC_CALLBACK_2(Level::onTouchEnded, this);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
-
 	// stworz Head Up Display
 	_hud = GameHUD::create();
 	addChild(_hud, 1939);
@@ -94,6 +89,8 @@ void Level::update(float dt)
 	auto player = game->getPlayer();
 	if (!player)
 		return;
+
+	AnyShopInUse = false;
 
 	// Update player
 	player->update(dt);
@@ -206,32 +203,6 @@ void Level::onPlayerDeath()
 	Scores.save();
 
 	Director::getInstance()->end();
-}
-
-bool Level::onTouchBegan(Touch *touch, Event *unused_event)
-{
-	auto player = Game::getInstance()->getPlayer();
-	auto location = touch->getLocation();
-
-	auto gun = player->getGun();
-	if (gun)
-	{
-		gun->onMouseDown(location);
-	}
-
-	return true;
-}
-
-void Level::onTouchEnded(Touch *touch, Event *unused_event)
-{
-	auto player = Game::getInstance()->getPlayer();
-	auto location = touch->getLocation();
-
-	auto gun = player->getGun();
-	if (gun)
-	{
-		gun->onMouseUp(location);
-	}
 }
 
 void Level::addBullet(Bullet& bullet)

@@ -117,6 +117,11 @@ public:
 		return _cash;
 	}
 
+	void onBuyMed()
+	{
+		_hp = 100;
+	}
+
 	void onDamage(bool pushRight);
 
 	void addScore(int addedScore)
@@ -163,5 +168,7 @@ private:
 
 	void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
 	void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
+	void onMouseDown(Event* event);
+	void onMouseUp(Event* event);
 	void onMouseScroll(Event* event);
 };

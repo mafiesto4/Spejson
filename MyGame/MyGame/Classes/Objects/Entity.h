@@ -37,12 +37,20 @@ public:
 	// @returns True if entity wwants to be deleated
 	virtual bool update(Level* level, float dt) { return false; }
 
+	virtual void onMouseDown(cocos2d::EventMouse* event)
+	{
+	}
+
+	virtual void onMouseUp(cocos2d::EventMouse* event)
+	{
+	}
+
 protected:
 
 	void setupAnim(int minSpeed, int maxSpeed, int minPower, int maxPower)
 	{
-		_speed = (float)(minSpeed + (rand() % (maxSpeed - minSpeed)));
-		_power = (float)(minPower + (rand() % (maxPower - minPower)));
+		_speed = static_cast<float>(minSpeed + (rand() % (maxSpeed - minSpeed)));
+		_power = static_cast<float>(minPower + (rand() % (maxPower - minPower)));
 	}
 
 	void animate(float dt, cocos2d::Node* node)
