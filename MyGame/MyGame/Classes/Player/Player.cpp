@@ -13,6 +13,7 @@
 #include "../Levels/Chunk.h"
 
 #include "../HUD/DebugGUI.h"
+#include <SimpleAudioEngine.h>
 
 using namespace std;
 using namespace cocos2d;
@@ -352,6 +353,8 @@ void Player::onDamage(bool pushRight)
 	}
 	impulse.y = moveSpeed;
 	_body->applyImpulse(impulse, _body->getFirstShape()->getCenter());
+
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/Hit.wav");
 #endif
 }
 

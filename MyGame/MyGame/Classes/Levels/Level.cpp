@@ -8,7 +8,7 @@
 #include "../Scores/Highscores.h"
 #include "Background.h"
 #include "../Objects/Shop.h"
-#include "MyCamera.h"
+#include <SimpleAudioEngine.h>
 
 using namespace cocos2d;
 
@@ -67,9 +67,8 @@ bool Level::init()
 	setupInitialMap();
 
 	// Create camera
-	_camera = MyCamera::Create();
+	_camera = Camera::create();
 	addChild(_camera);
-	_camera->ScaleThisShit();
 
 	// stworz Head Up Display
 	_hud = GameHUD::create();
@@ -78,6 +77,10 @@ bool Level::init()
 	// Create lava
 	_lava = Lava::create();
 	addChild(_lava);
+
+	// setup background audio
+	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+	audio->playBackgroundMusic("Audio/moon_paris.wav", true);
 
 	return true;
 }
@@ -170,7 +173,9 @@ void Level::update(float dt)
 #else
 	{
 		Size visibleSize = Director::getInstance()->getVisibleSize();
-		Vec2 targetPos = player->getPosition();// +Vec2(visibleSize.width * 0.3f, visibleSize.height * 0.1f);
+		Vec2 targetPos = player->getPosition();
+		targetPos.x = clamp(targetPos.x, visibleSize.width * 0.4f, CHUNKS_WIDTH - visibleSize.width * 0.4f);
+		targetPos.y = max(targetPos.y, visibleSize.height * 0.4f);
 		Vec2 prevCamPos = _camera->getPosition();
 
 		_camVelocity += (targetPos - prevCamPos) * CAM_ACCEL;

@@ -4,6 +4,7 @@
 #include "Box2D\Box2D.h"
 #include "../Levels/Chunk.h"
 #include "WeaponPickup.h"
+#include <SimpleAudioEngine.h>
 
 using namespace cocos2d;
 
@@ -49,6 +50,7 @@ bool WeaponPickup::update(Level* level, float dt)
 	{
 		// Pickup weapon
 		player->pickupWeapon(_type);
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/pickupAmmo.wav");
 		return true;
 	}
 

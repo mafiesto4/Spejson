@@ -4,6 +4,7 @@
 #include "Box2D\Box2D.h"
 #include "Objects/Coin.h"
 #include "../Levels/Chunk.h"
+#include <SimpleAudioEngine.h>
 
 using namespace cocos2d;
 
@@ -41,6 +42,7 @@ bool Coin::update(Level* level, float dt)
 	{
 		// Add cash
 		player->addCash(1);
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/pickup_coin.wav");
 		return true;
 	}
 	

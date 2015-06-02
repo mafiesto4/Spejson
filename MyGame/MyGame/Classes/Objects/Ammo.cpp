@@ -4,6 +4,7 @@
 #include "Box2D\Box2D.h"
 #include "Objects/Ammo.h"
 #include "../Levels/Chunk.h"
+#include <SimpleAudioEngine.h>
 using namespace cocos2d;
 
 Ammo::Ammo(Chunk* parent, Vec2 pos)
@@ -40,6 +41,7 @@ bool Ammo::update(Level* level, float dt)
 	{
 		// Pickup ammo
 		player->onPickupAmmo();
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/pickupAmmo.wav");
 		return true;
 	}
 

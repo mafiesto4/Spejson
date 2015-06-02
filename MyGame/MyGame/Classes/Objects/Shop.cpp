@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Objects/Shop.h"
 #include "../Levels/Chunk.h"
+#include <SimpleAudioEngine.h>
 
 using namespace cocos2d;
 
@@ -214,11 +215,11 @@ void Shop::onMouseUp(EventMouse* event)
 				// Buy
 				player->addCash(-2);
 				player->onPickupAmmo();
+				CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/Trash_Sound.wav");
 			}
 			else
 			{
-				// No money
-
+				CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/Nope_Sound.wav");
 			}
 		}
 
@@ -232,11 +233,11 @@ void Shop::onMouseUp(EventMouse* event)
 				// Buy
 				player->addCash(-5);
 				player->onBuyMed();
+				CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/Trash_Sound.wav");
 			}
 			else
 			{
-				// No money
-
+				CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/Nope_Sound.wav");
 			}
 		}
 
@@ -250,11 +251,11 @@ void Shop::onMouseUp(EventMouse* event)
 				// Buy
 				player->addCash(-10);
 				player->pickupWeapon(Weapon::Type::Freezer);
+				CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/Trash_Sound.wav");
 			}
 			else
 			{
-				// No money
-
+				CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/Nope_Sound.wav");
 			}
 		}
 	}

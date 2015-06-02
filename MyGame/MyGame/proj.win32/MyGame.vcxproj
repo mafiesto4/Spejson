@@ -142,7 +142,6 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\HUD\DebugGUI.cpp" />
     <ClCompile Include="..\Classes\HUD\GameHUD.cpp" />
     <ClCompile Include="..\Classes\Levels\Background.cpp" />
-    <ClCompile Include="..\Classes\Levels\MyCamera.h" />
     <ClCompile Include="..\Classes\Levels\Chunk.cpp" />
     <ClCompile Include="..\Classes\Levels\ChunkTypes\BossFight.cpp" />
     <ClCompile Include="..\Classes\Levels\ChunkTypes\ChunkBaseFloor.cpp" />
