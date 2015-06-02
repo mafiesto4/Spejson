@@ -122,7 +122,12 @@ bool Shop::update(Level* level, float dt)
 			_itemAmmo->setColor(Color3B(255, 10, 10));
 		}
 
-		if (cash >= 5)
+		if (player->getHP() == 100)
+		{
+			_itemMed->setTag(0);
+			_itemMed->setColor(Color3B(100, 100, 100));
+		}
+		else if (cash >= 5)
 		{
 			_itemMed->setTag(1);
 			_itemMed->setColor(Color3B(255, 255, 255));
@@ -133,7 +138,12 @@ bool Shop::update(Level* level, float dt)
 			_itemMed->setColor(Color3B(255, 10, 10));
 		}
 
-		if (cash >= 10)
+		if (player->hasWeapon(Weapon::Type::Freezer))
+		{
+			_itemFreezer->setTag(0);
+			_itemFreezer->setColor(Color3B(100, 100, 100));
+		}
+		else if (cash >= 10)
 		{
 			_itemFreezer->setTag(1);
 			_itemFreezer->setColor(Color3B(255, 255, 255));

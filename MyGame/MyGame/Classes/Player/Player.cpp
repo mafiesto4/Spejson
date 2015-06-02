@@ -126,7 +126,7 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 	_wantsJump = false;
 	_isPressingA = _isPressingD = _isPressingS = _isPressingW = false;
 	_score = 0;
-	_cash = 100;
+	_cash = 0;
 
 	// add node to the level
 	level->addChild(_image);

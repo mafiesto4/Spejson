@@ -31,7 +31,15 @@ bool Alien1::update(Level* level, float dt)
 	if (Opponent::update(level, dt))
 		return true;
 	if (Opponent::postUpdate(dt))
+	{
+		auto anim = _node->getActionByTag(0);
+		if (anim)
+		{
+			_state = State::Undefined;
+			_node->stopActionByTag(0);
+		}
 		return false;
+	}
 
 	// Switch state
 	switch (_state)

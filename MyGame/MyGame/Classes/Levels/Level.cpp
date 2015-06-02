@@ -8,6 +8,7 @@
 #include "../Scores/Highscores.h"
 #include "Background.h"
 #include "../Objects/Shop.h"
+#include "MyCamera.h"
 
 using namespace cocos2d;
 
@@ -66,8 +67,9 @@ bool Level::init()
 	setupInitialMap();
 
 	// Create camera
-	_camera = Camera::create();
+	_camera = MyCamera::Create();
 	addChild(_camera);
+	_camera->ScaleThisShit();
 
 	// stworz Head Up Display
 	_hud = GameHUD::create();

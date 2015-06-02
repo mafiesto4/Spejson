@@ -98,11 +98,10 @@ void Chunk::Spread(Level* level)
 		Vec2 top = getPosition() + Vec2(0, getContentSize().height);
 		switch (rand() % 17)
 		{
-			default:
-			//case 0: _nextChunk = PreBossFight::create(level, this, top); break;
+			case 0: _nextChunk = PreBossFight::create(level, this, top); break;
 			case 1:
 			case 2: _nextChunk = ShoppingCenter::create(level, this, top); break;
-			//default: _nextChunk = ChunkBasic::create(level, this, top); break;
+			default: _nextChunk = ChunkBasic::create(level, this, top); break;
 		}
 
 		// Generate itself

@@ -36,7 +36,9 @@ bool Boss::update(Level* level, float dt)
 		return true;
 	}
 	if (Opponent::postUpdate(dt))
+	{
 		return false;
+	}
 
 	// Cache data
 	auto player = Game::getInstance()->getPlayer();

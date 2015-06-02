@@ -73,6 +73,11 @@ public:
 
 	void onPickupAmmo();
 
+	bool hasWeapon(Weapon::Type type) const
+	{
+		return _weapons[(int)type]->CanUse;
+	}
+
 	Node* getNode() const
 	{
 		return _image;

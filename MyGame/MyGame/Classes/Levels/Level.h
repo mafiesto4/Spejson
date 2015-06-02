@@ -7,6 +7,7 @@
 #include "physics\CCPhysicsWorld.h"
 #include "Bullet.h"
 #include "Levels/Lava.h"
+#include "MyCamera.h"
 
 // Forward declarations
 class Chunk;
@@ -38,7 +39,7 @@ private:
 	#define CAM_MAX_VELOCITY 1000.0f
 	#define CAM_VELOCITY_DUMP 0.0001f
 	#define CAM_ACCEL 1.0f
-	Camera* _camera;
+	MyCamera* _camera;
 	Vec2 _camVelocity;
 
 public:
