@@ -3,6 +3,7 @@
 #include "../Game.h"
 #include "Chunk.h"
 #include "../Objects/Shop.h"
+#include "../Opponent/Boss/Boss.h"
 
 using namespace cocos2d;
 
@@ -34,9 +35,10 @@ void Lava::update(float dt)
 	auto playerPosY = player->getPosition().y;
 	float posY = getPositionY();
 
-	if (!AnyShopInUse)
+	// Check if player is not using shop and there is no bosses spawned
+	if (!AnyShopInUse && Bosses == 0)
 	{
-		// move lava
+		// Move lava
 		float speed = (playerPosY < posY + CHUNKS_DEFAULT_HEIGHT * 8) ? 2.0f : 0.3f;
 		float lavaLevel = posY + speed;
 		setPositionY(lavaLevel);

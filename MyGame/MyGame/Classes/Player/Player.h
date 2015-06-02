@@ -17,6 +17,7 @@ class Player
 private:
 
 	int _hp;
+	float _damageIntensity;
 	std::string _name;
 	Sprite* _image;
 	PhysicsBody* _body;
@@ -105,6 +106,7 @@ public:
 	{
 #if !USE_FREE_CAM && !GOD_MODE
 		_hp -= damage;
+		_damageIntensity = 0.8f;
 		if (_hp <= 0)
 		{
 			_hp = 0;

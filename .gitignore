@@ -13,6 +13,8 @@ Thumbs.db
 *.exp
 *.res
 
+*.lastbuildstate
+
 # Ignore files build by Visual Studio
 *.obj
 *.exe

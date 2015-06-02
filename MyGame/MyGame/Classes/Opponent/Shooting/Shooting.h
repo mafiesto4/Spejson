@@ -13,6 +13,8 @@ private:
 	float _timeAcc;
 	Vec2 _p1, _p2;
 
+	void startAnim();
+
 public:
 
 	Shooting(Chunk* parent, Vec2 p1, Vec2 p2);

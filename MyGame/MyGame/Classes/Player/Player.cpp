@@ -14,6 +14,7 @@
 
 #include "../HUD/DebugGUI.h"
 #include <SimpleAudioEngine.h>
+#include <Utilities.h>
 
 using namespace std;
 using namespace cocos2d;
@@ -42,6 +43,7 @@ Player::Player(string name)
 	_laddered(false),
 	_immune(false),
 	_time(0),
+	_damageIntensity(0),
 
 	_rightDirection(true),
 	_isUsingLadder(false),
@@ -100,6 +102,22 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 	{
 		// Create player sprtie with physics body
 		_image = Sprite::create("Textures/pawn1.png");
+		//deklaracja animacji
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/idle.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/idleA.plist");
+		//movement
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/move.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/moveA.plist");
+		//jump
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/jump.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/jumpA.plist");
+
+		//fall
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/falling.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/fallingA.plist");
+
+
+		_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("moveA"))));
 		_image->setTag(PHYSICS_TAG_PLAYER);
 
 
@@ -145,7 +163,7 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 	_wantsJump = false;
 	_isPressingA = _isPressingD = _isPressingS = _isPressingW = false;
 	_score = 0;
-	_cash = 100;
+	_cash = 0;
 
 	// add node to the level
 	level->addChild(_image);
@@ -344,15 +362,13 @@ void Player::update(float dt)
 	float h = _image->getPositionY();
 	if (_maxHeight < h)
 	{
-		_score += h - _maxHeight;
+		//_score += h - _maxHeight;
 		_maxHeight = h;
 	}
 
 	// Check player move direction
 	_isMovingUp = _prevPos.y < pos.y;
 	_prevPos = _image->getPosition();
-
-
 
 
 	////// Maszyna Stanow (usa machine)
@@ -393,6 +409,21 @@ void Player::update(float dt)
 
 		}
 		currentState = stateToBe;
+	}
+
+	// update player damage effect
+	if (_damageIntensity > 0)
+	{
+		if (_damageIntensity - dt <= 0)
+		{
+			_image->setColor(Color3B::WHITE);
+		}
+		else
+		{
+			float perc = 1 - clamp(_damageIntensity * _damageIntensity, 0.0f, 1.0f);
+			_image->setColor(Color3B(255, 255 * perc, 255 * perc));
+		}
+		_damageIntensity -= dt;
 	}
 }
 

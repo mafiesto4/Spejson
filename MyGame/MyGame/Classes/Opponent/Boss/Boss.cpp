@@ -3,8 +3,6 @@
 #include "Opponent\Opponent.h"
 #include "Boss.h"
 #include "Game.h"
-#include "Box2D\Box2D.h"
-#include "../../HUD/DebugGUI.h"
 #include "../../Levels/Chunk.h"
 #include "../../Levels/ChunkTypes/BossFight.h"
 
@@ -12,6 +10,8 @@ using namespace std;
 using namespace cocos2d;
 
 #define BOSS_SCALE 4
+
+int Bosses = 0;
 
 Boss::Boss(Chunk* parent, Vec2 p1, Vec2 p2)
 	:Opponent(parent, 300),
@@ -26,10 +26,13 @@ Boss::Boss(Chunk* parent, Vec2 p1, Vec2 p2)
 	_node->setPosition(p1);
 	_node->setScale(BOSS_SCALE);
 	parent->addChild(_node, 10000);
+
+	Bosses++;
 }
 
 Boss::~Boss()
 {
+	Bosses--;
 }
 
 void Boss::startAnim()

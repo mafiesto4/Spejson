@@ -11,6 +11,8 @@ private:
 
 	Vec2 _p1, _p2;
 
+	void startAnim();
+
 public:
 
 	Alien1(Chunk* parent, Vec2 p1, Vec2 p2);
