@@ -16,7 +16,10 @@ Fly::Fly(Chunk* parent, Vec2 p1, Vec2 p2)
 	_p2(p2 + Vec2(0, 24)),
 	_randDir(1,0)
 {
-	_node = Sprite::create("Textures/fly.png");
+	_node = Sprite::create("Textures/flying1.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/flying.plist");
+	AnimationCache::getInstance()->addAnimationsWithFile("Textures/flyingA.plist");
+	_node->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("flyingA"))));
 	_node->setPosition(p1);
 	parent->addChild(_node, 10000);
 }

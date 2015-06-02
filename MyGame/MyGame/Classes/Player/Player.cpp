@@ -97,6 +97,22 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 	{
 		// Create player sprtie with physics body
 		_image = Sprite::create("Textures/pawn1.png");
+		//deklaracja animacji
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/idle.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/idleA.plist");
+		//movement
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/move.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/moveA.plist");
+		//jump
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/jump.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/jumpA.plist");
+
+		//fall
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/falling.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/fallingA.plist");
+
+
+		_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("moveA"))));
 		_image->setTag(PHYSICS_TAG_PLAYER);
 
 #if !USE_FREE_CAM
@@ -326,13 +342,53 @@ void Player::update(float dt)
 	float h = _image->getPositionY();
 	if (_maxHeight < h)
 	{
-		_score += h - _maxHeight;
+		//_score += h - _maxHeight;
 		_maxHeight = h;
 	}
 
 	// Check player move direction
 	_isMovingUp = _prevPos.y < pos.y;
 	_prevPos = _image->getPosition();
+
+	_score=_grounded;
+
+	if(_grounded && !_isPressingA && !_isPressingD)
+	{
+		stateToBe = IDLE;
+	}
+	else stateToBe=FALLING;
+
+	if(_isPressingA && _grounded)stateToBe=MOVE;
+	if(_isPressingD && _grounded)stateToBe=MOVE;
+
+
+
+	// maszyna stanów animacji 
+	if(currentState!=stateToBe)
+	{
+		_image->stopAllActions();
+		switch(stateToBe)
+		{
+		case IDLE:
+			_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("idleA"))));
+			break;
+		case MOVE:
+			_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("moveA"))));
+			break;
+		case JUMPING:
+			_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("jumpA"))));
+			break;
+		case FALLING:
+			_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("fallingA"))));
+			break;
+
+		default: break;
+				
+				
+		}
+		currentState=stateToBe;
+	}
+	
 }
 
 void Player::onDamage(bool pushRight)

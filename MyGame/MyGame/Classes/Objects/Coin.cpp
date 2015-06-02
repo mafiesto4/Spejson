@@ -12,7 +12,10 @@ Coin::Coin(Chunk* parent, Vec2 pos)
 	:Entity(parent, pos),
 	_image(nullptr)
 {
-	_image = Sprite::create("Textures/coin.png");
+	_image = Sprite::create("Textures/coin1.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/coin.plist");
+	AnimationCache::getInstance()->addAnimationsWithFile("Textures/coinA.plist");
+	_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("coinA"))));
 	_image->setPosition(pos);
 	_image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_parent->addChild(_image);

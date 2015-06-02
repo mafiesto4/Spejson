@@ -20,6 +20,9 @@ Shop::Shop(Chunk* parent, Vec2 pos)
 
 	// Shop image
 	_image = Sprite::create("Textures/shop1.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/shop.plist");
+	AnimationCache::getInstance()->addAnimationsWithFile("Textures/shopA.plist");
+	_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("shopA"))));
 	_image->setPosition(pos + Vec2(64, 0));
 	_image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_parent->addChild(_image);

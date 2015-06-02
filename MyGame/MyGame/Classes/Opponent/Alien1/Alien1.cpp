@@ -16,7 +16,10 @@ Alien1::Alien1(Chunk* parent, Vec2 p1, Vec2 p2)
 	_p1(p1 + Vec2(0, 16)),
 	_p2(p2 + Vec2(0, 16))
 {
-	_node = Sprite::create("Textures/alien1.png");
+	_node = Sprite::create("Textures/walking1.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/walking.plist");
+	AnimationCache::getInstance()->addAnimationsWithFile("Textures/walkingA.plist");
+	_node->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("walkingA"))));
 	_node->setPosition(p1);
 	parent->addChild(_node);
 }

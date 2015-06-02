@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>frames</key>
+		<dict>
+			<key>walking1.png</key>
+			<dict>
+				<key>frame</key>
+				<string>{{0,33},{55,32}}</string>
+				<key>offset</key>
+				<string>{0,0}</string>
+				<key>rotated</key>
+				<false/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{55,32}}</string>
+				<key>sourceSize</key>
+				<string>{55,32}</string>
+			</dict>
+
+			<key>walking2.png</key>
+			<dict>
+				<key>frame</key>
+				<string>{{0,66},{55,32}}</string>
+				<key>offset</key>
+				<string>{0,0}</string>
+				<key>rotated</key>
+				<false/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{55,32}}</string>
+				<key>sourceSize</key>
+				<string>{55,32}</string>
+			</dict>
+
+			<key>walking3.png</key>
+			<dict>
+				<key>frame</key>
+				<string>{{56,0},{55,32}}</string>
+				<key>offset</key>
+				<string>{0,0}</string>
+				<key>rotated</key>
+				<false/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{55,32}}</string>
+				<key>sourceSize</key>
+				<string>{55,32}</string>
+			</dict>
+
+			<key>walking4.png</key>
+			<dict>
+				<key>frame</key>
+				<string>{{0,0},{55,32}}</string>
+				<key>offset</key>
+				<string>{0,0}</string>
+				<key>rotated</key>
+				<false/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{55,32}}</string>
+				<key>sourceSize</key>
+				<string>{55,32}</string>
+			</dict>
+
+		</dict>
+
+		<key>metadata</key>
+		<dict>
+			<key>format</key>
+			<integer>2</integer>
+			<key>size</key>
+			<string>{128,128}</string>
+			<key>textureFileName</key>
+			<string>walking.png</string>
+			</dict>
+		</dict>
+</plist>

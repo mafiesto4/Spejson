@@ -16,7 +16,10 @@ Shooting::Shooting(Chunk* parent, Vec2 p1, Vec2 p2)
 	_p1(p1 + Vec2(0, 64)),
 	_p2(p2 + Vec2(0, 64))
 {
-	_node = Sprite::create("Textures/facebook.png");
+	_node = Sprite::create("Textures/shooting1.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/shooting.plist");
+	AnimationCache::getInstance()->addAnimationsWithFile("Textures/shootingA.plist");
+	_node->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("shootingA"))));
 	_node->setPosition(p1);
 	parent->addChild(_node);
 }

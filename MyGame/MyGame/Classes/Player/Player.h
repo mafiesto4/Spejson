@@ -24,6 +24,9 @@ private:
 	EventListenerMouse* _mouse;
 	Level* _level;
 	Vec2 _prevPos;
+	enum States {IDLE, MOVE, FALLING, JUMPING };
+	States currentState; 
+	States stateToBe;
 
 	float _maxHeight;
 

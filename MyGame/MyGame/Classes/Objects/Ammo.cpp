@@ -11,7 +11,10 @@ Ammo::Ammo(Chunk* parent, Vec2 pos)
 	:Entity(parent, pos),
 	_image(nullptr)
 {
-	_image = Sprite::create("Textures/ammo.png");
+	_image = Sprite::create("Textures/ammo1.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/ammo.plist");
+	AnimationCache::getInstance()->addAnimationsWithFile("Textures/ammoA.plist");
+	_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("ammoA"))));
 	_image->setPosition(pos + Vec2(32, 0));
 	_image->setAnchorPoint(Vec2(0.5, 0.5));
 	_parent->addChild(_image);

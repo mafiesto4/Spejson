@@ -17,7 +17,10 @@ Boss::Boss(Chunk* parent, Vec2 p1, Vec2 p2)
 	_p2(p2),
 	_sleep(0)
 {
-	_node = Sprite::create("Textures/boss.png");
+	_node = Sprite::create("Textures/boss1.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/boss.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/bossA.plist");
+	_node->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("bossA"))));
 	_node->setPosition(p1);
 	_node->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	parent->addChild(_node, 10000);
