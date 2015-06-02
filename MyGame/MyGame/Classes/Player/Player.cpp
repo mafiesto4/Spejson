@@ -49,6 +49,9 @@ Player::Player(string name)
 	fireRate(1),
 	lifes(1),
 
+	currentState(IDLE),
+	stateToBe(IDLE),
+
 	OverLadder(false)
 {
 #if USE_FREE_CAM
@@ -99,6 +102,26 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 		_image = Sprite::create("Textures/pawn1.png");
 		_image->setTag(PHYSICS_TAG_PLAYER);
 
+
+		//deklaracja animacji
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/idle.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/idleA.plist");
+		//movement
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/move.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/moveA.plist");
+		//jump
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/jump.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/jumpA.plist");
+
+		//fall
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/falling.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/fallingA.plist");
+
+		_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("moveA"))));
+
+
+
+
 #if !USE_FREE_CAM
 		_body = PhysicsBody::createBox(_image->getContentSize(), PhysicsMaterial(1.0f, 0.0f, 0.62f));
 		_body->setMass(1000);
@@ -115,11 +138,6 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 		_body->setVelocityLimit(8 * PLAYER_MOVEMENT_COEFF);
 		_body->setGravityEnable(true);
 		
-		// listener dla groundchecka
-		auto contactListener = EventListenerPhysicsContact::create();
-		contactListener->onContactBegin = CC_CALLBACK_1(Player::onContactBegin, this);
-		contactListener->onContactSeperate = CC_CALLBACK_1(Player::onContactSeperate, this);
-		eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, level);
 #endif
 	}
 
@@ -127,7 +145,7 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 	_wantsJump = false;
 	_isPressingA = _isPressingD = _isPressingS = _isPressingW = false;
 	_score = 0;
-	_cash = 0;
+	_cash = 100;
 
 	// add node to the level
 	level->addChild(_image);
@@ -333,6 +351,49 @@ void Player::update(float dt)
 	// Check player move direction
 	_isMovingUp = _prevPos.y < pos.y;
 	_prevPos = _image->getPosition();
+
+
+
+
+	////// Maszyna Stanow (usa machine)
+
+	if (_grounded && !_isPressingA && !_isPressingD)
+	{
+		stateToBe = IDLE;
+	}
+	else
+	{
+		stateToBe = FALLING;
+	}
+
+	if (_isPressingA && _grounded) stateToBe = MOVE;
+	if (_isPressingD && _grounded) stateToBe = MOVE;
+
+	// maszyna stanów animacji 
+	if (currentState != stateToBe)
+	{
+		_image->stopAllActions();
+		switch (stateToBe)
+		{
+			case IDLE:
+				_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("idleA"))));
+				break;
+			case MOVE:
+				_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("moveA"))));
+				break;
+			case JUMPING:
+				_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("jumpA"))));
+				break;
+			case FALLING:
+				_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("fallingA"))));
+				break;
+
+			default: break;
+
+
+		}
+		currentState = stateToBe;
+	}
 }
 
 void Player::onDamage(bool pushRight)
@@ -356,20 +417,6 @@ void Player::onDamage(bool pushRight)
 
 	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/Hit.wav");
 #endif
-}
-
-bool Player::onContactBegin(PhysicsContact& contact)
-{
-	_grounded = true;
-	DebugGUI::setVal(4, "Grounded", _grounded);
-	return true;
-	//trzeba jeszce pododawaæ tagi w sensie jest grounded jak koliduje z pod³o¿em tylko
-}
-
-void Player::onContactSeperate(PhysicsContact& contact)
-{
-	_grounded = false;
-	DebugGUI::setVal(4, "Grounded", _grounded);
 }
 
 void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)

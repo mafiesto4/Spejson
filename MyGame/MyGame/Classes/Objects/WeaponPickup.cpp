@@ -13,12 +13,13 @@ WeaponPickup::WeaponPickup(Chunk* parent, Vec2 pos, Weapon::Type type)
 	_image(nullptr),
 	_type(type)
 {
-	char* path;
+	char* path = nullptr;
 	switch (_type)
 	{
 		case Weapon::Type::Pistol: path = "Textures/pistol.png"; break;
 		case Weapon::Type::MachineGun: path = "Textures/mGun.jpg"; break;
 		case Weapon::Type::Freezer: path = "Textures/freezer.png"; break;
+		default: assert(0); break;
 	}
 	_image = Sprite::create(path);
 	_image->setPosition(pos);

@@ -76,7 +76,7 @@ bool Level::init()
 
 	// Create lava
 	_lava = Lava::create();
-	addChild(_lava);
+	addChild(_lava, -100000);
 
 	// setup background audio
 	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();

@@ -53,6 +53,7 @@ bool Opponent::update(Level* level, float dt)
 	auto player = Game::getInstance()->getPlayer();
 	Rect playerBox = player->getBox();
 	Rect box = _node->getBoundingBox();
+	//float scale = abs(_node->getScaleX()); box.size.width *= scale; box.size.height *= scale;
 	Vec2 parentPos = _parent->getPosition();
 
 	// Check if any bullet shot by player hist the enemy
@@ -90,7 +91,7 @@ bool Opponent::update(Level* level, float dt)
 	if (_hp <= 0)
 	{
 		// Killed by death
-		_parent->addCoin(box.origin + Vec2(0, 64));
+		_parent->addCoin(box.origin + Vec2(0, 16));
 		player->addScore(_score);
 		return true;
 	}

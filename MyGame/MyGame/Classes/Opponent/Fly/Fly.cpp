@@ -12,17 +12,28 @@ Fly::Fly(Chunk* parent, Vec2 p1, Vec2 p2)
 	:Opponent(parent, 60),
 	_timeAcc(0),
 	_speed(300),
-	_p1(p1 + Vec2(0, 24)),
-	_p2(p2 + Vec2(0, 24)),
+	_p1(p1),
+	_p2(p2),
 	_randDir(1,0)
 {
-	_node = Sprite::create("Textures/fly.png");
+	_node = Sprite::create("Textures/flying1.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/flying.plist");
+	AnimationCache::getInstance()->addAnimationsWithFile("Textures/flyingA.plist");
+	startAnim();
 	_node->setPosition(p1);
+	_node->setScale(2);
 	parent->addChild(_node, 10000);
 }
 
 Fly::~Fly()
 {
+}
+
+void Fly::startAnim()
+{
+	auto anim = RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("flyingA")));
+	anim->setTag(1);
+	_node->runAction(anim);
 }
 
 bool Fly::update(Level* level, float dt)
@@ -32,14 +43,12 @@ bool Fly::update(Level* level, float dt)
 		return true;
 	if (Opponent::postUpdate(dt))
 	{
-		auto anim = _node->getActionByTag(0);
-		if (anim)
-		{
-			_state = State::Undefined;
-			_node->stopActionByTag(0);
-		}
+		_state = State::Undefined;
+		_node->stopAllActions();
 		return false;
 	}
+	if (_node->getActionByTag(1) == nullptr)
+		startAnim();
 
 	// Cache data
 	auto player = Game::getInstance()->getPlayer();
@@ -73,7 +82,7 @@ bool Fly::update(Level* level, float dt)
 				auto anim = MoveTo::create(calMoveDuration(), _p2);
 				anim->setTag(0);
 				_node->runAction(anim);
-				_node->setScaleX(-1);
+				_node->setScaleX(-2);
 				_state = State::PatrollingB;
 			}
 		}
@@ -86,7 +95,7 @@ bool Fly::update(Level* level, float dt)
 				auto anim = MoveTo::create(calMoveDuration(), _p1);
 				anim->setTag(0);
 				_node->runAction(anim);
-				_node->setScaleX(1);
+				_node->setScaleX(2);
 				_state = State::PatrollingA;
 			}
 		}

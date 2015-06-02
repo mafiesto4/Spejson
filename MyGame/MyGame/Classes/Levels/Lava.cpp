@@ -1,22 +1,22 @@
 
 #include "Lava.h"
 #include "../Game.h"
+#include "Chunk.h"
+#include "../Objects/Shop.h"
 
 using namespace cocos2d;
 
 bool Lava::init()
 {
-	//if (!Layer::init())
 	if (!LayerGradient::initWithColor(Color4B(250, 220, 0, 0), Color4B(255, 0, 0, 255)))
 	{
 		return false;
 	}
 
 	setContentSize(Size(10000, 600));
-	setPosition(Vec2(-5000, -800));
+	setPosition(Vec2(-100, -3000));
 	setAnchorPoint(Vec2(0.5f, 1.0f));
 
-	// uruchom funckje update(...)
 	scheduleUpdateWithPriority(1410);
 
 	return true;
@@ -29,15 +29,26 @@ float Lava::getLevel()
 
 void Lava::update(float dt)
 {
-	// move lava
-	float lavaLevel = getPositionY();// +0.8f;
-	setPositionY(lavaLevel);
-
-	// Apply damage to the player
+	// Cahe data
 	auto player = Game::getInstance()->getPlayer();
-	if (player && player->getPosition().y < lavaLevel)
+	auto playerPosY = player->getPosition().y;
+	float posY = getPositionY();
+
+	if (!AnyShopInUse)
 	{
-		MessageBox("Player has been killed by lava!", "Death");
-		Director::getInstance()->end();
+		// move lava
+		float speed = (playerPosY < posY + CHUNKS_DEFAULT_HEIGHT * 8) ? 2.0f : 0.3f;
+		float lavaLevel = posY + speed;
+		setPositionY(lavaLevel);
+
+		// Apply damage to the player
+		if (playerPosY < lavaLevel + 100)
+		{
+			player->applyDamage(10000000);
+		}
+		else if (playerPosY < lavaLevel + 400)
+		{
+			player->applyDamage(1);
+		}
 	}
 }

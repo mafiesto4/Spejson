@@ -13,16 +13,27 @@ bool onContactBegin(PhysicsContact&);
 
 Alien1::Alien1(Chunk* parent, Vec2 p1, Vec2 p2)
 	:Opponent(parent),
-	_p1(p1 + Vec2(0, 16)),
-	_p2(p2 + Vec2(0, 16))
+	_p1(p1 + Vec2(0, 32)),
+	_p2(p2 + Vec2(0, 32))
 {
-	_node = Sprite::create("Textures/alien1.png");
+	_node = Sprite::create("Textures/walking1.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/walking.plist");
+	AnimationCache::getInstance()->addAnimationsWithFile("Textures/walkingA.plist");
+	startAnim();
 	_node->setPosition(p1);
+	_node->setScale(2);
 	parent->addChild(_node);
 }
 
 Alien1::~Alien1()
 {
+}
+
+void Alien1::startAnim()
+{
+	auto anim = RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("walkingA")));
+	anim->setTag(1);
+	_node->runAction(anim);
 }
 
 bool Alien1::update(Level* level, float dt)
@@ -32,14 +43,12 @@ bool Alien1::update(Level* level, float dt)
 		return true;
 	if (Opponent::postUpdate(dt))
 	{
-		auto anim = _node->getActionByTag(0);
-		if (anim)
-		{
-			_state = State::Undefined;
-			_node->stopActionByTag(0);
-		}
+		_state = State::Undefined;
+		_node->stopAllActions();
 		return false;
 	}
+	if (_node->getActionByTag(1) == nullptr)
+		startAnim();
 
 	// Switch state
 	switch (_state)
@@ -64,7 +73,7 @@ bool Alien1::update(Level* level, float dt)
 					auto anim = MoveTo::create(calMoveDuration(), _p2);
 					anim->setTag(0);
 					_node->runAction(anim);
-					_node->setScaleX(-1);
+					_node->setScaleX(-2);
 					_state = State::PatrollingB;
 				}
 				else
@@ -72,7 +81,7 @@ bool Alien1::update(Level* level, float dt)
 					auto anim = MoveTo::create(calMoveDuration(), _p1);
 					anim->setTag(0);
 					_node->runAction(anim);
-					_node->setScaleX(1);
+					_node->setScaleX(2);
 					_state = State::PatrollingA;
 				}
 			}

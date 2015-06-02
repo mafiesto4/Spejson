@@ -79,7 +79,7 @@ void ShoppingCenter::generate()
 	addLadder(Vec2(startNS.x, ladderH1 - ladderH), ladderH);
 
 	// Check if generate on left side and calculate shop location
-	float shopsY = CHUNKS_BLOCK_SIZE * 2;
+	float shopsY = CHUNKS_BLOCK_SIZE * 2 + CHUNKS_BLOCK_SIZE_HALF;
 	float platformStart, platformWidth;
 	if (startNS.x < endNS.x)
 	{

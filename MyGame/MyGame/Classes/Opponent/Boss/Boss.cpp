@@ -11,20 +11,32 @@
 using namespace std;
 using namespace cocos2d;
 
+#define BOSS_SCALE 4
+
 Boss::Boss(Chunk* parent, Vec2 p1, Vec2 p2)
 	:Opponent(parent, 300),
 	_p1(p1),
 	_p2(p2),
 	_sleep(0)
 {
-	_node = Sprite::create("Textures/boss.png");
+	_node = Sprite::create("Textures/boss1.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/boss.plist");
+	AnimationCache::getInstance()->addAnimationsWithFile("Textures/bossA.plist");
+	startAnim();
 	_node->setPosition(p1);
-	_node->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_node->setScale(BOSS_SCALE);
 	parent->addChild(_node, 10000);
 }
 
 Boss::~Boss()
 {
+}
+
+void Boss::startAnim()
+{
+	auto anim = RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("bossA")));
+	anim->setTag(1);
+	_node->runAction(anim);
 }
 
 bool Boss::update(Level* level, float dt)
@@ -37,8 +49,12 @@ bool Boss::update(Level* level, float dt)
 	}
 	if (Opponent::postUpdate(dt))
 	{
+		_state = State::Undefined;
+		_node->stopAllActions();
 		return false;
 	}
+	if (_node->getActionByTag(1) == nullptr)
+		startAnim();
 
 	// Cache data
 	auto player = Game::getInstance()->getPlayer();
@@ -65,7 +81,7 @@ bool Boss::update(Level* level, float dt)
 			pos = _p1;
 			_target = _p2;
 			_state = State::PatrollingB;
-			_node->setScaleX(-1);
+			_node->setScaleX(-BOSS_SCALE);
 			return false;
 
 		case Opponent::PatrollingA:
@@ -74,12 +90,12 @@ bool Boss::update(Level* level, float dt)
 				if (playerPosCS.x > pos.x)
 				{
 					_target = _p2;
-					_node->setScaleX(-1);
+					_node->setScaleX(-BOSS_SCALE);
 				}
 				else
 				{
 					_target = _p1;
-					_node->setScaleX(1);
+					_node->setScaleX(BOSS_SCALE);
 				}
 				_state = AttackPlayer;
 			}
@@ -87,7 +103,7 @@ bool Boss::update(Level* level, float dt)
 			{
 				_target = _p2;
 				_state = PatrollingB;
-				_node->setScaleX(-1);
+				_node->setScaleX(-BOSS_SCALE);
 			}
 			break;
 		case Opponent::PatrollingB:
@@ -96,12 +112,12 @@ bool Boss::update(Level* level, float dt)
 				if (playerPosCS.x > pos.x)
 				{
 					_target = _p2;
-					_node->setScaleX(-1);
+					_node->setScaleX(-BOSS_SCALE);
 				}
 				else
 				{
 					_target = _p1;
-					_node->setScaleX(1);
+					_node->setScaleX(BOSS_SCALE);
 				}
 				_state = AttackPlayer;
 			}
@@ -109,7 +125,7 @@ bool Boss::update(Level* level, float dt)
 			{
 				_target = _p1;
 				_state = PatrollingA;
-				_node->setScaleX(1);
+				_node->setScaleX(BOSS_SCALE);
 			}
 			break;
 		
@@ -127,13 +143,13 @@ bool Boss::update(Level* level, float dt)
 				{
 					_target = _p2;
 					_state = State::PatrollingB;
-					_node->setScaleX(-1);
+					_node->setScaleX(-BOSS_SCALE);
 				}
 				else
 				{
 					_target = _p1;
 					_state = State::PatrollingA;
-					_node->setScaleX(1);
+					_node->setScaleX(BOSS_SCALE);
 				}
 			}
 			break;

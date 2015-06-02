@@ -20,12 +20,16 @@ Shop::Shop(Chunk* parent, Vec2 pos)
 
 	// Shop image
 	_image = Sprite::create("Textures/shop1.png");
-	_image->setPosition(pos + Vec2(64, 0));
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/shop.plist");
+	AnimationCache::getInstance()->addAnimationsWithFile("Textures/shopA.plist");
+	_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("shopA"))));
+	_image->setPosition(pos + Vec2(34, 0));
 	_image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_image->setScale(2);
 	_parent->addChild(_image);
 
 	// Shop logo
-	_logo = Sprite::create("Textures/shopTitle.jpg");
+	_logo = Sprite::create("Textures/shopTitle.png");
 	_logo->setAnchorPoint(Vec2::ANCHOR_MIDDLE_BOTTOM);
 	_logo->setVisible(false);
 	level->addChild(_logo);
@@ -71,7 +75,7 @@ bool Shop::update(Level* level, float dt)
 	auto player = Game::getInstance()->getPlayer();
 	auto playerPos = player->getPosition();
 	Vec2 pos = _image->getPosition() + _parent->getPosition() - Vec2(CHUNKS_BLOCK_SIZE_HALF, CHUNKS_BLOCK_SIZE_HALF);
-	auto size = _image->getContentSize();
+	auto size = _image->getContentSize() * _image->getScale();
 	Rect box = Rect(pos.x, pos.y, size.width, size.height);
 
 	// Test collision
@@ -112,47 +116,51 @@ bool Shop::update(Level* level, float dt)
 		// Check if can buy sth
 		int cash = player->getCash();
 
+		const Color3B defaultColor(255, 255, 255);
+		const Color3B cannotBuyColor(100, 100, 100);
+		const Color3B noMoneyColor(255, 50, 50);
+
 		if (cash >= 2)
 		{
 			_itemAmmo->setTag(1);
-			_itemAmmo->setColor(Color3B(255, 255, 255));
+			_itemAmmo->setColor(defaultColor);
 		}
 		else
 		{
 			_itemAmmo->setTag(0);
-			_itemAmmo->setColor(Color3B(255, 10, 10));
+			_itemAmmo->setColor(noMoneyColor);
 		}
 
 		if (player->getHP() == 100)
 		{
 			_itemMed->setTag(0);
-			_itemMed->setColor(Color3B(100, 100, 100));
+			_itemMed->setColor(cannotBuyColor);
 		}
 		else if (cash >= 5)
 		{
 			_itemMed->setTag(1);
-			_itemMed->setColor(Color3B(255, 255, 255));
+			_itemMed->setColor(defaultColor);
 		}
 		else
 		{
 			_itemMed->setTag(0);
-			_itemMed->setColor(Color3B(255, 10, 10));
+			_itemMed->setColor(noMoneyColor);
 		}
 
 		if (player->hasWeapon(Weapon::Type::Freezer))
 		{
 			_itemFreezer->setTag(0);
-			_itemFreezer->setColor(Color3B(100, 100, 100));
+			_itemFreezer->setColor(cannotBuyColor);
 		}
 		else if (cash >= 10)
 		{
 			_itemFreezer->setTag(1);
-			_itemFreezer->setColor(Color3B(255, 255, 255));
+			_itemFreezer->setColor(defaultColor);
 		}
 		else
 		{
 			_itemFreezer->setTag(0);
-			_itemFreezer->setColor(Color3B(255, 10, 10));
+			_itemFreezer->setColor(noMoneyColor);
 		}
 
 

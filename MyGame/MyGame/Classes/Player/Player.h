@@ -43,6 +43,16 @@ private:
 	bool _useBoost;
 #endif
 
+	enum States
+	{
+		IDLE, 
+		MOVE, 
+		FALLING,
+		JUMPING
+	};
+	States currentState;
+	States stateToBe;
+
 	// points and money $.$ xd
 	int _score;
 	int _cash;
@@ -65,8 +75,6 @@ public:
 
 	void setupForLevel(Level* level, Vec2 spawnPoint);
 	void update(float dt);
-	bool onContactBegin(PhysicsContact& contact);
-	void onContactSeperate(PhysicsContact& contact);
 
 	void pickupWeapon(Weapon::Type type);
 	void selectWeapon(Weapon::Type type);

@@ -11,9 +11,13 @@ Ammo::Ammo(Chunk* parent, Vec2 pos)
 	:Entity(parent, pos),
 	_image(nullptr)
 {
-	_image = Sprite::create("Textures/ammo.png");
-	_image->setPosition(pos + Vec2(32, 0));
-	_image->setAnchorPoint(Vec2(0.5, 0.5));
+	_image = Sprite::create("Textures/ammo1.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/ammo.plist");
+	AnimationCache::getInstance()->addAnimationsWithFile("Textures/ammoA.plist");
+	_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("ammoA"))));
+	_image->setPosition(pos + Vec2(9.5f, 0));
+	_image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	_image->setScale(2);
 	_parent->addChild(_image);
 
 	setupAnim(3, 4, 4, 5);
@@ -33,7 +37,7 @@ bool Ammo::update(Level* level, float dt)
 	// Cache data
 	auto player = Game::getInstance()->getPlayer();
 	Vec2 pos = _image->getPosition() + _parent->getPosition() - Vec2(CHUNKS_BLOCK_SIZE_HALF, CHUNKS_BLOCK_SIZE_HALF);
-	auto size = _image->getContentSize();
+	auto size = _image->getContentSize() * _image->getScale();
 	Rect box = Rect(pos.x, pos.y, size.width, size.height);
 
 	// Test collision

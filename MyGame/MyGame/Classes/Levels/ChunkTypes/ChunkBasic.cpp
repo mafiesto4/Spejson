@@ -92,7 +92,7 @@ void ChunkBasic::generate()
 	addPlatform(Vec2(platformX, middleNS.y), width);
 
 	// Try to spawn alien
-	if (width > 3 * CHUNKS_BLOCK_SIZE && distr(gen) % 100 < 90)
+	if (width > 3 * CHUNKS_BLOCK_SIZE && distr(gen) % 100 < 96)
 	{
 		float ppy = middleNS.y + CHUNKS_BLOCK_SIZE_HALF;
 		Vec2 p1 = Vec2(platformX + CHUNKS_BLOCK_SIZE * 2, ppy);

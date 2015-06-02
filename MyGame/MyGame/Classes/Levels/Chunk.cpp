@@ -39,7 +39,7 @@ bool Chunk::init()
 	}
 	if (noTexLoaded)
 	{
-		Texture2D::TexParams params{ GL_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE };
+		Texture2D::TexParams params{ GL_POINT, GL_POINT, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE };
 		texture->setTexParameters(params);
 		noTexLoaded = false;
 	}
@@ -117,7 +117,7 @@ Sprite* Chunk::addPlatform(Vec2 location, float width)
 {
 	// Load texture and ensure its repeating
 	Texture2D* texture = TextureCache::sharedTextureCache()->addImage("Textures/brick.png");
-	Texture2D::TexParams tp = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };
+	Texture2D::TexParams tp = { GL_POINT, GL_POINT, GL_REPEAT, GL_REPEAT };
 	texture->setTexParameters(tp);
 
 	// Create sprite
@@ -164,7 +164,7 @@ void Chunk::addWall(char dir)
 {
 	// Load texture and ensure its repeating
 	Texture2D* texture = TextureCache::sharedTextureCache()->addImage("Textures/dirt.png");
-	Texture2D::TexParams tp = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };
+	Texture2D::TexParams tp = { GL_POINT, GL_POINT, GL_REPEAT, GL_REPEAT };
 	texture->setTexParameters(tp);
 
 	// Calculate size and location
