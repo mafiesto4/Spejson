@@ -9,10 +9,10 @@
 #include "Player\Weapons\Freezer\Freezer.h"
 
 #include "../Objects/Shop.h"
+#include "../Objects/Particles/BloodHit.h"
 
 #include "../Levels/Chunk.h"
 
-#include "../HUD/DebugGUI.h"
 #include <SimpleAudioEngine.h>
 #include <Utilities.h>
 
@@ -427,6 +427,25 @@ void Player::update(float dt)
 	}
 }
 
+void Player::applyDamage(float damage)
+{
+#if !USE_FREE_CAM && !GOD_MODE
+	_hp -= damage;
+	_damageIntensity = 0.8f;
+	if (_hp <= 0)
+	{
+		_hp = 0;
+		_level->onPlayerDeath();
+		return;
+	}
+#endif
+
+	// blood hit
+	auto bloodHit = BloodHit::createWithTotalParticles(20, Color3B(210, 20, 16), 1.0f, 1.0f);
+	bloodHit->setPosition(10, 10);
+	_image->addChild(bloodHit, 100);
+}
+
 void Player::onDamage(bool pushRight)
 {
 #if !USE_FREE_CAM
@@ -484,9 +503,10 @@ void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 void Player::onMouseDown(Event* event)
 {
 	// Gather event data
-	EventMouse* data = (EventMouse*)event;
+	EventMouse* data = static_cast<EventMouse*>(event);
 
-	if (_selectedGun && !AnyShopInUse)
+	// Check if can use gun
+	if (!OverLadder && _selectedGun && !AnyShopInUse)
 	{
 		_selectedGun->onMouseDown(data->getLocation());
 	}
@@ -505,9 +525,10 @@ void Player::onMouseDown(Event* event)
 void Player::onMouseUp(Event* event)
 {
 	// Gather event data
-	EventMouse* data = (EventMouse*)event;
+	EventMouse* data = static_cast<EventMouse*>(event);
 
-	if (_selectedGun && !AnyShopInUse)
+	// Check if can use gun
+	if (!OverLadder && _selectedGun && !AnyShopInUse)
 	{
 		_selectedGun->onMouseUp(data->getLocation());
 	}

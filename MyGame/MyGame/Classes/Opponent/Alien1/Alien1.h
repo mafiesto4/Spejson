@@ -22,9 +22,13 @@ public:
 
 public:
 
+	Color3B getBloodColor() const override
+	{
+		return Color3B(110, 0, 0);
+	}
+
 	float calMoveDuration()
 	{
-		//return 4;
 		return _p1.distance(_p2) / getSpeed();
 	}
 };

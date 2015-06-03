@@ -91,6 +91,9 @@
     <ClCompile Include="..\Classes\Levels\Background.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Objects\Particles\BloodHit.cpp">
+      <Filter>Objects\Particles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
@@ -188,6 +191,9 @@
     <ClInclude Include="..\Classes\Levels\Background.h">
       <Filter>Levels</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Objects\Particles\BloodHit.h">
+      <Filter>Objects\Particles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
@@ -240,6 +246,9 @@
     </Filter>
     <Filter Include="Scores">
       <UniqueIdentifier>{24df3a10-ddad-498c-a022-36a8ea67e125}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Particles">
+      <UniqueIdentifier>{81205c86-91e4-4347-82b7-1eb0ae9cacc0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

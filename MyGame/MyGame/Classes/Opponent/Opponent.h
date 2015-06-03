@@ -19,6 +19,9 @@ public:
 		FollowingPlayer,
 		AttackPlayer,
 
+		GoToA,
+		GoToB,
+
 		MAX
 	};
 
@@ -31,6 +34,8 @@ protected:
 	float _ogluszony;
 
 	bool postUpdate(float dt);
+
+	virtual Color3B getBloodColor() const = 0;
 
 public:
 
@@ -59,10 +64,7 @@ public:
 		return _node ? _node->getBoundingBox() : Rect();
 	}
 
-	virtual void onDamage(float damage)
-	{
-		_hp -= damage;
-	}
+	void onDamage(float damage);
 
 	// Get opponent movement speed
 	virtual float getSpeed() const

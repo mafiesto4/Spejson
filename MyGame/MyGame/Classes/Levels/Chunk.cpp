@@ -96,12 +96,19 @@ void Chunk::Spread(Level* level)
 	{
 		// Switch chunk type
 		Vec2 top = getPosition() + Vec2(0, getContentSize().height);
-		switch (rand() % 17)
+		if (top.y < CHUNKS_DEFAULT_HEIGHT * 4)// pierwsze kilka hunkow zawsze musza byc zwykle zeby sie grac nie przerazil, arazil, obarazil
 		{
-			case 0: _nextChunk = PreBossFight::create(level, this, top); break;
-			case 1:
-			case 2: _nextChunk = ShoppingCenter::create(level, this, top); break;
-			default: _nextChunk = ChunkBasic::create(level, this, top); break;
+			_nextChunk = ChunkBasic::create(level, this, top);
+		}
+		else
+		{
+			switch (rand() % 17)
+			{
+				case 0: _nextChunk = PreBossFight::create(level, this, top); break;
+				case 1:
+				case 2: _nextChunk = ShoppingCenter::create(level, this, top); break;
+				default: _nextChunk = ChunkBasic::create(level, this, top); break;
+			}
 		}
 
 		// Generate itself

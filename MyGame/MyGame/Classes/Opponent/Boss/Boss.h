@@ -23,4 +23,11 @@ public:
 	~Boss();
 
 	bool update(Level* level, float dt) override;
+
+public:
+
+	Color3B getBloodColor() const override
+	{
+		return Color3B(0, 0, 112);
+	}
 };

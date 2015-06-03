@@ -5,6 +5,7 @@
 #include "../HUD/DebugGUI.h"
 #include "../Levels/Chunk.h"
 #include "../Player/Player.h"
+#include <Objects/Particles/BloodHit.h>
 
 using namespace std;
 using namespace cocos2d;
@@ -47,6 +48,17 @@ bool Opponent::postUpdate(float dt)
 	return false;
 }
 
+void Opponent::onDamage(float damage)
+{
+	_hp -= damage;
+
+	// blood hit
+	Rect box = _node->getBoundingBox();
+	auto bloodHit = BloodHit::createWithTotalParticles(10, getBloodColor(), 0.5f / abs(_node->getScaleX()), 0.8f);
+	bloodHit->setPosition(10, 10);
+	_node->addChild(bloodHit, 100);
+}
+
 bool Opponent::update(Level* level, float dt)
 {
 	// Cache data
@@ -61,8 +73,8 @@ bool Opponent::update(Level* level, float dt)
 	{
 		Bullet b = level->_bullets[i];
 
-		// Check damage
-		if (b.ShotByPlayer)
+		// Check if can apply damage by this bullet
+		if (b.ShotByPlayer && b.DistanceLeft > 0)
 		{
 			Vec2 pos = b.Node->getPosition() - parentPos;
 			Rect bulletBox = Rect(pos.x - (BULLET_SIZE / 2), pos.y - (BULLET_SIZE / 2), BULLET_SIZE, BULLET_SIZE);

@@ -47,7 +47,7 @@ bool Boss::update(Level* level, float dt)
 	// Base
 	if (Opponent::update(level, dt))
 	{
-		((BossFight*)_parent)->onBossKilled();
+		static_cast<BossFight*>(_parent)->onBossKilled();
 		return true;
 	}
 	if (Opponent::postUpdate(dt))
@@ -72,22 +72,26 @@ bool Boss::update(Level* level, float dt)
 	const float sleepEpsilon = 0.001f;
 	bool seePlayer = posWS.y - 200 <= playerPosWS.y;
 	Vec2 dir = _target - pos;
-	bool isOverTarget = abs(dir.x - epsilon) <= epsilon && abs(dir.y - epsilon) <= epsilon;
+	bool isOverTargetPoint = abs(dir.x - epsilon) <= epsilon && abs(dir.y - epsilon) <= epsilon;
 	float speed = 1.6f;
-	if (!seePlayer && _state != State::PatrollingB && _state != State::PatrollingA)
+	if (!seePlayer &&
+		_state != GoToA &&
+		_state != GoToB &&
+		_state != PatrollingB &&
+		_state != PatrollingA)
 	{
 		_state = Undefined;
 	}
 	switch (_state)
 	{
-		case Opponent::Undefined:
+		case Undefined:
 			pos = _p1;
 			_target = _p2;
-			_state = State::PatrollingB;
+			_state = PatrollingB;
 			_node->setScaleX(-BOSS_SCALE);
 			return false;
 
-		case Opponent::PatrollingA:
+		case PatrollingA:
 			if (seePlayer)
 			{
 				if (playerPosCS.x > pos.x)
@@ -102,14 +106,24 @@ bool Boss::update(Level* level, float dt)
 				}
 				_state = AttackPlayer;
 			}
-			else if (isOverTarget)
+			else if (isOverTargetPoint)
 			{
 				_target = _p2;
 				_state = PatrollingB;
 				_node->setScaleX(-BOSS_SCALE);
 			}
 			break;
-		case Opponent::PatrollingB:
+
+		case GoToA:
+			if (isOverTargetPoint)
+			{
+				_target = _p2;
+				_state = PatrollingB;
+				_node->setScaleX(-BOSS_SCALE);
+			}
+			break;
+
+		case PatrollingB:
 			if (seePlayer)
 			{
 				if (playerPosCS.x > pos.x)
@@ -124,34 +138,43 @@ bool Boss::update(Level* level, float dt)
 				}
 				_state = AttackPlayer;
 			}
-			else if (isOverTarget)
+			else if (isOverTargetPoint)
 			{
 				_target = _p1;
 				_state = PatrollingA;
 				_node->setScaleX(BOSS_SCALE);
 			}
 			break;
-		
-		case Opponent::AttackPlayer:
+
+		case GoToB:
+			if (isOverTargetPoint)
+			{
+				_target = _p1;
+				_state = PatrollingA;
+				_node->setScaleX(BOSS_SCALE);
+			}
+			break;
+
+		case AttackPlayer:
 			speed = 3;
-			if (isOverTarget && abs(_sleep - sleepEpsilon) <= sleepEpsilon)
+			if (isOverTargetPoint && abs(_sleep - sleepEpsilon) <= sleepEpsilon)
 			{
 				// Og³uszenie po ataku xd
 				_sleep = 1;
 			}
-			else if (isOverTarget)
+			else if (isOverTargetPoint)
 			{
 				// Check if it's closer to A or B
 				if (playerPosCS.x < (_p1.x + _p2.x) * 0.5f)
 				{
 					_target = _p2;
-					_state = State::PatrollingB;
+					_state = GoToB;
 					_node->setScaleX(-BOSS_SCALE);
 				}
 				else
 				{
 					_target = _p1;
-					_state = State::PatrollingA;
+					_state = GoToA;
 					_node->setScaleX(BOSS_SCALE);
 				}
 			}

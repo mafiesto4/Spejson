@@ -102,18 +102,7 @@ public:
 		return _image ? _image->getBoundingBox() : Rect();
 	}
 
-	void applyDamage(float damage)
-	{
-#if !USE_FREE_CAM && !GOD_MODE
-		_hp -= damage;
-		_damageIntensity = 0.8f;
-		if (_hp <= 0)
-		{
-			_hp = 0;
-			_level->onPlayerDeath();
-		}
-#endif
-	}
+
 
 	void markLadderUse();
 
@@ -137,6 +126,7 @@ public:
 		_hp = 100;
 	}
 
+	void applyDamage(float damage);
 	void onDamage(bool pushRight);
 
 	void addScore(int addedScore)

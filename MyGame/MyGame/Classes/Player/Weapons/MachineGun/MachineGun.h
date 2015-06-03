@@ -42,6 +42,7 @@ public:
 
 	void addAmmo(int value) override
 	{
+		if (CanUse)
 		_MgAmmo += value;
 	}
 

@@ -15,7 +15,7 @@ bool Lava::init()
 	}
 
 	setContentSize(Size(10000, 600));
-	setPosition(Vec2(-100, -3000));
+	setPosition(Vec2(-100, -CHUNKS_DEFAULT_HEIGHT * 4));
 	setAnchorPoint(Vec2(0.5f, 1.0f));
 
 	scheduleUpdateWithPriority(1410);

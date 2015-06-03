@@ -22,7 +22,6 @@ void BossFight::calculatePathPoint()
 	auto size = getContentSize();
 	auto pos = getPosition();
 	auto pathPoint = Vec2(size.width * 0.5f + CHUNKS_BLOCK_SIZE * 3, 0);
-	_pathPoint = pos + AlignPointToGrid(pathPoint);
 	_pathPointForNext = pos + AlignPointToGrid(Vec2(pathPoint.x, size.height * 0.9));
 	_pathPoint = pos + AlignPointToGrid(Vec2(pathPoint.x, 0));;
 }
@@ -45,7 +44,7 @@ void BossFight::generate()
 	Vec2 middleNS = _pathPoint - pos + Vec2(0, CHUNKS_BLOCK_SIZE_HALF);
 
 	// Generate ladder
-	int ladderH1 = middleNS.y + CHUNKS_BLOCK_SIZE_HALF;
+	float ladderH1 = middleNS.y + CHUNKS_BLOCK_SIZE_HALF;
 	float ladderH = _pathPoint.y - prevPP.y;
 	addLadder(Vec2(startNS.x, ladderH1 - ladderH), ladderH);
 
@@ -58,8 +57,8 @@ void BossFight::generate()
 	addPlatform(Vec2(platformStart + platform1Width + CHUNKS_BLOCK_SIZE, platformY), platform2Width);
 
 	// Spawn a boss
-	const int bossSize = 100 + CHUNKS_BLOCK_SIZE_HALF;
-	const int bossCenterPos = 64 + CHUNKS_BLOCK_SIZE_HALF;
+	const float bossSize = 33.0f * (4 / 2);
+	const float bossCenterPos = 30.0f * (4 / 2) + CHUNKS_BLOCK_SIZE_HALF;
 	Vec2 p1 = Vec2(platformStart + bossSize, platformY + bossCenterPos);
 	Vec2 p2 = Vec2(platformStart + platform1Width + CHUNKS_BLOCK_SIZE + platform2Width - bossSize, p1.y);
 	_entities.Add(new Boss(this, p1, p2));

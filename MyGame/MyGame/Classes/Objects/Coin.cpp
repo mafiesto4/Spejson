@@ -15,10 +15,13 @@ Coin::Coin(Chunk* parent, Vec2 pos)
 	_image = Sprite::create("Textures/coin1.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/coin.plist");
 	AnimationCache::getInstance()->addAnimationsWithFile("Textures/coinA.plist");
-	_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("coinA"))));
+	auto action = RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("coinA")));
+	_image->runAction(action);
 	_image->setPosition(pos);
 	_image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 	_parent->addChild(_image);
+
+	//action->step((rand() % 100) / 50.0f);
 
 	setupAnim(1, 4, 8, 10);
 }
