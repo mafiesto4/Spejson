@@ -1,6 +1,7 @@
 
 #include "MainMenuGUILayer.h"
-#include "MainMenuScene.h"
+#include "ScoresScene.h"
+#include <Levels/Level.h>
 
 USING_NS_CC;
 
@@ -21,7 +22,7 @@ bool MainMenuGUILayer::init()
 	int x = origin.x + visibleSize.width / 2;
 
 	// Tytul gry
-	auto title = Label::createWithTTF("Nazwa Gry", "Fonts/Marker Felt.ttf", 52);
+	auto title = Label::createWithTTF("Spejson", "Fonts/BACKTO1982.ttf", 52);
 	title->setPosition(Vec2(x, origin.y + (visibleSize.height - title->getContentSize().height) * 0.8f));
 	this->addChild(title, 1);
 
@@ -37,11 +38,11 @@ bool MainMenuGUILayer::init()
 	play->setPosition(Vec2(x, y));
 	y -= play->getContentSize().height + offset;
 
-	// opcje
+	// highscory
 	auto opcje = MenuItemImage::create(
 		"Textures/menuOptions.png",
 		"Textures/menuOptions.png",
-		CC_CALLBACK_1(MainMenuGUILayer::menuOptionsCallback, this));
+		CC_CALLBACK_1(MainMenuGUILayer::menuHighScoresCallback, this));
 	opcje->setPosition(Vec2(x, y));
 	y -= opcje->getContentSize().height + offset;
 
@@ -63,12 +64,12 @@ bool MainMenuGUILayer::init()
 
 void MainMenuGUILayer::menuPlayCallback(Ref* pSender)
 {
-	MessageBox("Play!", "");
+	Director::getInstance()->replaceScene(Level::createScene());
 }
 
-void MainMenuGUILayer::menuOptionsCallback(Ref* pSender)
+void MainMenuGUILayer::menuHighScoresCallback(Ref* pSender)
 {
-	MessageBox("Opcje", "");
+	Director::getInstance()->replaceScene(ScoresScene::create());
 }
 
 void MainMenuGUILayer::menuCloseCallback(Ref* pSender)

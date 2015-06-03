@@ -65,5 +65,5 @@ void ChunkBaseFloor::generate()
 
 	// ³ejpons tu pikap
 	_entities.Add(new WeaponPickup(this, Vec2(600, 50), Weapon::Type::MachineGun));
-	_entities.Add(new WeaponPickup(this, Vec2(900, 50), Weapon::Type::Freezer));
+	//_entities.Add(new WeaponPickup(this, Vec2(900, 50), Weapon::Type::Freezer));
 }

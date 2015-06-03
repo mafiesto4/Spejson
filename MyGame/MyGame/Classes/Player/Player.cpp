@@ -22,9 +22,6 @@ using namespace cocos2d;
 #define PLAYER_MOVEMENT_COEFF 100
 const float moveSpeed = 50 * PLAYER_MOVEMENT_COEFF;
 
-// forward declaration
-bool onContactBegin(PhysicsContact&);
-
 Player::Player(string name)
 	:_hp(100),
 	_name(name),
@@ -102,6 +99,10 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 	{
 		// Create player sprtie with physics body
 		_image = Sprite::create("Textures/pawn1.png");
+		
+		_image->setScale(PLAYER_SCALE);
+
+
 		//deklaracja animacji
 		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/idle.plist");
 		AnimationCache::getInstance()->addAnimationsWithFile("Textures/idleA.plist");
@@ -111,37 +112,38 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 		//jump
 		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/jump.plist");
 		AnimationCache::getInstance()->addAnimationsWithFile("Textures/jumpA.plist");
-
 		//fall
 		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/falling.plist");
 		AnimationCache::getInstance()->addAnimationsWithFile("Textures/fallingA.plist");
 
+		//movement
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/moveF.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/moveFA.plist");
+		//fall
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/fallingF.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/fallingFA.plist");
+		//idle
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/idleF.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/idleFA.plist");
+
+		//movement
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/moveM.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/moveMA.plist");
+		//fall
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/fallingM.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/fallingMA.plist");
+		//idle
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/idleM.plist");
+		AnimationCache::getInstance()->addAnimationsWithFile("Textures/idleMA.plist");
 
 		_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("moveA"))));
 		_image->setTag(PHYSICS_TAG_PLAYER);
 
 
-		//deklaracja animacji
-		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/idle.plist");
-		AnimationCache::getInstance()->addAnimationsWithFile("Textures/idleA.plist");
-		//movement
-		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/move.plist");
-		AnimationCache::getInstance()->addAnimationsWithFile("Textures/moveA.plist");
-		//jump
-		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/jump.plist");
-		AnimationCache::getInstance()->addAnimationsWithFile("Textures/jumpA.plist");
-
-		//fall
-		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Textures/falling.plist");
-		AnimationCache::getInstance()->addAnimationsWithFile("Textures/fallingA.plist");
-
-		_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("moveA"))));
-
-
 
 
 #if !USE_FREE_CAM
-		_body = PhysicsBody::createBox(_image->getContentSize(), PhysicsMaterial(1.0f, 0.0f, 0.62f));
+		_body = PhysicsBody::createBox(_image->getContentSize() * PLAYER_SCALE, PhysicsMaterial(1.0f, 0.0f, 0.62f));
 		_body->setMass(1000);
 		//_body->setLinearDamping(0);
 
@@ -229,7 +231,8 @@ void Player::update(float dt)
 {
 	// Check if grounded or is in the air
 	auto pos = _image->getPosition();
-	auto size = _image->getContentSize();
+	auto box = getBox();
+	auto size = box.size;
 	float playerBotom = pos.y - size.height;
 	_grounded = playerBotom < 10 || OverLadder;
 	OverLadder = false;
@@ -267,12 +270,12 @@ void Player::update(float dt)
 		move += Vec2(0, -1);
 	if (_isPressingA)
 	{
-		_image->setScaleX(-1);
+		_image->setScaleX(-PLAYER_SCALE);
 		move += Vec2(-1, 0);
 	}
 	if (_isPressingD)
 	{
-		_image->setScaleX(1);
+		_image->setScaleX(PLAYER_SCALE);
 		move += Vec2(1, 0);
 	}
 	move *= _useBoost ? 30 : 5;
@@ -296,12 +299,12 @@ void Player::update(float dt)
 		}
 		if (_isPressingA)
 		{
-			_image->setScaleX(-1);
+			_image->setScaleX(-PLAYER_SCALE);
 			move += Vec2(-1, 0);
 		}
 		if (_isPressingD)
 		{
-			_image->setScaleX(1);
+			_image->setScaleX(PLAYER_SCALE);
 			move += Vec2(1, 0);
 		}
 		move *= 6;
@@ -329,12 +332,12 @@ void Player::update(float dt)
 			if (_isPressingA)
 			{
 				impulse.x = -moveSpeed;
-				_image->setScaleX(-1);
+				_image->setScaleX(-PLAYER_SCALE);
 			}
 			if (_isPressingD)
 			{
 				impulse.x = moveSpeed;
-				_image->setScaleX(1);
+				_image->setScaleX(PLAYER_SCALE);
 			}
 			_body->applyImpulse(impulse, _body->getFirstShape()->getCenter());
 		}
@@ -362,7 +365,7 @@ void Player::update(float dt)
 	float h = _image->getPositionY();
 	if (_maxHeight < h)
 	{
-		//_score += h - _maxHeight;
+		_score += h - _maxHeight;
 		_maxHeight = h;
 	}
 
@@ -373,7 +376,7 @@ void Player::update(float dt)
 
 	////// Maszyna Stanow (usa machine)
 
-	if (_grounded && !_isPressingA && !_isPressingD)
+	if (_grounded && !_isPressingA && !_isPressingD && !OverLadder)
 	{
 		stateToBe = IDLE;
 	}
@@ -382,26 +385,73 @@ void Player::update(float dt)
 		stateToBe = FALLING;
 	}
 
-	if (_isPressingA && _grounded) stateToBe = MOVE;
-	if (_isPressingD && _grounded) stateToBe = MOVE;
+	if (_isPressingA && _grounded /*&& !OverLadder*/) stateToBe = MOVE;
+	if (_isPressingD && _grounded /*&& !OverLadder*/) stateToBe = MOVE;
+
+	//if(OverLadder) stateToBe = LADDER;
 
 	// maszyna stanów animacji 
-	if (currentState != stateToBe)
+	if (currentState != stateToBe || currentWeapon != getGun()->getType())
 	{
 		_image->stopAllActions();
 		switch (stateToBe)
 		{
 			case IDLE:
-				_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("idleA"))));
+				if (this->getGun()->getType() == Weapon::Type::Pistol)
+				{
+					_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("idleA"))));
+				}
+				else if (this->getGun()->getType() == Weapon::Type::MachineGun)
+				{
+					_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("idleMA"))));
+				}
+				else if (this->getGun()->getType() == Weapon::Type::Freezer)
+				{
+					_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("idleFA"))));
+				}
+
 				break;
 			case MOVE:
-				_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("moveA"))));
+				if (this->getGun()->getType() == Weapon::Type::Pistol)
+				{
+					_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("moveA"))));
+				}
+				else if (this->getGun()->getType() == Weapon::Type::MachineGun)
+				{
+					_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("moveMA"))));
+				}
+				else if (this->getGun()->getType() == Weapon::Type::Freezer)
+				{
+					_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("moveFA"))));
+				}
+
 				break;
 			case JUMPING:
-				_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("jumpA"))));
+				/*if(this->getGun()->getType()==Weapon::Type::Pistol)
+				{}
+				else if (this->getGun()->getType()==Weapon::Type::MachineGun)
+				{}
+				else if (this->getGun()->getType()==Weapon::Type::Freezer)
+				{}
+				_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("jumpA"))));*/
 				break;
 			case FALLING:
-				_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("fallingA"))));
+				if (this->getGun()->getType() == Weapon::Type::Pistol)
+				{
+					_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("fallingA"))));
+				}
+				else if (this->getGun()->getType() == Weapon::Type::MachineGun)
+				{
+					_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("fallingMA"))));
+				}
+				else if (this->getGun()->getType() == Weapon::Type::Freezer)
+				{
+					_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("fallingFA"))));
+				}
+
+				/*case LADDER:
+				_image->runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation("ladderA"))));*/
+
 				break;
 
 			default: break;
@@ -409,7 +459,11 @@ void Player::update(float dt)
 
 		}
 		currentState = stateToBe;
+		currentWeapon = getGun()->getType();
 	}
+
+
+	/////////////
 
 	// update player damage effect
 	if (_damageIntensity > 0)
@@ -474,10 +528,14 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 	switch (keyCode)
 	{
 		case EventKeyboard::KeyCode::KEY_ESCAPE: Director::getInstance()->end(); break;
+		case EventKeyboard::KeyCode::KEY_UP_ARROW:
 		case EventKeyboard::KeyCode::KEY_SPACE:
 		case EventKeyboard::KeyCode::KEY_W: _isPressingW = true; _wantsJump = true; _laddered = true; break;
+		case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 		case EventKeyboard::KeyCode::KEY_A: _rightDirection = false; _isPressingA = true; break;
+		case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 		case EventKeyboard::KeyCode::KEY_D:_rightDirection = true; _isPressingD = true; break;
+		case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
 		case EventKeyboard::KeyCode::KEY_S: _isPressingS = true; break;
 #if USE_FREE_CAM
 		case EventKeyboard::KeyCode::KEY_SHIFT: _useBoost = true; break;
@@ -489,10 +547,14 @@ void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
 	switch (keyCode)
 	{
+		case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 		case EventKeyboard::KeyCode::KEY_A: _isPressingA = false; break;
+		case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 		case EventKeyboard::KeyCode::KEY_D: _isPressingD = false; break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
+		case EventKeyboard::KeyCode::KEY_UP_ARROW:
 		case EventKeyboard::KeyCode::KEY_W: _isPressingW = false; _wantsJump = false; _laddered = false; break;
+		case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
 		case EventKeyboard::KeyCode::KEY_S: _isPressingS = false; break;
 #if USE_FREE_CAM
 		case EventKeyboard::KeyCode::KEY_SHIFT: _useBoost = false; break;

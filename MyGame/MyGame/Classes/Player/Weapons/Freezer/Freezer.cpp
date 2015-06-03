@@ -4,6 +4,7 @@
 #include "Player\Weapons\Weapon.h"
 #include "Freezer.h"
 #include "HUD\DebugGUI.h"
+#include <SimpleAudioEngine.h>
 
 Freezer::Freezer(Level* level)
 	:Weapon(Type::Freezer, level),
@@ -41,13 +42,19 @@ void Freezer::update(float dt)
 			bullet.Node->setPosition(player->getPosition());
 			bullet.Luj = true;
 
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/shot_Freezer.wav");
+
 			_level->addBullet(bullet);
 			_magazine = 0;
 			_ammo--;
 		}
 		else
 		{
-			_magazine = _ammo > 0 ? 1 : 0;
+			if (_ammo > 0)
+			{
+				_magazine = 1;
+				CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/reload.wav");
+			}
 		}
 	}
 	else

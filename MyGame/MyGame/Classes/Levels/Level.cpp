@@ -9,6 +9,7 @@
 #include "Background.h"
 #include "../Objects/Shop.h"
 #include <SimpleAudioEngine.h>
+#include <MainMenu/DeadScreen.h>
 
 using namespace cocos2d;
 
@@ -79,8 +80,7 @@ bool Level::init()
 	addChild(_lava, -100000);
 
 	// setup background audio
-	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
-	audio->playBackgroundMusic("Audio/moon_paris.wav", true);
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("Audio/moon_paris.wav", true);
 
 	return true;
 }
@@ -206,10 +206,12 @@ void Level::update(float dt)
 void Level::onPlayerDeath()
 {
 	// Save player result
-	Scores.addRecord("gracz1", Game::getInstance()->getPlayer()->getScore());
+	int score = Game::getInstance()->getPlayer()->getScore();
+	Scores.addRecord("player1", score);
 	Scores.save();
 
-	Director::getInstance()->end();
+	// Show dead screen
+	Director::getInstance()->replaceScene(DeadScreen::create(score));
 }
 
 void Level::addBullet(Bullet& bullet)

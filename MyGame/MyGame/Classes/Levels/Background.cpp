@@ -26,9 +26,6 @@ bool Background::init()
 	}
 	auto texSize = texture->getContentSize();
 
-	Texture2D::TexParams tp = { GL_POINT, GL_POINT, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE };
-	texture->setTexParameters(tp);
-
 	Rect rect = Rect::ZERO;
 	rect.size = texSize;
 	

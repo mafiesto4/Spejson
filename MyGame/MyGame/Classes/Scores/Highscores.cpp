@@ -20,12 +20,12 @@ void Highscores::load()
 	_table.Clear();
 
 	// Load entries
-	std::fstream plik;
-	plik.open(scoresFilename, std::ios::in);
+	fstream plik;
+	plik.open(scoresFilename, ios::in);
 	if (plik.good())
 	{
 		int cnt, score;
-		std::string name;
+		string name;
 		plik >> cnt;
 		for (int i = 0; i < cnt; i++)
 		{
@@ -40,8 +40,8 @@ void Highscores::load()
 void Highscores::save()
 {
 	// Save entries
-	std::fstream plik;
-	plik.open(scoresFilename, std::ios::out);
+	fstream plik;
+	plik.open(scoresFilename, ios::out);
 	if (plik.good())
 	{
 		int cnt = _table.Count();
@@ -54,11 +54,17 @@ void Highscores::save()
 	}
 }
 
-void Highscores::addRecord(std::string name, int score)
+void Highscores::addRecord(string name, int score)
 {
 	// Add element
 	_table.Add(Entry(name, score));
 
 	// Sort results
 	_table.Sort();
+
+	// Remove lowest results
+	while (_table.Count() > 8)
+	{
+		_table.RemoveAt(_table.Count() - 1);
+	}
 }

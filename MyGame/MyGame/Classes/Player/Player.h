@@ -10,7 +10,8 @@ using namespace cocos2d;
 
 #define USE_FREE_CAM 0
 #define GOD_MODE 0
-#define GROUNDED_EPSOLON 10
+#define PLAYER_SCALE 2
+#define GROUNDED_EPSOLON (10*PLAYER_SCALE)
 
 class Player
 {
@@ -53,6 +54,7 @@ private:
 	};
 	States currentState;
 	States stateToBe;
+	Weapon::Type currentWeapon;
 
 	// points and money $.$ xd
 	int _score;
@@ -94,12 +96,16 @@ public:
 
 	Vec2 getPosition() const
 	{
-		return _image ? _image->getPosition() : Vec2::ZERO;
+		return _image->getPosition();
 	}
 
 	Rect getBox() const
 	{
-		return _image ? _image->getBoundingBox() : Rect();
+		auto box =  _image->getBoundingBox();
+		//box.size.width *= PLAYER_SCALE;
+		//box.size.height *= PLAYER_SCALE;
+		//box.origin -= Vec2(box.size.width / 2, box.size.height / 2);
+		return box;
 	}
 
 

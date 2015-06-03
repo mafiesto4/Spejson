@@ -31,21 +31,6 @@ bool Chunk::init()
 {
 	// Base
 	if (!Layer::init())
-	//if (!LayerColor::initWithColor(Color4B(rand() % 255, rand() % 255, rand() % 255, 255)))
-	/*Texture2D *texture = Director::getInstance()->getTextureCache()->addImage("Textures/bg.png");
-	if (!texture)
-	{
-		return false;
-	}
-	if (noTexLoaded)
-	{
-		Texture2D::TexParams params{ GL_POINT, GL_POINT, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE };
-		texture->setTexParameters(params);
-		noTexLoaded = false;
-	}
-	Rect rect = Rect::ZERO;
-	rect.size = texture->getContentSize();
-	if (!Sprite::initWithTexture(texture, rect, false))*/
 	{
 		return false;
 	}

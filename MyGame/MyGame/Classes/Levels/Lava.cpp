@@ -15,7 +15,7 @@ bool Lava::init()
 	}
 
 	setContentSize(Size(10000, 600));
-	setPosition(Vec2(-100, -CHUNKS_DEFAULT_HEIGHT * 4));
+	setPosition(Vec2(-100, -CHUNKS_DEFAULT_HEIGHT * 10));
 	setAnchorPoint(Vec2(0.5f, 1.0f));
 
 	scheduleUpdateWithPriority(1410);
@@ -39,7 +39,7 @@ void Lava::update(float dt)
 	if (!AnyShopInUse && Bosses == 0)
 	{
 		// Move lava
-		float speed = (playerPosY < posY + CHUNKS_DEFAULT_HEIGHT * 8) ? 2.0f : 0.3f;
+		float speed = (playerPosY < posY + CHUNKS_DEFAULT_HEIGHT * 8) ? 2.0f : 0.2f;
 		float lavaLevel = posY + speed;
 		setPositionY(lavaLevel);
 

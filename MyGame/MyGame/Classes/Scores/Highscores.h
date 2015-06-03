@@ -5,7 +5,7 @@
 
 class Highscores
 {
-private:
+public:
 
 	typedef struct Entry
 	{

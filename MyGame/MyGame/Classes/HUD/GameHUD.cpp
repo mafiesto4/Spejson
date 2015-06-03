@@ -15,7 +15,7 @@ bool GameHUD::init()
 	scheduleUpdateWithPriority(100);
 
 	const float marginUI = 10.0f;
-	const char* fontUI = "Fonts/Marker Felt.ttf";
+	const char* fontUI = "Fonts/BACKTO1982.TTF";
 
 	// pobierz dane o rozmiarze okna i srodku widoku
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -39,11 +39,12 @@ bool GameHUD::init()
 	_ammo->setPosition(Vec2(origin.x + visibleSize.width - marginUI, origin.y + marginUI));
 	addChild(_ammo);
 
-	// liczba ¿yæ
-	_lifes = Label::createWithTTF("Lifes x 3", fontUI, 30);
-	_lifes->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	_lifes->setPosition(Vec2(origin.x + 10, origin.y + 10));
-	addChild(_lifes);
+	_selectedGun = Sprite::create("Textures/mGun.png");
+	_selectedGun->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	_selectedGun->setPosition(10, -30);
+	_selectedGun->setScale(2);
+	wType = Weapon::Type::MachineGun;
+	addChild(_selectedGun);
 
 	// add debugging layer
 	//auto debug = DebugGUI::create();
@@ -79,7 +80,20 @@ void GameHUD::update(float dt)
 		ss.str("");
 	}
 
-	ss << "Lifes x " << player->lifes;
-	_lifes->setString(ss.str());
-	ss.str("");
+	if (wType != weapon->getType())
+	{
+		wType = weapon->getType();
+		switch (wType)
+		{
+			case Weapon::Type::Pistol:
+				_selectedGun->setTexture("Textures/pistol.png");
+				break;
+			case Weapon::Type::MachineGun: 
+				_selectedGun->setTexture("Textures/mGun.png");
+				break;
+			case Weapon::Type::Freezer:
+				_selectedGun->setTexture("Textures/freezer.png");
+				break;
+		}
+	}
 }

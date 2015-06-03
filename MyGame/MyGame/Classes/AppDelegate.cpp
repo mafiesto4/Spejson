@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "HUD/DebugGUI.h"
 #include "Scores/Highscores.h"
+#include <SimpleAudioEngine.h>
 
 USING_NS_CC;
 
@@ -53,8 +54,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	game->loadProfile("default");
 
 	// otworz menu
-	//auto scene = MainMenuScene::create();
-	auto scene = Level::createScene();
+	auto scene = MainMenuScene::create();
 
 	// run
 	director->runWithScene(scene);
@@ -68,7 +68,7 @@ void AppDelegate::applicationDidEnterBackground()
 	Director::getInstance()->stopAnimation();
 
 	// if you use SimpleAudioEngine, it must be pause
-	// SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+	//CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
 }
 
 // this function will be called when the app is active again
@@ -77,5 +77,5 @@ void AppDelegate::applicationWillEnterForeground()
 	Director::getInstance()->startAnimation();
 
 	// if you use SimpleAudioEngine, it must resume here
-	// SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+	//CocosDenshion::SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }

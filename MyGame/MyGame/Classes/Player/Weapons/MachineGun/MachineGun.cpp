@@ -5,6 +5,7 @@
 #include "MachineGun.h"
 #include "Levels\Level.h"
 #include "HUD\DebugGUI.h"
+#include <SimpleAudioEngine.h>
 
 MachineGun::MachineGun(Level* level)
 	:Weapon(Type::MachineGun, level),
@@ -42,11 +43,17 @@ void MachineGun::update(float dt)
 		bullet.Node->setPosition(player->getPosition());
 		bullet.Luj = false;
 
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/shot_Minigun.wav");
+
 		_level->addBullet(bullet);
 		_magazine--;
 	}
 	else if (_magazine <= 0)
 	{
+		if (_reloadTimer <= 0 && _MgAmmo > 0)
+		{
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/reload.wav");
+		}
 		reload(dt);
 	}
 }
@@ -65,7 +72,7 @@ void MachineGun::reload(float dt)
 {
 	_reloadTimer += dt;
 
-	if (_reloadTimer > 2)
+	if (_reloadTimer > 1)
 	{
 		_reloadTimer = 0;
 		if (_MgAmmo >= _MgMaxAmmo)

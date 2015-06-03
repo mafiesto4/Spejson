@@ -4,6 +4,7 @@
 #include "Box2D\Box2D.h"
 #include "Player\Weapons\Pistol\Pistol.h"
 #include "Levels\Level.h"
+#include <SimpleAudioEngine.h>
 
 using namespace cocos2d;
 
@@ -34,6 +35,8 @@ void Pistol::onMouseDown(Vec2 pos)
 	bullet.Node = Sprite::create("Textures/bullet1.png");
 	bullet.Node->setPosition(player->getPosition());
 	bullet.Luj = false;
+
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Audio/shot_Gun.wav");
 
 	_level->addBullet(bullet);
 }

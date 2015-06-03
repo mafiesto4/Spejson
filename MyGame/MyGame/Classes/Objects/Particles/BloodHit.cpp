@@ -84,13 +84,6 @@ bool BloodHit::initWithTotalParticles(int numberOfParticles)
 		_endColorVar.b = 0.0f;
 		_endColorVar.a = 0.0f;
 
-
-		if (_texture)
-		{
-			Texture2D::TexParams tp = { GL_POINT, GL_POINT, GL_REPEAT, GL_REPEAT };
-			_texture->setTexParameters(tp);
-		}
-
 		return true;
 	}
 	return false;

@@ -14,8 +14,8 @@ public:
 
 	// eventy
 	void menuPlayCallback(Ref* pSender);
-	void menuOptionsCallback(Ref* pSender);
-	void menuCloseCallback(cocos2d::Ref* pSender);
+	void menuHighScoresCallback(Ref* pSender);
+	void menuCloseCallback(Ref* pSender);
 
 private:
 

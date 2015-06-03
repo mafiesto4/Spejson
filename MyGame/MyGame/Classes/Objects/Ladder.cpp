@@ -12,7 +12,7 @@ Ladder::Ladder(Chunk* parent, const cocos2d::Vec2& location, int height)
 	_image(nullptr)
 {
 	// Load texture and ensure its repeating
-	Texture2D* texture = TextureCache::sharedTextureCache()->addImage("Textures/ladder.png");
+	Texture2D* texture = TextureCache::sharedTextureCache()->addImage("Textures/ladder1.png");
 	Texture2D::TexParams tp = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };
 	texture->setTexParameters(tp);
 
