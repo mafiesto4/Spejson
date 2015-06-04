@@ -16,6 +16,7 @@ bool GameHUD::init()
 
 	const float marginUI = 10.0f;
 	const char* fontUI = "Fonts/BACKTO1982.TTF";
+	Color3B color = Color3B(255, 43, 106);
 
 	// pobierz dane o rozmiarze okna i srodku widoku
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -24,18 +25,21 @@ bool GameHUD::init()
 	// ilosc pkt
 	_score = Label::createWithTTF("Score: 10", fontUI, 30);
 	_score->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	_score->setColor(color);
 	_score->setPosition(Vec2(origin.x + marginUI, origin.y + visibleSize.height - marginUI));
 	addChild(_score);
 
 	// hp
 	_hp = Label::createWithTTF("HP: 100", fontUI, 32);
 	_hp->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
+	_hp->setColor(color);
 	_hp->setPosition(Vec2(origin.x + visibleSize.width - marginUI, origin.y + visibleSize.height - marginUI));
 	addChild(_hp);
 
 	// ammo
 	_ammo = Label::createWithTTF("Ammo 20 / 40", fontUI, 30);
 	_ammo->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
+	_ammo->setColor(color);
 	_ammo->setPosition(Vec2(origin.x + visibleSize.width - marginUI, origin.y + marginUI));
 	addChild(_ammo);
 

@@ -41,5 +41,5 @@ public:
 		return _player;
 	}
 
-	void loadProfile(std::string profileName);
+	void play();
 };

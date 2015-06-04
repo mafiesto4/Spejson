@@ -2,6 +2,7 @@
 #include "MainMenuGUILayer.h"
 #include "ScoresScene.h"
 #include <Levels/Level.h>
+#include <Game.h>
 
 USING_NS_CC;
 
@@ -23,6 +24,7 @@ bool MainMenuGUILayer::init()
 
 	// Tytul gry
 	auto title = Label::createWithTTF("Spejson", "Fonts/BACKTO1982.ttf", 52);
+	title->setColor(Color3B(255, 43, 106));
 	title->setPosition(Vec2(x, origin.y + (visibleSize.height - title->getContentSize().height) * 0.8f));
 	this->addChild(title, 1);
 
@@ -64,7 +66,7 @@ bool MainMenuGUILayer::init()
 
 void MainMenuGUILayer::menuPlayCallback(Ref* pSender)
 {
-	Director::getInstance()->replaceScene(Level::createScene());
+	Game::getInstance()->play();
 }
 
 void MainMenuGUILayer::menuHighScoresCallback(Ref* pSender)

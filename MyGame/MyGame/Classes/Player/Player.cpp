@@ -92,7 +92,7 @@ void Player::setupForLevel(Level* level, Vec2 spawnPoint)
 	// Check if created
 	if (_image)
 	{
-		_image->removeFromParent();
+		//_image->removeFromParent();
 		_image->setPosition(spawnPoint);
 	}
 	else
@@ -568,7 +568,7 @@ void Player::onMouseDown(Event* event)
 	EventMouse* data = static_cast<EventMouse*>(event);
 
 	// Check if can use gun
-	if (!OverLadder && _selectedGun && !AnyShopInUse)
+	if (_selectedGun && !AnyShopInUse)
 	{
 		_selectedGun->onMouseDown(data->getLocation());
 	}
@@ -590,7 +590,7 @@ void Player::onMouseUp(Event* event)
 	EventMouse* data = static_cast<EventMouse*>(event);
 
 	// Check if can use gun
-	if (!OverLadder && _selectedGun && !AnyShopInUse)
+	if (_selectedGun && !AnyShopInUse)
 	{
 		_selectedGun->onMouseUp(data->getLocation());
 	}

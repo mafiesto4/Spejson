@@ -77,10 +77,7 @@ bool Level::init()
 
 	// Create lava
 	_lava = Lava::create();
-	addChild(_lava, -100000);
-
-	// setup background audio
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("Audio/moon_paris.wav", true);
+	addChild(_lava, 10);
 
 	return true;
 }

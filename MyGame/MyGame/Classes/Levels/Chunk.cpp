@@ -63,6 +63,13 @@ void Chunk::calculatePathPoint()
 {
 	auto size = getContentSize();
 	int prevX = _previousChunk != nullptr ? _previousChunk->getPathPointForPrevChunk().x : 0;
+
+	/*if (_previousChunk->getPosition().y < 100)
+	{
+		auto pos = Vec2(rand() % static_cast<int>(size.width * 0.6f), rand() % static_cast<int>(size.height * 0.5f));
+		_pathPoint = getPosition() + AlignPointToGrid(pos + size * 0.1f);
+	}*/
+
 	do
 	{
 		auto pos = Vec2(rand() % static_cast<int>(size.width * 0.6f), rand() % static_cast<int>(size.height * 0.5f));

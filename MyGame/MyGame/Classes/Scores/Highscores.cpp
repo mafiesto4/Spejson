@@ -63,8 +63,8 @@ void Highscores::addRecord(string name, int score)
 	_table.Sort();
 
 	// Remove lowest results
-	while (_table.Count() > 8)
+	/*while (_table.Count() > 8)
 	{
 		_table.RemoveAt(_table.Count() - 1);
-	}
+	}*/
 }

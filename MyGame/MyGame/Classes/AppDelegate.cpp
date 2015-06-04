@@ -34,7 +34,19 @@ bool AppDelegate::applicationDidFinishLaunching()
 	if(!glview)
 	{
 		glview = GLViewImpl::create("Spejson");
+
 		glview->setFrameSize(1280, 720);
+
+		/*glview->setFrameSize(1024, 720);
+		auto win32 = glview->getWin32Window();
+		
+		HDC hDC = ::GetWindowDC(NULL);
+		::SetWindowPos(win32, 
+					   NULL, 0, 0, 
+					   ::GetDeviceCaps(hDC, HORZRES),
+					   ::GetDeviceCaps(hDC, VERTRES),
+					   SWP_FRAMECHANGED);*/
+
 		director->setOpenGLView(glview);
 	}
 
@@ -50,14 +62,16 @@ bool AppDelegate::applicationDidFinishLaunching()
 	// Load scores
 	Scores.load();
 
-	// laduj defaultowy profile dla testow
-	game->loadProfile("default");
+	// setup background audio
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("Audio/moon_paris.wav", true);
 
 	// otworz menu
 	auto scene = MainMenuScene::create();
 
 	// run
 	director->runWithScene(scene);
+
+	//CocosDenshion::SimpleAudioEngine::getInstance()->end();
 
 	return true;
 }

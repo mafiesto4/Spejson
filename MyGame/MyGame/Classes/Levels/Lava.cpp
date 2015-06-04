@@ -9,14 +9,23 @@ using namespace cocos2d;
 
 bool Lava::init()
 {
-	if (!LayerGradient::initWithColor(Color4B(250, 220, 0, 0), Color4B(255, 0, 0, 255)))
+	if (!initWithColor(Color4B(250, 220, 0, 0), Color4B(255, 0, 0, 255)))
 	{
 		return false;
 	}
 
 	setContentSize(Size(10000, 600));
-	setPosition(Vec2(-100, -CHUNKS_DEFAULT_HEIGHT * 10));
-	setAnchorPoint(Vec2(0.5f, 1.0f));
+	setPosition(Vec2(-800, -CHUNKS_DEFAULT_HEIGHT * 4));
+	setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+
+	Texture2D* texture = TextureCache::sharedTextureCache()->addImage("Textures/lava2.png");
+	Texture2D::TexParams tp = { GL_POINT, GL_POINT, GL_REPEAT, GL_REPEAT };
+	texture->setTexParameters(tp);
+
+	auto lava = Sprite::createWithTexture(texture, Rect(0, 0, 10000, 1000));
+	lava->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	addChild(lava);
+
 
 	scheduleUpdateWithPriority(1410);
 
@@ -39,12 +48,12 @@ void Lava::update(float dt)
 	if (!AnyShopInUse && Bosses == 0)
 	{
 		// Move lava
-		float speed = (playerPosY < posY + CHUNKS_DEFAULT_HEIGHT * 8) ? 2.0f : 0.2f;
+		float speed = (playerPosY < posY + CHUNKS_DEFAULT_HEIGHT * 8) ? 2.0f : 0.32f;
 		float lavaLevel = posY + speed;
 		setPositionY(lavaLevel);
 
 		// Apply damage to the player
-		if (playerPosY < lavaLevel + 100)
+		if (playerPosY < lavaLevel)
 		{
 			player->applyDamage(10000000);
 		}
